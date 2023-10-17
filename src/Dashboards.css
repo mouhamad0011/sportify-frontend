@@ -1,0 +1,92 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Barlow', sans-serif;
+  color: #262D5A;
+}
+.header {
+  background-color: #262D5A;
+  color: #FFFFFF;
+  padding: 15px 40px;
+}
+.header-logo {
+  height: 75px;
+}
+.header-icon {
+  height: 50px;
+  background-color: #C23640;
+  border-radius: 35px;
+  padding: 10px 20px;
+}
+
+.profile-logout {
+  column-gap: 10px;
+}
+
+.manage {
+  color: #C23640;
+  font-style: italic;
+}
+
+.nav-item:hover,
+.nav-item:active,
+.nav-item-active {
+  color: #C23640;
+  text-decoration: underline;
+}
+
+.table th,
+.table td {
+  border-bottom-width: 0.5px;
+}
+
+.table img {
+  height: 35px;
+}
+
+.classtableheader {
+  color: #C23640;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.classtablesubheader {
+  color: #262D5A;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.popup {
+  background-color: #262D5A;
+  height: 350px;
+  width: 500px;
+}
+
+.popup p {
+  color: #C23640;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.popup label {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.popup input {
+  color: #FFFFFF;
+}
+
+.popup-buttons {
+  row-gap: 5px;
+}
+
+.popup-buttons button {
+  background-color: #C23640;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 35px;
+  border: none;
+  width: 75px;
+}
