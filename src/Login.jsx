@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-
   const navigate=useNavigate();
   const [fullname,setFullname]=useState('');
   const [username,setUsername]=useState('');
@@ -13,7 +12,6 @@ function Login() {
   const [role,setRole]=useState('');
   const [loginEmail,setLoginEmail]=useState('');
   const [loginPassword,setLoginPassword]=useState('');
-
 
   const handleFullname=(e)=>{
     setFullname(e.target.value);
@@ -85,8 +83,11 @@ function Login() {
       if(role.toLowerCase()=="admin"){
         navigate(`/Admin/AllCoaches?adminName=${userData[0].full_name}`);
       }
-      else{
-        navigate('/');
+      else if(role.toLowerCase()=="coach"){
+        navigate(`/Coach/YourCourses?coachName=${userData[0].full_name}`);
+      }
+      else if(role.toLowerCase()=="trainee"){
+        navigate(`/Trainee/AllCourses?traineeName=${userData[0].full_name}`);
       }
     } catch (error) {
       console.error("Error while logging in:", error);
@@ -165,6 +166,7 @@ function Login() {
                 required="required"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
+                
               />
               <input
                 className="input"
@@ -175,7 +177,7 @@ function Login() {
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
-              <button className="button">Login</button>
+              <button className="button" >Login</button>
             </form>
           </div>
       </div>
