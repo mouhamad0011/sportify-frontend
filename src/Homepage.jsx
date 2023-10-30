@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate} from "react-router-dom";
 import './homepage.css';
 import './bootstrap.min.css';
 import logo from './icons/logo.png';
@@ -21,7 +22,7 @@ import badminton from './images/badminton1.jpeg';
 import climbing from './images/climbing1.png';
 
 function Homepage() {
-
+    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -41,7 +42,7 @@ function Homepage() {
                 </ul>
 
                 <div className='h-responsive-menu d-flex'>
-                    <p className="h-login">Log in</p>
+                    <p className="h-login" onClick={()=>{navigate('/Login')}}>Log in</p>
 
                     <button className={isMenuOpen ? 'h-burger-menu active' : 'h-burger-menu'} type="button" onClick={toggleMenu}>
                         <i className={`burger-menu-bars ${isMenuOpen ? 'active' : ''}`} aria-hidden="true"></i>
