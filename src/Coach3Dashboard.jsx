@@ -113,8 +113,7 @@ function Coach3Dashboard() {
       );
       setNewChoices(
         (prev) =>
-          `${prev}${question.choice1},${question.choice2},${question.choice3}${
-            isLastQuestion ? "" : ";"
+          `${prev}${question.choice1},${question.choice2},${question.choice3}${isLastQuestion ? "" : ";"
           }`
       );
       setNewCorrectAnswer(
@@ -155,12 +154,12 @@ function Coach3Dashboard() {
           })
           .then(() => {
             console.log("QA added successfully");
-            
+
           })
           .catch((error) => {
             console.error(error);
           });
-          setBool(!bool);
+        setBool(!bool);
       })
       .catch((error) => {
         console.error(error);
@@ -224,9 +223,9 @@ function Coach3Dashboard() {
       {courses.length > 0 &&
         courses.map((course, courseIndex) => {
           const dateObject = new Date(quiz[courseIndex].date);
-             const day = dateObject.getUTCDate();
-             const month = dateObject.getUTCMonth() + 1;
-             const year = dateObject.getUTCFullYear();
+          const day = dateObject.getUTCDate();
+          const month = dateObject.getUTCMonth() + 1;
+          const year = dateObject.getUTCFullYear();
           return (
             <div className="container" key={courseIndex}>
               <br />
@@ -243,40 +242,42 @@ function Coach3Dashboard() {
                       cursor: "auto",
                     }}
                   >
-                    
+
                     Quiz on {day}/{month}/{year} at {quiz[courseIndex].hour}
                   </button>
-                  <table className="container table table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">Questions</th>
-                        <th scope="col">Answers</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {questions.length > 0 &&
-                        questions[courseIndex] &&
-                        questions[courseIndex].map(
-                          (question, questionIndex) => (
-                            <tr key={questionIndex}>
-                              <td>{question}</td>
-                              <td>
-                                {choices.length > 0 &&
-                                  choices[courseIndex][questionIndex].map(
-                                    (choice, choiceIndex) => (
-                                      <div key={choiceIndex}>
-                                        <input type="radio" value={choice} />
-                                        <label>{choice}</label>
-                                        <br />
-                                      </div>
-                                    )
-                                  )}
-                              </td>
-                            </tr>
-                          )
-                        )}
-                    </tbody>
-                  </table>{" "}
+                  <div className='scrollable-table'>
+                    <table className="container table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Questions</th>
+                          <th scope="col">Answers</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {questions.length > 0 &&
+                          questions[courseIndex] &&
+                          questions[courseIndex].map(
+                            (question, questionIndex) => (
+                              <tr key={questionIndex}>
+                                <td>{question}</td>
+                                <td>
+                                  {choices.length > 0 &&
+                                    choices[courseIndex][questionIndex].map(
+                                      (choice, choiceIndex) => (
+                                        <div key={choiceIndex}>
+                                          <input type="radio" value={choice} />
+                                          <label>{choice}</label>
+                                          <br />
+                                        </div>
+                                      )
+                                    )}
+                                </td>
+                              </tr>
+                            )
+                          )}
+                      </tbody>
+                    </table></div>
+                  {" "}
                 </div>
               ) : (
                 <div>
@@ -300,128 +301,130 @@ function Coach3Dashboard() {
                           setHour(e.target.value);
                         }}
                       />
-                      <table className="newquiz container table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Questions</th>
-                            <th scope="col">Answers</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {newQuestions.map((newQuestion, newQuestionIndex) => (
-                            <tr key={newQuestionIndex}>
-                              <td>
-                                <input
-                                  style={{ width: "350px" }}
-                                  type="text"
-                                  placeholder="Type the question here"
-                                  name={`question`}
-                                  value={newQuestion.question}
-                                  onChange={(event) =>
-                                    handleNewQuestionChange(
-                                      newQuestionIndex,
-                                      event
-                                    )
-                                  }
-                                />
-                              </td>
-                              <td className="question-answers">
-                                <div className="d-flex">
-                                  <input
-                                    type="radio"
-                                    name={`correct_answer`}
-                                    value={1}
-                                    onChange={(event) =>
-                                      handleNewQuestionChange(
-                                        newQuestionIndex,
-                                        event
-                                      )
-                                    }
-                                  />
-                                  <input
-                                    type="text"
-                                    placeholder="Type a choice 1"
-                                    name={`choice1`}
-                                    //value={newQuestion.choices[0]}
-                                    onChange={(event) =>
-                                      handleNewQuestionChange(
-                                        newQuestionIndex,
-                                        event
-                                      )
-                                    }
-                                  />
-                                </div>
-                                <div className="d-flex">
-                                  <input
-                                    type="radio"
-                                    name={`correct_answer`}
-                                    value={2}
-                                    onChange={(event) =>
-                                      handleNewQuestionChange(
-                                        newQuestionIndex,
-                                        event
-                                      )
-                                    }
-                                  />
-                                  <input
-                                    type="text"
-                                    placeholder="Type a choice 2"
-                                    name={`choice2`}
-                                    //value={newQuestion.choices[1]}
-                                    onChange={(event) =>
-                                      handleNewQuestionChange(
-                                        newQuestionIndex,
-                                        event
-                                      )
-                                    }
-                                  />
-                                </div>
-                                <div className="d-flex">
-                                  <input
-                                    type="radio"
-                                    name={`correct_answer`}
-                                    value={3}
-                                    onChange={(event) =>
-                                      handleNewQuestionChange(
-                                        newQuestionIndex,
-                                        event
-                                      )
-                                    }
-                                  />
-                                  <input
-                                    type="text"
-                                    placeholder="Type a choice 3"
-                                    name={`choice3`}
-                                    // value={newQuestion.choices[2]}
-                                    onChange={(event) =>
-                                      handleNewQuestionChange(
-                                        newQuestionIndex,
-                                        event
-                                      )
-                                    }
-                                  />
-                                </div>
-                              </td>
+                      <div className='scrollable-table'>
+                        <table className="newquiz container table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Questions</th>
+                              <th scope="col">Answers</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {newQuestions.map((newQuestion, newQuestionIndex) => (
+                              <tr key={newQuestionIndex}>
+                                <td>
+                                  <input
+                                    style={{ width: "350px" }}
+                                    type="text"
+                                    placeholder="Type the question here"
+                                    name={`question`}
+                                    value={newQuestion.question}
+                                    onChange={(event) =>
+                                      handleNewQuestionChange(
+                                        newQuestionIndex,
+                                        event
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td className="question-answers">
+                                  <div className="d-flex">
+                                    <input
+                                      type="radio"
+                                      name={`correct_answer`}
+                                      value={1}
+                                      onChange={(event) =>
+                                        handleNewQuestionChange(
+                                          newQuestionIndex,
+                                          event
+                                        )
+                                      }
+                                    />
+                                    <input
+                                      type="text"
+                                      placeholder="Type a choice 1"
+                                      name={`choice1`}
+                                      //value={newQuestion.choices[0]}
+                                      onChange={(event) =>
+                                        handleNewQuestionChange(
+                                          newQuestionIndex,
+                                          event
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                  <div className="d-flex">
+                                    <input
+                                      type="radio"
+                                      name={`correct_answer`}
+                                      value={2}
+                                      onChange={(event) =>
+                                        handleNewQuestionChange(
+                                          newQuestionIndex,
+                                          event
+                                        )
+                                      }
+                                    />
+                                    <input
+                                      type="text"
+                                      placeholder="Type a choice 2"
+                                      name={`choice2`}
+                                      //value={newQuestion.choices[1]}
+                                      onChange={(event) =>
+                                        handleNewQuestionChange(
+                                          newQuestionIndex,
+                                          event
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                  <div className="d-flex">
+                                    <input
+                                      type="radio"
+                                      name={`correct_answer`}
+                                      value={3}
+                                      onChange={(event) =>
+                                        handleNewQuestionChange(
+                                          newQuestionIndex,
+                                          event
+                                        )
+                                      }
+                                    />
+                                    <input
+                                      type="text"
+                                      placeholder="Type a choice 3"
+                                      name={`choice3`}
+                                      // value={newQuestion.choices[2]}
+                                      onChange={(event) =>
+                                        handleNewQuestionChange(
+                                          newQuestionIndex,
+                                          event
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                       <button onClick={() => addQuestion(courseIndex)}>
                         Add question
                       </button>
                       <br />
                       <button onClick={addQuizzes}>submit quiz</button>
                       {isConfirmationVisible && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <p>Are you sure?</p>
-            <button onClick={() => {
-  submitQuiz(course.course_id);
-}}>OK</button>
-            <button onClick={cancelAction}>Cancel</button>
-          </div>
-        </div>
-      )}
+                        <div className="popup-overlay">
+                          <div className="popup-content">
+                            <p>Are you sure?</p>
+                            <button onClick={() => {
+                              submitQuiz(course.course_id);
+                            }}>OK</button>
+                            <button onClick={cancelAction}>Cancel</button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

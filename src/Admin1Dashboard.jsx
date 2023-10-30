@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from 'react';
-import { useNavigate, useLocation  } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Dashboards.css';
 import './bootstrap.min.css';
 import axios from 'axios';
@@ -12,29 +12,29 @@ import bin from './icons/bin.png';
 
 
 function Admin1Dashboard() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const adminName = new URLSearchParams(location.search).get('adminName');
   const [coachData, setCoachData] = useState([]);
-  const [newCoachName,setNewCoachName]= useState('');
-  const [newCoachUsername,setNewCoachUsername]= useState('');
-  const [newCoachEmail,setNewCoachEmail]= useState('');
-  const [newCoachPassword,setNewCoachPassword]= useState('');
-  const [newCoachDate,setNewCoachDate]= useState('');
-  const [bool,setBool]=useState(true);
-  
+  const [newCoachName, setNewCoachName] = useState('');
+  const [newCoachUsername, setNewCoachUsername] = useState('');
+  const [newCoachEmail, setNewCoachEmail] = useState('');
+  const [newCoachPassword, setNewCoachPassword] = useState('');
+  const [newCoachDate, setNewCoachDate] = useState('');
+  const [bool, setBool] = useState(true);
+
   useEffect(() => {
     axios.get(`http://localhost:5000/users/getAllCoaches`)
       .then(response => {
-        const data=[response.data]
+        const data = [response.data]
         setCoachData(data[0]);
         console.log(data[0]);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [bool]); 
-  
+  }, [bool]);
+
 
   const handleAddCoach = async (e) => {
     e.preventDefault();
@@ -45,16 +45,16 @@ function Admin1Dashboard() {
       newCoachName.trim() === '' ||
       newCoachUsername.trim() === '' ||
       newCoachPassword.trim() === '' ||
-      newCoachEmail.trim() === ''   
+      newCoachEmail.trim() === ''
     ) {
       alert('Please fill in all required fields (Coach Name, Username, Password, Email).');
       return;
     }
-    else if(!emailTest.test(newCoachEmail)){
+    else if (!emailTest.test(newCoachEmail)) {
       alert('Email does not exist');
       return;
     }
-    else if(!passwordTest.test(newCoachPassword)){
+    else if (!passwordTest.test(newCoachPassword)) {
       alert('Your password should contain at least: one capital letter,one small letter,\n one digit,one symbol,and a minimum of eight characters');
       return;
     }
@@ -83,7 +83,7 @@ function Admin1Dashboard() {
     } catch (error) {
       console.log("Error while adding coach", error);
     }
-    
+
   };
 
   const handleCoachDelete = async (id) => {
@@ -94,7 +94,7 @@ function Admin1Dashboard() {
       console.error(error);
     }
   };
-  
+
   return (
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
@@ -112,100 +112,102 @@ function Admin1Dashboard() {
         <p className='manage fw-bold font-italic fs-4'>MANAGE</p>
         <ul className="nav">
           <li className="nav-item nav-item-active">
-            <a className="nav-link" aria-current="page" href="#" onClick={()=>{navigate(`/Admin/AllCoaches?adminName=${adminName}`);}}>All coaches</a>
+            <a className="nav-link" aria-current="page" href="#" onClick={() => { navigate(`/Admin/AllCoaches?adminName=${adminName}`); }}>All coaches</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={()=>{navigate(`/Admin/AllTrainees?adminName=${adminName}`);}}>All trainees</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllTrainees?adminName=${adminName}`); }}>All trainees</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={()=>{navigate(`/Admin/AllCourses?adminName=${adminName}`);}}>All courses</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllCourses?adminName=${adminName}`); }}>All courses</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={()=>{navigate(`/Admin/AllClasses?adminName=${adminName}`);}}>All classes</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllClasses?adminName=${adminName}`); }}>All classes</a>
           </li>
         </ul>
       </div>
 
       <br />
 
-      <table className="container table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Coach Name</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Password</th>
-            <th scope="col">Joining Date</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {coachData && coachData.map((coach) => { 
-             const dateObject = new Date(coach.joining_date);
-             const day = dateObject.getUTCDate();
-             const month = dateObject.getUTCMonth() + 1;
-             const year = dateObject.getUTCFullYear();
-            return(
-            <tr key={coach.user_id}>
-              <th scope="row">{coach.user_id}</th>
-              <td>{coach.full_name}</td>
-              <td>{coach.username}</td>
-              <td>{coach.email}</td>
-              <td>{coach.password}</td>
-              <td>{day}/{month}/{year}</td>
+      <div className='scrollable-table'>
+        <table className="container table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Coach Name</th>
+              <th scope="col">Username</th>
+              <th scope="col">Email</th>
+              <th scope="col">Password</th>
+              <th scope="col">Joining Date</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {coachData && coachData.map((coach) => {
+              const dateObject = new Date(coach.joining_date);
+              const day = dateObject.getUTCDate();
+              const month = dateObject.getUTCMonth() + 1;
+              const year = dateObject.getUTCFullYear();
+              return (
+                <tr key={coach.user_id}>
+                  <th scope="row">{coach.user_id}</th>
+                  <td>{coach.full_name}</td>
+                  <td>{coach.username}</td>
+                  <td>{coach.email}</td>
+                  <td>{coach.password}</td>
+                  <td>{day}/{month}/{year}</td>
+                  <td>
+                    <img src={bin} alt="bin" onClick={() => handleCoachDelete(coach.user_id)} style={{ cursor: 'pointer' }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+            <tr>
+              <th scope="row">
+              </th>
               <td>
-                <img src={bin} alt="bin" onClick={() => handleCoachDelete(coach.user_id)} style={{ cursor: 'pointer' }}
+                <input
+                  type="text"
+                  value={newCoachName}
+                  onChange={(e) => setNewCoachName(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={newCoachUsername}
+                  onChange={(e) => setNewCoachUsername(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={newCoachEmail}
+                  onChange={(e) => setNewCoachEmail(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={newCoachPassword}
+                  onChange={(e) => setNewCoachPassword(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="date"
+                  value={newCoachDate}
+                  onChange={(e) => setNewCoachDate(e.target.value)}
+                />
+              </td>
+              <td>
+                <img src={add} alt="add" onClick={handleAddCoach} style={{ cursor: 'pointer' }}
                 />
               </td>
             </tr>
-          );
-          })}
-          <tr>
-            <th scope="row">
-            </th>
-            <td>
-              <input
-                type="text"
-               value={newCoachName}
-                onChange={(e) => setNewCoachName(e.target.value)}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                value={newCoachUsername}
-                onChange={(e) => setNewCoachUsername(e.target.value)}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                value={newCoachEmail}
-                onChange={(e) => setNewCoachEmail(e.target.value)}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                value={newCoachPassword}
-                onChange={(e) => setNewCoachPassword(e.target.value)}
-              />
-            </td>
-            <td>
-              <input
-                type="date"
-                value={newCoachDate}
-                onChange={(e) => setNewCoachDate(e.target.value)}
-              />
-            </td>
-            <td>
-              <img src={add} alt="add" onClick={handleAddCoach} style={{ cursor: 'pointer' }}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

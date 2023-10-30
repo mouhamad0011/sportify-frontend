@@ -106,15 +106,15 @@
 
 .burger-menu-bars:before {
     transform: translate(0, -12px);
-  }
-  
-  .burger-menu-bars:after {
+}
+
+.burger-menu-bars:after {
     transform: translate(0, 12px);
-  }
-  
-  .menu-open .burger-menu-bars {
+}
+
+.menu-open .burger-menu-bars {
     background-color: transparent;
-  }
+}
 
 .menu-list {
     display: none;
@@ -354,6 +354,8 @@ label {
     border-bottom: 2px solid white;
     outline: none;
     color: #fff;
+    width: 100%;
+    padding-top: 10px;
 }
 
 textarea {
@@ -410,11 +412,11 @@ textarea {
 }
 
 @media screen and (min-width: 576px) and (max-width: 768px) {
-    
+
     .h-logo {
         height: 65px;
     }
-    
+
     .h-menu-list li {
         display: none;
     }

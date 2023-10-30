@@ -1,27 +1,31 @@
-.body{
-    display: flex;
+.body {
+	display: flex;
 	justify-content: center;
 	align-items: center;
-    background: linear-gradient(to bottom, #0f0c29, #302b63, #262D5A);
-    min-height: 100vh;
+	background: linear-gradient(to bottom, #0f0c29, #302b63, #262D5A);
+	min-height: 100vh;
 }
-.login-main{
+
+.login-main {
 	width: 350px;
 	height: 580px;
-	
+
 	overflow: hidden;
 	border-radius: 10px;
 	box-shadow: 5px 20px 50px #000;
 }
-#chk{
+
+#chk {
 	display: none;
 }
-.signup{
+
+.signup {
 	position: relative;
-	width:100%;
+	width: 100%;
 	height: 100%;
 }
-.label{
+
+.label {
 	color: #C23640;
 	font-size: 2.3em;
 	justify-content: center;
@@ -31,17 +35,19 @@
 	cursor: pointer;
 	transition: .5s ease-in-out;
 }
-.input{
+
+.input {
 	width: 60%;
 	background: #e0dede;
 	justify-content: center;
 	display: flex;
 	margin: 20px auto;
 	padding: 10px;
-	border:none;
+	border: none;
 	border-radius: 5px;
 }
-.button{
+
+.button {
 	width: 60%;
 	height: 40px;
 	margin: 10px auto;
@@ -58,44 +64,54 @@
 	transition: .2s ease-in;
 	cursor: pointer;
 }
-.signup .button:hover{
+
+.signup .button:hover {
 	background: white;
-    color: #C23640;
+	color: #C23640;
 }
-.login .button:hover{
+
+.login .button:hover {
 	background: #262D5A;
-    color: white;
+	color: white;
 }
-.login{
+
+.login {
 	height: 460px;
 	background: #eee;
 	border-radius: 60% / 10%;
 	transform: translateY(-180px);
 	transition: .8s ease-in-out;
 }
-.login label{
+
+.login label {
 	color: #C23640;
 	transform: scale(.6);
 }
-.role{
+
+.role {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
 }
-.role input{
+
+.role input {
 	width: 20px;
 	height: 20px;
 }
-.role span{
+
+.role span {
 	color: white;
 	font-size: 20px;
 }
-#chk:checked ~ .login{
+
+#chk:checked~.login {
 	transform: translateY(-570px);
 }
-#chk:checked ~ .login label{
-	transform: scale(1);	
+
+#chk:checked~.login label {
+	transform: scale(1);
 }
-#chk:checked ~ .signup label{
+
+#chk:checked~.signup label {
 	transform: scale(.6);
 }

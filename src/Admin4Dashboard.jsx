@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from 'react';
-import { useNavigate, useLocation  } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboards.css';
 import './bootstrap.min.css';
@@ -11,14 +11,14 @@ import checked from './icons/checked.png';
 import bin from './icons/bin.png';
 
 function Admin4Dashboard() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const adminName = new URLSearchParams(location.search).get('adminName');
   const [classData, setClassData] = useState([]);
-  const [AllCourses,setAllCourses]= useState([]);
-  const [courseName,setCourseName]=useState('');
-  const [newClassDate,setNewClassDate]=useState('');
-  const [newClassHour,setNewClassHour]=useState('');
+  const [AllCourses, setAllCourses] = useState([]);
+  const [courseName, setCourseName] = useState('');
+  const [newClassDate, setNewClassDate] = useState('');
+  const [newClassHour, setNewClassHour] = useState('');
   const [bool, setBool] = useState(true);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function Admin4Dashboard() {
       .catch(error => {
         console.error('Error fetching classes:', error);
       });
-      axios.get('http://localhost:5000/courses/getAll')
+    axios.get('http://localhost:5000/courses/getAll')
       .then(response => {
         const courses = response.data.map(course => course.course_name);
         setAllCourses(courses);
@@ -42,12 +42,12 @@ function Admin4Dashboard() {
 
   const handleDeleteClass = async (classId) => {
     await axios.delete(`http://localhost:5000/classes/delete/${classId}`)
-    .then(()=>{
-      console.log("deleted successfully");
-    })
-    .catch((err)=>{
-      console.error(err);
-    })
+      .then(() => {
+        console.log("deleted successfully");
+      })
+      .catch((err) => {
+        console.error(err);
+      })
     setBool(!bool);
   };
 
@@ -56,23 +56,23 @@ function Admin4Dashboard() {
     if (
       newClassDate.trim() === '' ||
       newClassHour.trim() === '' ||
-      courseName.trim() === '' 
-       
+      courseName.trim() === ''
+
     ) {
       alert('Please fill in all required fields.');
       return;
     }
     try {
-    const response = await axios.get(`http://localhost:5000/courses/getCourseIdByCourseName/${courseName}`);
-    const courseId = response.data[0].course_id;
-    console.log(courseId);
-    const newClass={
-      course_id:courseId,
-      date:newClassDate,
-      hour:newClassHour
-    }
-    
-      await axios.post('http://localhost:5000/classes/add',newClass,{
+      const response = await axios.get(`http://localhost:5000/courses/getCourseIdByCourseName/${courseName}`);
+      const courseId = response.data[0].course_id;
+      console.log(courseId);
+      const newClass = {
+        course_id: courseId,
+        date: newClassDate,
+        hour: newClassHour
+      }
+
+      await axios.post('http://localhost:5000/classes/add', newClass, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,8 +80,8 @@ function Admin4Dashboard() {
     } catch (error) {
       console.log(error);
     }
-   
-    
+
+
   };
 
   return (
@@ -101,40 +101,41 @@ function Admin4Dashboard() {
         <p className='manage fw-bold font-italic fs-4'>MANAGE</p>
         <ul className="nav">
           <li className="nav-item">
-            <a className="nav-link" aria-current="page" href="#" onClick={()=>{navigate(`/Admin/AllCoaches?adminName=${adminName}`);}}>All coaches</a>
+            <a className="nav-link" aria-current="page" href="#" onClick={() => { navigate(`/Admin/AllCoaches?adminName=${adminName}`); }}>All coaches</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={()=>{navigate(`/Admin/AllTrainees?adminName=${adminName}`);}}>All trainees</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllTrainees?adminName=${adminName}`); }}>All trainees</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={()=>{navigate(`/Admin/AllCourses?adminName=${adminName}`);}}>All courses</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllCourses?adminName=${adminName}`); }}>All courses</a>
           </li>
           <li className="nav-item nav-item-active">
-            <a className="nav-link" href="#" onClick={()=>{navigate(`/Admin/AllClasses?adminName=${adminName}`);}}>All classes</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllClasses?adminName=${adminName}`); }}>All classes</a>
           </li>
         </ul>
       </div>
 
       <br />
 
-      <table className="container table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Course Name</th>
-            <th scope="col">Coach Name</th>
-            <th scope="col">Date</th>
-            <th scope="col">Hour</th>
-            <th scope="col">Drop</th>
-          </tr>
-        </thead>
-        <tbody>
-          {classData && classData.map((classs) =>{
-            const dateObject = new Date(classs.date);
-            const day = dateObject.getUTCDate();
-            const month = dateObject.getUTCMonth() + 1;
-            const year = dateObject.getUTCFullYear();
-          
+      <div className='scrollable-table'>
+        <table className="container table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Course Name</th>
+              <th scope="col">Coach Name</th>
+              <th scope="col">Date</th>
+              <th scope="col">Hour</th>
+              <th scope="col">Drop</th>
+            </tr>
+          </thead>
+          <tbody>
+            {classData && classData.map((classs) => {
+              const dateObject = new Date(classs.date);
+              const day = dateObject.getUTCDate();
+              const month = dateObject.getUTCMonth() + 1;
+              const year = dateObject.getUTCFullYear();
+
               return (
                 <tr key={classs.class_id}>
                   <th scope="row">{classs.class_id}</th>
@@ -148,50 +149,51 @@ function Admin4Dashboard() {
                   </td>
                 </tr>
               );
-          }
-          )}
-          <tr>
-            <th scope="row">
-            </th>
-            <td>
-            <select
-                name=""
-                id=""
-                value={courseName}
-                onChange={(e) => setCourseName(e.target.value)}
-              >
-                <option value="" disabled>Select a course</option>
-                {AllCourses.map((course, index) => (
-                  <option key={index} value={course}>
-                    {course}
-                  </option>
-                ))}
-              </select>
-            </td>
-            <td>
-              
-            </td>
-            <td>
-              <input
-                type="date"
-                value={newClassDate}
-                onChange={(e) => setNewClassDate(e.target.value)}
-              />
-            </td>
-            <td>
-              <input
-                type="time"
-                value={newClassHour}
-                onChange={(e) => setNewClassHour(e.target.value)}
-              />
-            </td>
-            <td>
-              <img src={add} alt="add" onClick={handleAddClass} style={{ cursor: 'pointer' }}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            }
+            )}
+            <tr>
+              <th scope="row">
+              </th>
+              <td>
+                <select
+                  name=""
+                  id=""
+                  value={courseName}
+                  onChange={(e) => setCourseName(e.target.value)}
+                >
+                  <option value="" disabled>Select a course</option>
+                  {AllCourses.map((course, index) => (
+                    <option key={index} value={course}>
+                      {course}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td>
+
+              </td>
+              <td>
+                <input
+                  type="date"
+                  value={newClassDate}
+                  onChange={(e) => setNewClassDate(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="time"
+                  value={newClassHour}
+                  onChange={(e) => setNewClassHour(e.target.value)}
+                />
+              </td>
+              <td>
+                <img src={add} alt="add" onClick={handleAddClass} style={{ cursor: 'pointer' }}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

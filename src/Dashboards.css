@@ -4,15 +4,17 @@
   font-family: 'Barlow', sans-serif;
   color: #262D5A;
 }
+
 .header {
   background-color: #262D5A;
   color: #FFFFFF;
   padding: 15px 40px;
-  
 }
+
 .header-logo {
   height: 75px;
 }
+
 .header-icon {
   height: 50px;
   background-color: #C23640;
@@ -91,6 +93,7 @@
   border: none;
   width: 75px;
 }
+
 .question-answers {
   display: flex;
   flex-direction: column;
@@ -116,4 +119,26 @@
   text-align: center;
 }
 
+.scrollable-table {
+  overflow-x: auto;
+}
 
+@media screen and (max-width: 768px) {
+
+  .header-logo {
+    height: 50px;
+  }
+
+  .header p {
+    font-size: 18px;
+    padding: 0px 10px;
+    text-align: center;
+  }
+
+  .header-icon {
+    height: 45px;
+    border-radius: 35px;
+    padding: 10px 15px;
+  }
+
+}
