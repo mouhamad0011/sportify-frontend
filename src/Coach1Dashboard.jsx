@@ -17,7 +17,7 @@ function Coach1Dashboard() {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/courses/getAll`)
+        axios.get(`http://localhost:5000/courses/getAllCoursesByCoachName/${coachName}`)
             .then(response => {
                 setCourses(response.data);
                 console.log(response.data);

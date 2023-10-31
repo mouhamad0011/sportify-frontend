@@ -15,7 +15,7 @@ function Trainee2Dashboard() {
   const [bool, setBool] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/enrollement/getEnrollementByTraineeId/2`)
+    axios.get(`http://localhost:5000/enrollement/getEnrollementByTraineeId/16`)
       .then((response) => {
         setClassData(response.data)
       })

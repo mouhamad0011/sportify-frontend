@@ -154,18 +154,22 @@ function Coach3Dashboard() {
           })
           .then(() => {
             console.log("QA added successfully");
-
+            setBool((prev)=>!prev);
           })
           .catch((error) => {
             console.error(error);
           });
-        setBool(!bool);
+       
       })
       .catch((error) => {
         console.error(error);
       });
     setConfirmationVisible(false);
   };
+
+  setTimeout(() => {
+    console.log(choices)
+  }, 6000);
 
   return (
     <div className="dashboard">
@@ -222,10 +226,10 @@ function Coach3Dashboard() {
 
       {courses.length > 0 &&
         courses.map((course, courseIndex) => {
-          const dateObject = new Date(quiz[courseIndex].date);
-          const day = dateObject.getUTCDate();
-          const month = dateObject.getUTCMonth() + 1;
-          const year = dateObject.getUTCFullYear();
+          // const dateObject = new Date(quiz[courseIndex].date);
+          // const day = dateObject.getUTCDate();
+          // const month = dateObject.getUTCMonth() + 1;
+          // const year = dateObject.getUTCFullYear();
           return (
             <div className="container" key={courseIndex}>
               <br />
@@ -243,7 +247,7 @@ function Coach3Dashboard() {
                     }}
                   >
 
-                    Quiz on {day}/{month}/{year} at {quiz[courseIndex].hour}
+                    Quiz on {quiz[courseIndex].date.substring(0,10)} at {quiz[courseIndex].hour}
                   </button>
                   <div className='scrollable-table'>
                     <table className="container table table-hover">
@@ -261,12 +265,12 @@ function Coach3Dashboard() {
                               <tr key={questionIndex}>
                                 <td>{question}</td>
                                 <td>
-                                  {choices.length > 0 &&
+                                  {choices.length > 0 && choices[courseIndex] &&
                                     choices[courseIndex][questionIndex].map(
                                       (choice, choiceIndex) => (
                                         <div key={choiceIndex}>
                                           <input type="radio" value={choice} />
-                                          <label>{choice}</label>
+                                          <label style={{color:"#262D5A"}}>{choice}</label>
                                           <br />
                                         </div>
                                       )
