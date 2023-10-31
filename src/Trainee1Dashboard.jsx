@@ -15,35 +15,58 @@ function Trainee1Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const traineeName = new URLSearchParams(location.search).get("traineeName");
+  const traineeId = new URLSearchParams(location.search).get("traineeId");
   const [courseData, setCourseData] = useState([]);
   const [bool, setBool] = useState(true);
   const [classesData, setClassesData] = useState([]);
-  const [userId, setUserId]=useState('');
+  const [allClasses,setAllClasses]=useState([]);
+  const [tallClasses,setTAllClasses]=useState([]);
+
+  // useEffect(()=>{
+  //   allClasses.forEach(arr => {
+  //     console.log(arr)
+  //     // arr.length>0  &&
+  //     arr.forEach(element=>{
+  //       axios.get(`http://localhost:5000/enrollement/getEnrollementByClassIdAndTraineeId/${element}/${traineeId}`)
+  //       .then((response)=>{
+  //         console.log(response.data)
+  //       })
+  //       .catch((error)=>{
+  //         console.error(error)
+  //       })
+  //     })
+  //   });
+  // },[allClasses])
+
   useEffect(() => {
     axios.get(`http://localhost:5000/courses/getAllCoursesWithCoachName`)
       .then((response) => {
-        //console.log(response.data)
-        setCourseData(response.data)
+        setCourseData(response.data);
+        response.data.forEach(async(course)=>{
+          const response=  await axios.get(`http://localhost:5000/classes/getAllClassesByCourseId/${course.course_id}`)
+              setAllClasses((prev)=>[...prev,response.data.map(element=>element.class_id)])
+          })
       })
       .catch((error) => {
         console.log(error)
       })
-      axios.get(`http://localhost:5000/users/getUserId/${traineeName}`)
-      .then((response) => {
-        setUserId(response.data[0].user_id)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      
   }, [bool])
 
+  setTimeout(() => {
+    console.log(allClasses);
+  }, 5000);
+  
+  // setTimeout(() => {
+  //   console.log(allClasses)
+  // }, 5000);
   const addClassInEnrollement = (id) => {
     axios.get(`http://localhost:5000/classes/getAllClassesByCourseId/${id}`)
       .then((response) => {
         response.data.forEach(element => {
           const newEnrollement={
             class_id: element.class_id,
-            trainee_id: userId,
+            trainee_id: traineeId,
             present: 0
           }
               axios.post(`http://localhost:5000/enrollement/add`, newEnrollement, { 
