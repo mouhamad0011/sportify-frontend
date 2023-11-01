@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 import './App.css';
 import './bootstrap.min.css';
 import axios from 'axios';
@@ -11,11 +12,15 @@ import unchecked from './icons/unchecked.png';
 import bin from './icons/bin.png';
 
 function Trainee2Dashboard() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const traineeName = new URLSearchParams(location.search).get("traineeName");
+  const traineeId = new URLSearchParams(location.search).get("traineeId");
   const [classData, setClassData] = useState([]);
   const [bool, setBool] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/enrollement/getEnrollementByTraineeId/2`)
+    axios.get(`http://localhost:5000/enrollement/getEnrollementByTraineeId/${traineeId}`)
       .then((response) => {
         setClassData(response.data)
       })
@@ -25,9 +30,9 @@ function Trainee2Dashboard() {
   }, [bool])
 
   const handleAttendance = (id) => {
-    axios.put(`http://localhost:5000/enrollement/update/Mohammad Safa/1`)
+    axios.put(`http://localhost:5000/enrollement/update/${traineeName}/${id}`)
       .then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         setBool(!bool); 
       })
       .catch((error) => {
@@ -39,7 +44,7 @@ function Trainee2Dashboard() {
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
         <img className='header-logo' src={logo} alt='logo' />
-        <p className='h3 fw-bold m-0'>Welcome trainee</p>
+        <p className='h3 fw-bold m-0'>Welcome {traineeName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
           <img className='header-icon' src={logout} alt='logout' />
@@ -52,19 +57,28 @@ function Trainee2Dashboard() {
         <p className='manage fw-bold font-italic fs-4'>MANAGE</p>
         <ul className="nav">
           <li className="nav-item">
-            <a className="nav-link" aria-current="page" href="#">All courses</a>
+            <a className="nav-link" aria-current="page" href="#" 
+            onClick={() => {
+              navigate(`/Trainee/AllCourses?traineeName=${traineeName}&traineeId=${traineeId}`);
+            }}>All courses</a>
           </li>
           <li className="nav-item nav-item-active">
-            <a className="nav-link" href="#">Your classes</a>
+            <a className="nav-link" href="#"
+             onClick={() => {
+              navigate(`/Trainee/YourClasses?traineeName=${traineeName}&traineeId=${traineeId}`);
+            }}>Your classes</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">Quizzes</a>
+            <a className="nav-link" href="#"
+             onClick={() => {
+              navigate(`/Trainee/Quizzes?traineeName=${traineeName}&traineeId=${traineeId}`);
+            }}>Quizzes</a>
           </li>
         </ul>
       </div>
 
       <br />
-
+      <div className='scrollable-table'>
       <table className="container table table-hover">
         <thead>
           <tr>
@@ -77,26 +91,33 @@ function Trainee2Dashboard() {
           </tr>
         </thead>
         <tbody>
-          {classData.map((course, index) => (
+          {classData.map((course, index) => {
+            const dateObject = new Date(course.date);
+            const day = dateObject.getUTCDate();
+            const month = dateObject.getUTCMonth() + 1;
+            const year = dateObject.getUTCFullYear();
+            return(
             <tr key={index}>
               <th scope="row">{course.class_id}</th>
               <td>{course.course_name}</td>
               <td>{course.full_name}</td>
-              <td>{course.date}</td>
+              <td>{day}/{month}/{year}</td>
               <td>{course.hour}</td>
               <td>
                 {course.present ? (
-                  <img src={checked} alt="checked" onClick={handleAttendance} />
+                  <img src={checked} alt="checked" onClick={()=>handleAttendance(course.class_id)} />
                 ) : (
-                  <img src={unchecked} alt="unchecked" onClick={handleAttendance} />
+                  <img src={unchecked} alt="unchecked" onClick={()=>handleAttendance(course.class_id)} />
                 )}
               </td>
             </tr>
-          ))}
+          );})}
         </tbody>
       </table>
+      </div>
     </div>
   );
+                
 }
 
 export default Trainee2Dashboard;

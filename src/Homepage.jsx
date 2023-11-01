@@ -166,6 +166,7 @@ function Homepage() {
                                                 className="h-input"
                                                 id="name"
                                                 name="name"
+                                                required
                                             />
                                         </div>
                                     </div>
@@ -178,6 +179,7 @@ function Homepage() {
                                                 className="h-input"
                                                 id="email"
                                                 name="email"
+                                                required
                                             />
                                         </div>
                                     </div>
@@ -190,6 +192,7 @@ function Homepage() {
                                         id="message"
                                         name="message"
                                         rows="2"
+                                        required
                                     />
                                 </div>
 
@@ -200,7 +203,7 @@ function Homepage() {
                         </div>
 
                         <div className="col-md-6 col-sm-6">
-                            <div className='h-footer-right d-flex justify-content-center align-items-center'>
+                            <div className='h-footer-right d-flex justify-content-center '>
                                 <div className="contact-info d-flex">
                                     <img src={phone} alt="phone" />
                                     <p>+961 81 000000</p>

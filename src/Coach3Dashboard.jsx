@@ -6,6 +6,7 @@ import "./bootstrap.min.css";
 import logo from "./icons/logo.png";
 import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
+import bin from './icons/bin.png';
 
 function Coach3Dashboard() {
   const navigate = useNavigate();
@@ -64,14 +65,19 @@ function Coach3Dashboard() {
       .catch((error) => {
         console.error(error);
       });
+     
   }, [bool]);
+
+  
+  
+  
 
   const addQuiz = (courseIndex) => {
     setSelectedCourse(courseIndex);
   };
 
   const addQuestion = (courseIndex) => {
-    if (newQuestions.length < 7) {
+    if (newQuestions.length < 10) {
       setNewQuestions((prevQuestions) => {
         const newQuestion = {
           question: `${newQuestions.length + 1}-`,
@@ -154,18 +160,42 @@ function Coach3Dashboard() {
           })
           .then(() => {
             console.log("QA added successfully");
-
+            
           })
           .catch((error) => {
             console.error(error);
           });
-        setBool(!bool);
+          setNewQuestions([]);
+          setNewQuestion('');
+          setNewChoices('');
+          setNewCorrectAnswer('');
+          setDate('');
+          setHour('');
+          setSelectedCourse('');
+          setBool((prev)=>!prev);
       })
       .catch((error) => {
         console.error(error);
       });
     setConfirmationVisible(false);
   };
+
+  // setTimeout(() => {
+  //   console.log(choices)
+  // }, 6000);
+ 
+  const deleteQuiz=(id)=>{
+     axios.delete(`http://localhost:5000/quizzes/delete/${id}`)
+     .then(()=>{
+      setBool((prev)=>!prev);
+     })
+     .catch((error)=>{
+      console.log(error)
+     })
+    
+  }
+
+
 
   return (
     <div className="dashboard">
@@ -222,16 +252,18 @@ function Coach3Dashboard() {
 
       {courses.length > 0 &&
         courses.map((course, courseIndex) => {
-          const dateObject = new Date(quiz[courseIndex].date);
-          const day = dateObject.getUTCDate();
-          const month = dateObject.getUTCMonth() + 1;
-          const year = dateObject.getUTCFullYear();
+         
+          
+          
+          
+          
           return (
             <div className="container" key={courseIndex}>
               <br />
               <p className="classtableheader">{course.course_name}</p>
 
-              {quiz.length > 0 && quiz[courseIndex] ? (
+              {quiz.length > 0 && quiz[courseIndex]  ? (
+                
                 <div>
                   <button
                     style={{
@@ -242,15 +274,18 @@ function Coach3Dashboard() {
                       cursor: "auto",
                     }}
                   >
-
-                    Quiz on {day}/{month}/{year} at {quiz[courseIndex].hour}
+                    
+                    Quiz on {quiz[courseIndex].date.substring(0,10)} at {quiz[courseIndex].hour}
                   </button>
+                  <img src={bin} onClick={()=>{deleteQuiz(quiz[courseIndex].quiz_id)}}/>
                   <div className='scrollable-table'>
                     <table className="container table table-hover">
                       <thead>
                         <tr>
                           <th scope="col">Questions</th>
-                          <th scope="col">Answers</th>
+                          <th scope="col">Choices</th>
+                          <th scope="col">Correct answer</th>
+                          
                         </tr>
                       </thead>
                       <tbody>
@@ -261,17 +296,21 @@ function Coach3Dashboard() {
                               <tr key={questionIndex}>
                                 <td>{question}</td>
                                 <td>
-                                  {choices.length > 0 &&
+                                  {choices.length > 0 && choices[courseIndex] &&
                                     choices[courseIndex][questionIndex].map(
                                       (choice, choiceIndex) => (
                                         <div key={choiceIndex}>
                                           <input type="radio" value={choice} />
-                                          <label>{choice}</label>
+                                          <label style={{color:"#262D5A"}}>{choice}</label>
                                           <br />
                                         </div>
                                       )
                                     )}
                                 </td>
+                                <td>
+                                  {answers[courseIndex][questionIndex]}
+                                </td>
+                                
                               </tr>
                             )
                           )}
@@ -420,6 +459,7 @@ function Coach3Dashboard() {
                             <p>Are you sure?</p>
                             <button onClick={() => {
                               submitQuiz(course.course_id);
+                              
                             }}>OK</button>
                             <button onClick={cancelAction}>Cancel</button>
                           </div>

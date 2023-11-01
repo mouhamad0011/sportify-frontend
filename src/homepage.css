@@ -19,7 +19,7 @@
 }
 
 .h-menu-list {
-    column-gap: 15px;
+    column-gap: 20px;
 }
 
 .h-header ul {
@@ -140,7 +140,7 @@
     background-color: #C23640;
     color: white;
     padding: 10px 0px;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .h-hero {
@@ -226,13 +226,15 @@
 
 .h-welcome p {
     color: #262D5A;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.5;
     margin-bottom: 0px;
 }
 
 /* GALLERY */
-
+#gallery{
+    padding: 0;
+}
 .h-gallery-title {
     color: #C23640;
     font-size: 30px;
@@ -318,6 +320,7 @@
 
 .h-footer {
     background-color: #262D5A;
+    height: 100%;
     margin-top: 25px;
 }
 
@@ -384,7 +387,10 @@ textarea {
 .h-footer-right {
     flex-direction: column;
     padding-top: 40px;
+    padding-left: 35%;
 }
+
+
 
 .contact-info {
     column-gap: 10px;
