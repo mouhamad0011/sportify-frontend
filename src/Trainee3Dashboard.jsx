@@ -124,6 +124,7 @@ function Trainee3Dashboard() {
               </button>
             )}
             {selectedCourse === course.title && !quizSubmitted ? (
+              <div className='scrollable-table'>
               <table className="container table table-hover">
                 <thead>
                   <tr>
@@ -162,6 +163,7 @@ function Trainee3Dashboard() {
                   </button>
                 </tbody>
               </table>
+              </div>
             ) : null}
           </div>
         ))}

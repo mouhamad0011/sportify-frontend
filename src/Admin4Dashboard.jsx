@@ -77,6 +77,10 @@ function Admin4Dashboard() {
           'Content-Type': 'application/json',
         },
       });
+      setCourseName('');
+      setNewClassDate('');
+      setNewClassHour('');
+      setBool((prev)=>!prev);
     } catch (error) {
       console.log(error);
     }

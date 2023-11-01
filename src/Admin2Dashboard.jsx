@@ -44,9 +44,10 @@ function Admin2Dashboard() {
       newTraineeName.trim() === '' ||
       newTraineeUsername.trim() === '' ||
       newTraineePassword.trim() === '' ||
-      newTraineeEmail.trim() === ''
+      newTraineeEmail.trim() === '' ||
+      newTraineeDate.trim() === ''
     ) {
-      alert('Please fill in all required fields (trainee Name, Username, Password, Email).');
+      alert('Please fill in all required fields (trainee Name, Username, Password, Email, Date).');
       return;
     }
     else if (!emailTest.test(newTraineeEmail)) {
