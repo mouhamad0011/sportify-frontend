@@ -59,7 +59,20 @@
   font-style: italic;
 }
 
-.popup {
+.question-answers {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-table {
+  overflow-x: auto;
+}
+
+.delete-quiz {
+  height: 35px;
+}
+
+/* .popup {
   background-color: #262D5A;
   height: 350px;
   width: 500px;
@@ -94,11 +107,6 @@
   width: 75px;
 }
 
-.question-answers {
-  display: flex;
-  flex-direction: column;
-}
-
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -117,11 +125,7 @@
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-align: center;
-}
-
-.scrollable-table {
-  overflow-x: auto;
-}
+}*/
 
 @media screen and (max-width: 768px) {
 
@@ -140,7 +144,8 @@
     border-radius: 35px;
     padding: 10px 15px;
   }
- table input{
-  width: 100%;
- }
+
+  /* table input {
+    width: 100%;
+  } */
 }

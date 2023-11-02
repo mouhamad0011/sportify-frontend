@@ -65,12 +65,12 @@ function Coach3Dashboard() {
       .catch((error) => {
         console.error(error);
       });
-     
+
   }, [bool]);
 
-  
-  
-  
+
+
+
 
   const addQuiz = (courseIndex) => {
     setSelectedCourse(courseIndex);
@@ -160,19 +160,19 @@ function Coach3Dashboard() {
           })
           .then(() => {
             console.log("QA added successfully");
-            
+
           })
           .catch((error) => {
             console.error(error);
           });
-          setNewQuestions([]);
-          setNewQuestion('');
-          setNewChoices('');
-          setNewCorrectAnswer('');
-          setDate('');
-          setHour('');
-          setSelectedCourse('');
-          setBool((prev)=>!prev);
+        setNewQuestions([]);
+        setNewQuestion('');
+        setNewChoices('');
+        setNewCorrectAnswer('');
+        setDate('');
+        setHour('');
+        setSelectedCourse('');
+        setBool((prev) => !prev);
       })
       .catch((error) => {
         console.error(error);
@@ -183,16 +183,16 @@ function Coach3Dashboard() {
   // setTimeout(() => {
   //   console.log(choices)
   // }, 6000);
- 
-  const deleteQuiz=(id)=>{
-     axios.delete(`http://localhost:5000/quizzes/delete/${id}`)
-     .then(()=>{
-      setBool((prev)=>!prev);
-     })
-     .catch((error)=>{
-      console.log(error)
-     })
-    
+
+  const deleteQuiz = (id) => {
+    axios.delete(`http://localhost:5000/quizzes/delete/${id}`)
+      .then(() => {
+        setBool((prev) => !prev);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
   }
 
 
@@ -252,18 +252,18 @@ function Coach3Dashboard() {
 
       {courses.length > 0 &&
         courses.map((course, courseIndex) => {
-         
-          
-          
-          
-          
+
+
+
+
+
           return (
             <div className="container" key={courseIndex}>
               <br />
               <p className="classtableheader">{course.course_name}</p>
 
-              {quiz.length > 0 && quiz[courseIndex]  ? (
-                
+              {quiz.length > 0 && quiz[courseIndex] ? (
+
                 <div>
                   <button
                     style={{
@@ -274,10 +274,10 @@ function Coach3Dashboard() {
                       cursor: "auto",
                     }}
                   >
-                    
-                    Quiz on {quiz[courseIndex].date.substring(0,10)} at {quiz[courseIndex].hour}
+
+                    Quiz on {quiz[courseIndex].date.substring(0, 10)} at {quiz[courseIndex].hour}
                   </button>
-                  <img src={bin} onClick={()=>{deleteQuiz(quiz[courseIndex].quiz_id)}}/>
+                  <img src={bin} alt="bin" className="delete-quiz" onClick={() => { deleteQuiz(quiz[courseIndex].quiz_id) }} />
                   <div className='scrollable-table'>
                     <table className="container table table-hover">
                       <thead>
@@ -285,7 +285,7 @@ function Coach3Dashboard() {
                           <th scope="col">Questions</th>
                           <th scope="col">Choices</th>
                           <th scope="col">Correct answer</th>
-                          
+
                         </tr>
                       </thead>
                       <tbody>
@@ -301,7 +301,7 @@ function Coach3Dashboard() {
                                       (choice, choiceIndex) => (
                                         <div key={choiceIndex}>
                                           <input type="radio" value={choice} />
-                                          <label style={{color:"#262D5A"}}>{choice}</label>
+                                          <label style={{ color: "#262D5A" }}>{choice}</label>
                                           <br />
                                         </div>
                                       )
@@ -310,12 +310,13 @@ function Coach3Dashboard() {
                                 <td>
                                   {answers[courseIndex][questionIndex]}
                                 </td>
-                                
+
                               </tr>
                             )
                           )}
                       </tbody>
-                    </table></div>
+                    </table>
+                  </div>
                   {" "}
                 </div>
               ) : (
@@ -459,7 +460,7 @@ function Coach3Dashboard() {
                             <p>Are you sure?</p>
                             <button onClick={() => {
                               submitQuiz(course.course_id);
-                              
+
                             }}>OK</button>
                             <button onClick={cancelAction}>Cancel</button>
                           </div>

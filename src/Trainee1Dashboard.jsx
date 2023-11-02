@@ -102,7 +102,7 @@ function Trainee1Dashboard() {
             `http://localhost:5000/enrollement/delete/${element.class_id}/${traineeId}`
           );
         });
-       setAllClasses([]);
+        setAllClasses([]);
       })
       .catch((error) => {
         console.error(error);
@@ -190,54 +190,54 @@ function Trainee1Dashboard() {
 
       <br />
       <div className='scrollable-table'>
-      <table className="container table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Course Name</th>
-            <th scope="col">Coach</th>
-            <th scope="col">Description</th>
-            <th scope="col">Register</th>
-            <th scope="col">Drop</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courseData.map((course, index) => (
-            <tr key={index}>
-              <th scope="row">{course.course_id}</th>
-              <td>{course.course_name}</td>
-              <td>{course.full_name}</td>
-              <td>{course.description}</td>
-              <td>{console.log(allClasses,index)}
-                {allClasses[index] && allClasses[index].length > 0 ? (
-                  <img src={checked} />
-                ) : (
+        <table className="container table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Course Name</th>
+              <th scope="col">Coach</th>
+              <th scope="col">Description</th>
+              <th scope="col">Register</th>
+              <th scope="col">Drop</th>
+            </tr>
+          </thead>
+          <tbody>
+            {courseData.map((course, index) => (
+              <tr key={index}>
+                <th scope="row">{course.course_id}</th>
+                <td>{course.course_name}</td>
+                <td>{course.full_name}</td>
+                <td>{course.description}</td>
+                <td>{console.log(allClasses, index)}
+                  {allClasses[index] && allClasses[index].length > 0 ? (
+                    <img src={checked} />
+                  ) : (
+                    <img
+                      src={unchecked}
+                      alt="unchecked"
+                      onClick={() => {
+                        addClassInEnrollement(course.course_id);
+                        setBool((prev) => !prev);
+
+                      }}
+                    />
+                  )}
+
+                </td>
+                <td>
                   <img
-                    src={unchecked}
-                    alt="unchecked"
+                    src={bin}
+                    alt="bin"
                     onClick={() => {
-                      addClassInEnrollement(course.course_id);
+                      deleteEnrollement(course.course_id);
                       setBool((prev) => !prev);
-                    
                     }}
                   />
-                )}
-               
-              </td>
-              <td>
-                <img
-                  src={bin}
-                  alt="bin"
-                  onClick={() => {
-                    deleteEnrollement(course.course_id);
-                    setBool((prev) => !prev);
-                  }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -150,7 +150,7 @@ function Homepage() {
                 </div>
             </div>
 
-            <div className="container-fluid h-footer">
+            <div className="h-footer">
                 <div className="container h-footer-in">
                     <div className="row">
                         <div className="col-md-6 col-sm-6 footer-left">

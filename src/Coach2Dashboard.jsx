@@ -19,16 +19,16 @@ function Coach2Dashboard() {
 
 
 
-  const toggleCheck =  (e, id) => {
+  const toggleCheck = (e, id) => {
     axios.put(
       `http://localhost:5000/enrollement/update/${e.target.id}/${id}`
     )
-    .then(()=>{
-       setNames([]);
-    })
-    .catch((error)=>{
+      .then(() => {
+        setNames([]);
+      })
+      .catch((error) => {
         console.error(error)
-    })
+      })
     //console.log(response.data);
   };
 
@@ -53,8 +53,8 @@ function Coach2Dashboard() {
             Promise.all(requests)
               .then((responses) => {
                 responses.forEach((element) => {
-                    setNames((prev) => [...prev, element.data]);
-                    //console.log(element)
+                  setNames((prev) => [...prev, element.data]);
+                  //console.log(element)
                 });
               })
               .catch((error) => {
@@ -169,7 +169,7 @@ function Coach2Dashboard() {
                               id={name.full_name}
                               onClick={(e) => {
                                 toggleCheck(e, test.class_id);
-                                setBool((prev)=>!prev);
+                                setBool((prev) => !prev);
                               }}
                             />
                           ) : (
@@ -178,7 +178,7 @@ function Coach2Dashboard() {
                               id={name.full_name}
                               onClick={(e) => {
                                 toggleCheck(e, test.class_id);
-                                setBool((prev)=>!prev);
+                                setBool((prev) => !prev);
                               }}
                             />
                           )}

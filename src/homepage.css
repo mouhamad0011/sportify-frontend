@@ -232,9 +232,10 @@
 }
 
 /* GALLERY */
-#gallery{
+#gallery {
     padding: 0;
 }
+
 .h-gallery-title {
     color: #C23640;
     font-size: 30px;
@@ -406,6 +407,11 @@ textarea {
 
 .social-media img {
     height: 35px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.social-media img:hover {
+    transform: scale(1.2);
 }
 
 .h-social-media {
@@ -415,6 +421,7 @@ textarea {
 .copyright {
     text-align: center;
     padding: 20px 0px;
+    margin: 0px;
 }
 
 @media screen and (min-width: 576px) and (max-width: 768px) {

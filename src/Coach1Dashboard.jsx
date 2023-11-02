@@ -77,9 +77,9 @@ function Coach1Dashboard() {
                         ))}
                     </tbody>
                 </table>
-                </div>
             </div>
-            );
+        </div>
+    );
 }
 
-            export default Coach1Dashboard;
+export default Coach1Dashboard;

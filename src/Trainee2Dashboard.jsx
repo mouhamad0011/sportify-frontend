@@ -33,7 +33,7 @@ function Trainee2Dashboard() {
     axios.put(`http://localhost:5000/enrollement/update/${traineeName}/${id}`)
       .then((response) => {
         //console.log(response.data)
-        setBool(!bool); 
+        setBool(!bool);
       })
       .catch((error) => {
         console.log(error)
@@ -57,67 +57,69 @@ function Trainee2Dashboard() {
         <p className='manage fw-bold font-italic fs-4'>MANAGE</p>
         <ul className="nav">
           <li className="nav-item">
-            <a className="nav-link" aria-current="page" href="#" 
-            onClick={() => {
-              navigate(`/Trainee/AllCourses?traineeName=${traineeName}&traineeId=${traineeId}`);
-            }}>All courses</a>
+            <a className="nav-link" aria-current="page" href="#"
+              onClick={() => {
+                navigate(`/Trainee/AllCourses?traineeName=${traineeName}&traineeId=${traineeId}`);
+              }}>All courses</a>
           </li>
           <li className="nav-item nav-item-active">
             <a className="nav-link" href="#"
-             onClick={() => {
-              navigate(`/Trainee/YourClasses?traineeName=${traineeName}&traineeId=${traineeId}`);
-            }}>Your classes</a>
+              onClick={() => {
+                navigate(`/Trainee/YourClasses?traineeName=${traineeName}&traineeId=${traineeId}`);
+              }}>Your classes</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#"
-             onClick={() => {
-              navigate(`/Trainee/Quizzes?traineeName=${traineeName}&traineeId=${traineeId}`);
-            }}>Quizzes</a>
+              onClick={() => {
+                navigate(`/Trainee/Quizzes?traineeName=${traineeName}&traineeId=${traineeId}`);
+              }}>Quizzes</a>
           </li>
         </ul>
       </div>
 
       <br />
+      
       <div className='scrollable-table'>
-      <table className="container table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Class</th>
-            <th scope="col">Coach</th>
-            <th scope="col">Date</th>
-            <th scope="col">Hour</th>
-            <th scope="col">Attendance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {classData.map((course, index) => {
-            const dateObject = new Date(course.date);
-            const day = dateObject.getUTCDate();
-            const month = dateObject.getUTCMonth() + 1;
-            const year = dateObject.getUTCFullYear();
-            return(
-            <tr key={index}>
-              <th scope="row">{course.class_id}</th>
-              <td>{course.course_name}</td>
-              <td>{course.full_name}</td>
-              <td>{day}/{month}/{year}</td>
-              <td>{course.hour}</td>
-              <td>
-                {course.present ? (
-                  <img src={checked} alt="checked" onClick={()=>handleAttendance(course.class_id)} />
-                ) : (
-                  <img src={unchecked} alt="unchecked" onClick={()=>handleAttendance(course.class_id)} />
-                )}
-              </td>
+        <table className="container table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Class</th>
+              <th scope="col">Coach</th>
+              <th scope="col">Date</th>
+              <th scope="col">Hour</th>
+              <th scope="col">Attendance</th>
             </tr>
-          );})}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {classData.map((course, index) => {
+              const dateObject = new Date(course.date);
+              const day = dateObject.getUTCDate();
+              const month = dateObject.getUTCMonth() + 1;
+              const year = dateObject.getUTCFullYear();
+              return (
+                <tr key={index}>
+                  <th scope="row">{course.class_id}</th>
+                  <td>{course.course_name}</td>
+                  <td>{course.full_name}</td>
+                  <td>{day}/{month}/{year}</td>
+                  <td>{course.hour}</td>
+                  <td>
+                    {course.present ? (
+                      <img src={checked} alt="checked" onClick={() => handleAttendance(course.class_id)} />
+                    ) : (
+                      <img src={unchecked} alt="unchecked" onClick={() => handleAttendance(course.class_id)} />
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
-                
+
 }
 
 export default Trainee2Dashboard;

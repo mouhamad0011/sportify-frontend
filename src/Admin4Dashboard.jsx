@@ -80,7 +80,7 @@ function Admin4Dashboard() {
       setCourseName('');
       setNewClassDate('');
       setNewClassHour('');
-      setBool((prev)=>!prev);
+      setBool((prev) => !prev);
     } catch (error) {
       console.log(error);
     }

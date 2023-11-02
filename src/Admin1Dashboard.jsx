@@ -44,9 +44,9 @@ function Admin1Dashboard() {
     if (
       newCoachName.trim() === '' ||
       newCoachUsername.trim() === '' ||
-      newCoachPassword.trim() === '' || 
+      newCoachPassword.trim() === '' ||
       newCoachEmail.trim() === '' ||
-      newCoachDate.trim()===''
+      newCoachDate.trim() === ''
     ) {
       alert('Please fill in all required fields (Coach Name, Username, Password, Email , Date).');
       return;
