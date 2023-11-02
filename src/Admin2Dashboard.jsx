@@ -167,6 +167,7 @@ function Admin2Dashboard() {
               </th>
               <td>
                 <input
+                  className='admin-input'
                   type="text"
                   value={newTraineeName}
                   onChange={(e) => setNewTraineeName(e.target.value)}
@@ -174,6 +175,7 @@ function Admin2Dashboard() {
               </td>
               <td>
                 <input
+                  className='admin-input'
                   type="text"
                   value={newTraineeUsername}
                   onChange={(e) => setNewTraineeUsername(e.target.value)}
@@ -181,6 +183,7 @@ function Admin2Dashboard() {
               </td>
               <td>
                 <input
+                  className='admin-input'
                   type="text"
                   value={newTraineeEmail}
                   onChange={(e) => setNewTraineeEmail(e.target.value)}
@@ -188,6 +191,7 @@ function Admin2Dashboard() {
               </td>
               <td>
                 <input
+                  className='admin-input'
                   type="text"
                   value={newTraineePassword}
                   onChange={(e) => setNewTraineePassword(e.target.value)}
@@ -195,6 +199,7 @@ function Admin2Dashboard() {
               </td>
               <td>
                 <input
+                  className='admin-input'
                   type="date"
                   value={newTraineeDate}
                   onChange={(e) => setNewTraineeDate(e.target.value)}

@@ -265,20 +265,12 @@ function Coach3Dashboard() {
               {quiz.length > 0 && quiz[courseIndex] ? (
 
                 <div>
-                  <button
-                    style={{
-                      padding: "10px",
-                      backgroundColor: "white",
-                      border: "1px solid #262D5A",
-                      fontWeight: "bold",
-                      cursor: "auto",
-                    }}
-                  >
-
+                  <button className="quiz-info">
                     Quiz on {quiz[courseIndex].date.substring(0, 10)} at {quiz[courseIndex].hour}
                   </button>
                   <img src={bin} alt="bin" className="delete-quiz" onClick={() => { deleteQuiz(quiz[courseIndex].quiz_id) }} />
-                  <div className='scrollable-table'>
+
+                  <div className='scrollable-table quiz-table'>
                     <table className="container table table-hover">
                       <thead>
                         <tr>
@@ -301,7 +293,7 @@ function Coach3Dashboard() {
                                       (choice, choiceIndex) => (
                                         <div key={choiceIndex}>
                                           <input type="radio" value={choice} />
-                                          <label style={{ color: "#262D5A" }}>{choice}</label>
+                                          <label className="quiz-label">{choice}</label>
                                           <br />
                                         </div>
                                       )
@@ -321,11 +313,11 @@ function Coach3Dashboard() {
                 </div>
               ) : (
                 <div>
-                  <button onClick={() => addQuiz(courseIndex)}>ADD QUIZ</button>
+                  <button onClick={() => addQuiz(courseIndex)} className="d-button">ADD QUIZ</button>
                   {selectedCourse === courseIndex && (
                     <div>
                       <br />
-                      Choose a date{" "}
+                      Set the date{" "}
                       <input
                         type="date"
                         onChange={(e) => {
@@ -335,7 +327,7 @@ function Coach3Dashboard() {
                       />
                       <br />
                       <br />
-                      Choose an hour{" "}
+                      Set the hour{" "}
                       <input
                         type="time"
                         onChange={(e) => {
@@ -355,7 +347,7 @@ function Coach3Dashboard() {
                               <tr key={newQuestionIndex}>
                                 <td>
                                   <input
-                                    style={{ width: "350px" }}
+                                    className="quiz-question"
                                     type="text"
                                     placeholder="Type the question here"
                                     name={`question`}
@@ -382,6 +374,7 @@ function Coach3Dashboard() {
                                       }
                                     />
                                     <input
+                                      className="quiz-label"
                                       type="text"
                                       placeholder="Type a choice 1"
                                       name={`choice1`}
@@ -408,6 +401,7 @@ function Coach3Dashboard() {
                                     />
                                     <input
                                       type="text"
+                                      className="quiz-label"
                                       placeholder="Type a choice 2"
                                       name={`choice2`}
                                       //value={newQuestion.choices[1]}
@@ -433,6 +427,7 @@ function Coach3Dashboard() {
                                     />
                                     <input
                                       type="text"
+                                      className="quiz-label"
                                       placeholder="Type a choice 3"
                                       name={`choice3`}
                                       // value={newQuestion.choices[2]}
@@ -450,20 +445,21 @@ function Coach3Dashboard() {
                           </tbody>
                         </table>
                       </div>
-                      <button onClick={() => addQuestion(courseIndex)}>
-                        Add question
-                      </button>
-                      <br />
-                      <button onClick={addQuizzes}>submit quiz</button>
+                      <div className="add-submit">
+                        <button className="d-button" onClick={() => addQuestion(courseIndex)}>
+                          Add a question
+                        </button>
+                        <br />
+                        <button className="d-button-submit" onClick={addQuizzes}>Submit quiz</button>
+                      </div>
                       {isConfirmationVisible && (
                         <div className="popup-overlay">
                           <div className="popup-content">
                             <p>Are you sure?</p>
-                            <button onClick={() => {
-                              submitQuiz(course.course_id);
-
-                            }}>OK</button>
-                            <button onClick={cancelAction}>Cancel</button>
+                            <div className="popup-btn">
+                              <button className="d-button-submit" onClick={() => { submitQuiz(course.course_id); }}>OK</button>
+                              <button className="d-button" onClick={cancelAction}>Cancel</button>
+                            </div>
                           </div>
                         </div>
                       )}

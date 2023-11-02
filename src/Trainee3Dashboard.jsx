@@ -135,12 +135,12 @@ function Trainee3Dashboard() {
             if (targetDate.getTime() < currentDate.getTime()) {
               return (
                 <div key={courseIndex}>
-                  <h2>{course.course_name}</h2>
-                  <h3>{course.date}</h3>
+                  <h2 className="classtableheader">{course.course_name}</h2>
+                  <h3 className="classtablesubheader">{course.date}</h3>
                   {quizSubmitted ? (
                     <p>You have already submitted the quiz.</p>
                   ) : (
-                    <button onClick={() => handleSelectCourse(course.course_name)}>
+                    <button className="d-button" onClick={() => handleSelectCourse(course.course_name)}>
                       Take Quiz
                     </button>
                   )}
@@ -191,6 +191,7 @@ function Trainee3Dashboard() {
                             );
                           })}
                           <button
+                            className="d-button-submit"
                             onClick={() => {
                               alert(
                                 "Your result is: " +
@@ -199,14 +200,12 @@ function Trainee3Dashboard() {
                                 questions.length
                               );
                               setCounter(0);
-                            }}
-                          >
+                            }}>
                             Submit Quiz
                           </button>
                         </tbody>
                       </table>
                     </div>
-
                   }
 
                 </div>
@@ -215,8 +214,8 @@ function Trainee3Dashboard() {
               return (
                 <div>
                   <h2>{course.course_name}</h2>
-                  <h3>quiz passed about {Math.abs(Math.floor((targetDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)))} days ago<br />
-                    refer to your coach {course.coach}</h3>
+                  <h3>Oops, this quiz was taken {Math.abs(Math.floor((targetDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)))} days ago<br />
+                    Kindly refer to coach {course.coach}.</h3>
                 </div>
               );
             }
