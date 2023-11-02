@@ -195,8 +195,33 @@ function Coach3Dashboard() {
 
   }
 
-
-
+  const [editable,setEditable]=useState(false);
+  const editDateHour=()=>{
+    setEditable(true);
+  }
+const updateDateHour=(id)=>{
+  if(date !="" && hour != ""){
+    const updated={
+      date,
+      hour
+    }
+    axios.put(`http://localhost:5000/quizzes/update/${id}`, updated,{
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
+    .then((res)=>{
+      console.log(res.data)
+      setDate('');
+      setHour('');
+      setEditable(false);
+      setBool(!bool);
+    })
+    .catch((error)=>{
+      console.error(error)
+    })
+  }
+}
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
@@ -252,24 +277,46 @@ function Coach3Dashboard() {
 
       {courses.length > 0 &&
         courses.map((course, courseIndex) => {
-
-
-
-
-
-          return (
+          const dateString = quiz[courseIndex]&&quiz[courseIndex].date;
+          const date = new Date(dateString);
+          const formattedDate = date.toLocaleDateString('en-GB'); 
+         return (
             <div className="container" key={courseIndex}>
               <br />
               <p className="classtableheader">{course.course_name}</p>
 
-              {quiz.length > 0 && quiz[courseIndex] ? (
-
+              {
+              quiz.length > 0 && quiz[courseIndex] ? (
                 <div>
                   <button className="quiz-info">
-                    Quiz on {quiz[courseIndex].date.substring(0, 10)} at {quiz[courseIndex].hour}
+                    Quiz on {formattedDate} at {quiz[courseIndex].hour}
                   </button>
                   <img src={bin} alt="bin" className="delete-quiz" onClick={() => { deleteQuiz(quiz[courseIndex].quiz_id) }} />
-
+                  {!editable ?
+                  <button onClick={editDateHour}>edit</button>
+                  : <button onClick={()=>updateDateHour(quiz[courseIndex].quiz_id)}>update</button>
+                   }
+                  {editable &&
+                    <div>
+                    Set the date{" "}
+                    <input
+                      type="date"
+                      onChange={(e) => {
+                        setDate(e.target.value);
+                        console.log(e.target.value)
+                      }}
+                    />
+                    <br />
+                    <br />
+                    Set the hour{" "}
+                    <input
+                      type="time"
+                      onChange={(e) => {
+                        setHour(e.target.value);
+                      }}
+                    />
+                    </div>
+                  }
                   <div className='scrollable-table quiz-table'>
                     <table className="container table table-hover">
                       <thead>

@@ -134,15 +134,14 @@ function Coach2Dashboard() {
       <br />
 
       {tests.map((test, classIndex) => {
-        const dateObject = new Date(test.date);
-        const day = dateObject.getUTCDate();
-        const month = dateObject.getUTCMonth() + 1;
-        const year = dateObject.getUTCFullYear();
+       const dateString = test.date;
+       const date = new Date(dateString);
+       const formattedDate = date.toLocaleDateString('en-GB'); 
         return (
           <div className="container" key={classIndex}>
             <br />
             <p className="classtableheader">
-              Class {test.class_id}: {test.course_name} on {day}/{month}/{year}{" "}
+              Class {test.class_id}: {test.course_name} on {formattedDate}{" "}
               at {test.hour}
             </p>
             <p className="classtablesubheader">

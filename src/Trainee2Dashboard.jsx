@@ -93,16 +93,15 @@ function Trainee2Dashboard() {
           </thead>
           <tbody>
             {classData.map((course, index) => {
-              const dateObject = new Date(course.date);
-              const day = dateObject.getUTCDate();
-              const month = dateObject.getUTCMonth() + 1;
-              const year = dateObject.getUTCFullYear();
+               const dateString = course.date;
+               const date = new Date(dateString);
+               const formattedDate = date.toLocaleDateString('en-GB'); 
               return (
                 <tr key={index}>
                   <th scope="row">{course.class_id}</th>
                   <td>{course.course_name}</td>
                   <td>{course.full_name}</td>
-                  <td>{day}/{month}/{year}</td>
+                  <td>{formattedDate}</td>
                   <td>{course.hour}</td>
                   <td>
                     {course.present ? (

@@ -60,60 +60,86 @@ function Coach1Dashboard() {
     }
   };
 
-  const saveProfile = () => {
-    if (username.trim() != "") {
-        console.log(username)
-      axios
-        .get(`http://localhost:5000/users/getUsersByUsername/${username}`)
-        .then((res) => {
-          if (res.data.length > 0){
-           alert("Username already exists")
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-    if (email.trim() != "") {
-      axios
-        .get(`http://localhost:5000/users/getUsersByEmail/${email}`)
-        .then((res) => {
-          if (res.data.length > 0) {
-          alert("Email already exists")
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-   
-      if (newpassword.trim() === Cpassword.trim()) {
-        const updates = {
-          username: username.trim() != "" ? username : userData[0].username,
-          email: email.trim() != "" ? email : userData[0].email,
-          password:
-            newpassword.trim() != "" ? newpassword : userData[0].password,
-        };
-        axios
-          .put(`http://localhost:5000/users/update/${coachId}`, updates, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .then((res) => {
-            console.log(res);
-            setUsername("");
-            setEmail("");
-            setNewPassword("");
-            setCPassword("");
-            setBool(!bool);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    
-  };
+  // const saveProfile = () => {
+  //   if (username.trim() != "") {
+  //     axios
+  //       .get(`http://localhost:5000/users/getUsersByUsername/${username}`)
+  //       .then((res) => {
+  //         if (res.data.length > 0){
+  //          alert("Username already exists");
+  //         }
+  //         else{
+  //           if (newpassword.trim() === Cpassword.trim()) {
+  //             const updates = {
+  //               username: username.trim() != "" ? username : userData[0].username,
+  //               email: email.trim() != "" ? email : userData[0].email,
+  //               password:
+  //                 newpassword.trim() != "" ? newpassword : userData[0].password,
+  //             };
+  //             axios
+  //               .put(`http://localhost:5000/users/update/${coachId}`, updates, {
+  //                 headers: {
+  //                   "Content-Type": "application/json",
+  //                 },
+  //               })
+  //               .then((res) => {
+  //                 console.log(res.data);
+  //                 setUsername("");
+  //                 setEmail("");
+  //                 setNewPassword("");
+  //                 setCPassword("");
+  //                 setBool(!bool);
+  //               })
+  //               .catch((error) => {
+  //                 console.error(error);
+  //               });
+  //           }
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  //    if (email.trim() != "" ) {
+  //     axios
+  //       .get(`http://localhost:5000/users/getUsersByEmail/${email}`)
+  //       .then((res) => {
+  //         if (res.data.length > 0) {
+  //         alert("Email already exists");
+  //         }
+  //         else{
+  //           if (newpassword.trim() === Cpassword.trim()) {
+  //             const updates = {
+  //               username: username.trim() != "" ? username : userData[0].username,
+  //               email: email.trim() != "" ? email : userData[0].email,
+  //               password:
+  //                 newpassword.trim() != "" ? newpassword : userData[0].password,
+  //             };
+  //             axios
+  //               .put(`http://localhost:5000/users/update/${coachId}`, updates, {
+  //                 headers: {
+  //                   "Content-Type": "application/json",
+  //                 },
+  //               })
+  //               .then((res) => {
+  //                 console.log(res.data);
+  //                 setUsername("");
+  //                 setEmail("");
+  //                 setNewPassword("");
+  //                 setCPassword("");
+  //                 setBool(!bool);
+  //               })
+  //               .catch((error) => {
+  //                 console.error(error);
+  //               });
+  //           }
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // };
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
@@ -137,14 +163,14 @@ function Coach1Dashboard() {
             src={close}
             alt="close"
           />
-          {!isEditable && <p class="text-center">YOUR PROFILE</p>}
-          {isEditable && <p class="text-center">Edit field(s) you want</p>}
+          {!isEditable && <p className="text-center">YOUR PROFILE</p>}
+          {isEditable && <p className="text-center">Edit field(s) you want</p>}
 
-          <div class="row mb-3">
-            <label for="colFormLabel" class=" col-sm-2 col-form-label ">
+          <div className="row mb-3">
+            <label htmlFor="colFormLabel" className=" col-sm-2 col-form-label ">
               Full name
             </label>
-            <div class="col-sm-10 ">
+            <div className="col-sm-10 ">
               <input
                 type="text"
                 //class="form-control text-center"
@@ -156,11 +182,11 @@ function Coach1Dashboard() {
               />
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="colFormLabel" class="col-sm-2 col-form-label">
+          <div className="row mb-3">
+            <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
               Username
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               {!isEditable && (
                 <input
                   type="text"
@@ -184,12 +210,12 @@ function Coach1Dashboard() {
               )}
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="colFormLabel" class="col-sm-2 col-form-label">
+          <div className="row mb-3">
+            <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
               Email
             </label>
             {!isEditable && (
-              <div class="col-sm-10">
+              <div className="col-sm-10">
                 <input
                   type="email"
                   //class="form-control text-center"
@@ -202,7 +228,7 @@ function Coach1Dashboard() {
               </div>
             )}
             {isEditable && (
-              <div class="col-sm-10">
+              <div className="col-sm-10">
                 <input
                   type="email"
                   //class="form-control text-center"
@@ -215,11 +241,11 @@ function Coach1Dashboard() {
             )}
           </div>
           {isEditable && (
-            <div class="row mb-3">
-              <label for="colFormLabel" class="col-sm-2 col-form-label">
+            <div className="row mb-3">
+              <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
                 New Password
               </label>
-              <div class="col-sm-10">
+              <div className="col-sm-10">
                 <input
                   type="password"
                   //class="form-control text-center"
@@ -232,12 +258,12 @@ function Coach1Dashboard() {
             </div>
           )}
           {isEditable && (
-            <div class="row mb-3">
-              <label for="colFormLabel" class="col-sm-2 col-form-label">
+            <div className="row mb-3">
+              <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
                 Confirm Password
               </label>
 
-              <div class="col-sm-10">
+              <div className="col-sm-10">
                 <input
                   type="password"
                   //class="form-control text-center"
@@ -252,7 +278,7 @@ function Coach1Dashboard() {
 
           <div className="popup-buttons d-flex justify-content-center">
             <button onClick={handleEditing}>EDIT</button>
-            <button onClick={saveProfile}>SAVE</button>
+            <button >SAVE</button>
           </div>
         </div>
       )}
@@ -278,7 +304,7 @@ function Coach1Dashboard() {
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourClasses?coachName=${coachName}`);
+                navigate(`/Coach/Yourclasses?coachName=${coachName}`);
               }}
             >
               Your classes

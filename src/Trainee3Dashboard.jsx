@@ -33,16 +33,15 @@ function Trainee3Dashboard() {
   //   Array(quizData[0].questions.length).fill(null)
   // );
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState(false);
 
   const handleSubmitQuiz = () => {
-    if (!quizSubmitted) {
       setQuizSubmitted(true);
-    }
+      setSelectedCourse(false)
   };
 
-  const handleSelectCourse = (courseTitle) => {
-    setSelectedCourse(courseTitle);
+  const handleSelectCourse = () => {
+    setSelectedCourse(true);
   };
 
 
@@ -124,6 +123,9 @@ function Trainee3Dashboard() {
           const choices = course.choices
             .split(";")
             .map((choice) => choice.split(","));
+            const dateString = course.date;
+               const datee = new Date(dateString);
+               const formattedDate = datee.toLocaleDateString('en-GB'); 
           const correct_answers = course.correct_answers.split(";");
           const date = course.date.substring(0, 10).split("-");
           const targetDate = new Date(date[0], date[1] - 1, date[2]);
@@ -132,19 +134,19 @@ function Trainee3Dashboard() {
           const first = new Date(test);
           initialTime.setMinutes(initialTime.getMinutes() + 30);
           {
-            if (targetDate.getTime() < currentDate.getTime()) {
+            if (formattedDate >= currentDate.toLocaleDateString("en-GB")) {
               return (
                 <div key={courseIndex}>
                   <h2 className="classtableheader">{course.course_name}</h2>
-                  <h3 className="classtablesubheader">{course.date}</h3>
+                  <h3 className="classtablesubheader">Quiz on {formattedDate} at {course.hour}</h3>
                   {quizSubmitted ? (
                     <p>You have already submitted the quiz.</p>
                   ) : (
-                    <button className="d-button" onClick={() => handleSelectCourse(course.course_name)}>
+                    <button className="d-button" onClick={() => handleSelectCourse}>
                       Take Quiz
                     </button>
                   )}
-                  {selectedCourse &&
+                  {
                     currentDate.toLocaleTimeString() < initialTime.toLocaleTimeString() && currentDate.toLocaleTimeString() > first.toLocaleTimeString() &&
                     <div className="scrollable-table">
                       <table className="container table table-hover">
@@ -200,6 +202,7 @@ function Trainee3Dashboard() {
                                 questions.length
                               );
                               setCounter(0);
+                              handleSubmitQuiz();
                             }}>
                             Submit Quiz
                           </button>
