@@ -145,7 +145,7 @@ function Coach3Dashboard() {
         },
       })
       .then((response) => {
-        console.log(response.data.insertId);
+        console.log(response);
         const newQA = {
           quiz_id: response.data.insertId,
           questions: newQuestion,
@@ -158,8 +158,8 @@ function Coach3Dashboard() {
               "Content-Type": "application/json",
             },
           })
-          .then(() => {
-            console.log("QA added successfully");
+          .then((res) => {
+            console.log(res);
 
           })
           .catch((error) => {
@@ -330,6 +330,7 @@ function Coach3Dashboard() {
                         type="date"
                         onChange={(e) => {
                           setDate(e.target.value);
+                          console.log(e.target.value)
                         }}
                       />
                       <br />

@@ -21,7 +21,7 @@ function Trainee3Dashboard() {
         `http://localhost:5000/courses/getAllCoursesByTraineeId/${traineeId}`
       )
       .then((response) => {
-        //console.log(response.data);
+        console.log(response.data);
         setQuizData(response.data);
       })
       .catch((error) => {
@@ -136,7 +136,7 @@ function Trainee3Dashboard() {
               return (
                 <div key={courseIndex}>
                   <h2>{course.course_name}</h2>
-                  <h3>{test}</h3>
+                  <h3>{course.date}</h3>
                   {quizSubmitted ? (
                     <p>You have already submitted the quiz.</p>
                   ) : (
@@ -144,8 +144,8 @@ function Trainee3Dashboard() {
                       Take Quiz
                     </button>
                   )}
-                  {selectedCourse && currentDate.toLocaleTimeString() < initialTime.toLocaleTimeString() && currentDate.toLocaleTimeString() > first.toLocaleTimeString() &&
-
+                  {selectedCourse &&
+                    currentDate.toLocaleTimeString() < initialTime.toLocaleTimeString() && currentDate.toLocaleTimeString() > first.toLocaleTimeString() &&
                     <div className="scrollable-table">
                       <table className="container table table-hover">
                         <thead>

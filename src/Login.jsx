@@ -84,7 +84,7 @@ function Login() {
         navigate(`/Admin/AllCoaches?adminName=${userData[0].full_name}`);
       }
       else if(role.toLowerCase()=="coach"){
-        navigate(`/Coach/YourCourses?coachName=${userData[0].full_name}`);
+        navigate(`/Coach/YourCourses?coachName=${userData[0].full_name}&coachId=${userData[0].user_id}`);
       }
       else if(role.toLowerCase()=="trainee"){
         navigate(`/Trainee/AllCourses?traineeName=${userData[0].full_name}&traineeId=${userData[0].user_id}`);
