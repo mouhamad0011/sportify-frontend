@@ -5,6 +5,8 @@
   color: #262D5A;
 }
 
+/* HEADER */
+
 .header {
   background-color: #262D5A;
   color: #FFFFFF;
@@ -32,6 +34,8 @@
   column-gap: 10px;
 }
 
+/* NAVBAR */
+
 .manage {
   color: #C23640;
   font-style: italic;
@@ -42,6 +46,24 @@
 .nav-item-active {
   color: #C23640;
   text-decoration: underline;
+}
+
+/* TABLE */
+
+.scrollable-table {
+  overflow-x: auto;
+}
+
+.classtableheader {
+  color: #C23640;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.classtablesubheader {
+  color: #262D5A;
+  font-size: 18px;
+  font-style: italic;
 }
 
 .table th,
@@ -57,143 +79,6 @@
 .table img:hover {
   transform: scale(1.1);
   cursor: pointer;
-}
-
-.classtableheader {
-  color: #C23640;
-  font-size: 23px;
-  font-weight: 700;
-}
-
-.classtablesubheader {
-  color: #262D5A;
-  font-size: 18px;
-  font-style: italic;
-}
-
-.question-answers {
-  display: flex;
-  flex-direction: column;
-}
-
-.scrollable-table {
-  overflow-x: auto;
-}
-
-.delete-quiz {
-  height: 30px;
-  padding-left: 15px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.delete-quiz:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-}
-
-/* .popup {
-  background-color: #262D5A;
-  height: 350px;
-  width: 500px;
-}
-
-.popup p {
-  color: #C23640;
-  font-weight: 700;
-  font-style: italic;
-  font-size: 20px;
-}
-
-.popup label {
-  color: #FFFFFF;
-  font-weight: 700;
-}
-
-.popup input {
-  color: #FFFFFF;
-} */
-
-/* .popup-buttons {
-  row-gap: 5px;
-}
-
-.popup-buttons button {
-  background-color: #C23640;
-  color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 35px;
-  border: none;
-  width: 75px;
-} */
-
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
-
-.popup-btn {
-  display: flex;
-  column-gap: 5px;
-}
-
-.popup {
-  background-color: #262D5A;
-  height: 340px;
-  width: 500px;
-  align-items: center;
-  justify-content: center;
-  float: right;
-}
-
-.popup p {
-  color: #C23640;
-  font-weight: 700;
-  font-style: italic;
-  font-size: 20px;
-}
-
-.popup label {
-  color: #FFFFFF;
-  font-weight: 700;
-}
-
-.popup input {
-  color: #FFFFFF;
-}
-
-.popup-buttons {
-  column-gap: 10px;
-}
-
-.popup-buttons button {
-  background-color: #C23640;
-  color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 35px;
-  border: none;
-  width: 105px;
-}
-
-.closebt {
-  height: 30px;
-  width: 30px;
-  cursor: pointer;
-  margin-left: 450px;
 }
 
 .d-button {
@@ -233,6 +118,24 @@
   font-style: italic;
 }
 
+/* ADD AND TAKE QUIZ */
+
+.delete-quiz {
+  height: 30px;
+  padding-left: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.delete-quiz:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.question-answers {
+  display: flex;
+  flex-direction: column;
+}
+
 .quiz-info {
   padding: 10px;
   background-color: white;
@@ -242,7 +145,7 @@
   margin: 0 7px 20px 0;
 }
 
-.quiz-info:hover{
+.quiz-info:hover {
   cursor: auto;
 }
 
@@ -268,6 +171,93 @@
   margin: 15px 0px;
 }
 
+/* ADD QUIZ POP UP */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.popup-btn {
+  display: flex;
+  column-gap: 5px;
+}
+
+/* PROFILE POP UP */
+
+.popup {
+  background-color: #262D5A;
+  justify-content: center;
+  box-shadow: 0px 0px 10px #262D5A;
+  padding: 4%;
+  position: fixed;
+  top: 18%;
+  right: 0;
+}
+
+.popup p {
+  color: #FFF;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 20px;
+}
+
+.popup label {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.popup input::placeholder {
+  color: lightgray;
+  font-style: italic;
+  font-size: 16px;
+}
+
+.popup input {
+  color: #fff;
+  background-color: #262D5A;
+  border: none;
+  border-bottom: 2px solid white;
+  outline: none;
+  margin: 7px 0 0 10px;
+  padding-left: 2px;
+}
+
+.popup-buttons {
+  column-gap: 10px;
+  margin-top: 20px;
+}
+
+.popup-buttons button {
+  background-color: #C23640;
+  border: 2px solid #C23640;
+  color: #FFFFFF;
+  padding: 5px 15px;
+  border-radius: 35px;
+  width: 105px;
+}
+
+.popup-buttons button:hover {
+  background-color: #FFF;
+  border: 2px solid #C23640;
+  color: #C23640;
+}
+
 @media screen and (max-width: 768px) {
 
   .header-logo {
@@ -288,5 +278,10 @@
 
   .admin-input {
     width: 100%;
+  }
+
+  .popup {
+    padding: 3%;
+    top: 16%;
   }
 }

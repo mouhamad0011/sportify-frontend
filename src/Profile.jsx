@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Dashboards.css";
 import "./bootstrap.min.css";
@@ -32,7 +31,7 @@ function Profile(props) {
   }
   const [isEditable, setIsEditable] = useState(false);
   const handleEditing = () => {
-    var x = prompt("enter your old password");
+    var x = prompt("Enter your old password");
     if (x == userData[0].password) {
       setIsEditable(true);
     }
@@ -43,13 +42,13 @@ function Profile(props) {
         .get(`http://localhost:5000/users/getUsersByUsername/${username}`)
         .then((res) => {
           if (res.data.length > 0) {
-            alert("Username already exists");
+            alert("This username is already taken.");
           } else {
             axios
               .get(`http://localhost:5000/users/getUsersByEmail/${email}`)
               .then((res) => {
                 if (res.data.length > 0) {
-                  alert("Email already exists");
+                  alert("An account with this email already exists.");
                 } else {
                   updateProfile();
                 }
@@ -62,39 +61,38 @@ function Profile(props) {
         .catch((error) => {
           console.error(error);
         });
-    } else if(username.trim() !== "") {
-        axios
+    } else if (username.trim() !== "") {
+      axios
         .get(`http://localhost:5000/users/getUsersByUsername/${username}`)
         .then((res) => {
           if (res.data.length > 0) {
-            alert("Username already exists");
+            alert("This username is already taken.");
           }
-          else{
+          else {
             updateProfile();
           }
         })
-        .catch((error)=>{
-            console.error(error)
+        .catch((error) => {
+          console.error(error)
         })
-        
     }
-    else if(email.trim() !== "") {
-        axios
+    else if (email.trim() !== "") {
+      axios
         .get(`http://localhost:5000/users/getUsersByEmail/${email}`)
         .then((res) => {
           if (res.data.length > 0) {
-            alert("Email already exists");
+            alert("An account with this email already exists.");
           }
-          else{
+          else {
             updateProfile();
           }
         })
-        .catch((error)=>{
-            console.error(error)
-        }) 
+        .catch((error) => {
+          console.error(error)
+        })
     }
-    else{
-        updateProfile();
+    else {
+      updateProfile();
     }
   };
 
@@ -128,126 +126,87 @@ function Profile(props) {
   };
 
   return (
-    userData[0] && modal &&(
-    <div className="popup d-flex flex-column">
-      {!isEditable && <p className="text-center">YOUR PROFILE</p>}
-      {isEditable && <p className="text-center">Edit field(s) you want</p>}
+    userData[0] && modal && (
+      <div className="popup d-flex flex-column">
+        {!isEditable && <p className="text-center">YOUR PROFILE</p>}
+        {isEditable && <p className="text-center">Edit the field(s) of your choice</p>}
 
-      <div className="row mb-3">
-        <label htmlFor="colFormLabel" className=" col-sm-2 col-form-label ">
-          Full name
-        </label>
-        <div className="col-sm-10 ">
+        <div className="d-flex justify-content-end align-items-end">
+          <label>Full name</label>
           <input
             type="text"
-            //class="form-control text-center"
-            id="colFormLabel"
             placeholder={userData[0].full_name}
             onChange={(e) => setFullName(e.target.value)}
             readOnly
-            style={{ color: "black" }}
+            className="regular-placeholder"
           />
         </div>
-      </div>
-      <div className="row mb-3">
-        <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
-          Username
-        </label>
-        <div className="col-sm-10">
+
+        <div className="d-flex justify-content-end align-items-end">
+          <label>Username</label>
           {!isEditable && (
             <input
               type="text"
-              // class="form-control text-center"
-              id="colFormLabel"
               placeholder={userData[0].username}
               onChange={(e) => setUsername(e.target.value)}
-              style={{ color: "black" }}
               readOnly
             />
           )}
           {isEditable && (
             <input
               type="text"
-              // class="form-control text-center"
-              id="colFormLabel"
               placeholder={userData[0].username}
               onChange={(e) => setUsername(e.target.value)}
-              style={{ color: "black" }}
             />
           )}
         </div>
-      </div>
-      <div className="row mb-3">
-        <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
-          Email
-        </label>
-        {!isEditable && (
-          <div className="col-sm-10">
+
+        <div className="d-flex justify-content-end align-items-end">
+          <label>Email</label>
+          {!isEditable && (
             <input
               type="email"
-              //class="form-control text-center"
-              id="colFormLabel"
               placeholder={userData[0].email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ color: "black" }}
               readOnly
             />
-          </div>
-        )}
-        {isEditable && (
-          <div className="col-sm-10">
+          )}
+          {isEditable && (
             <input
               type="email"
-              //class="form-control text-center"
-              id="colFormLabel"
               placeholder={userData[0].email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ color: "black" }}
+            />
+          )}
+        </div>
+
+        {isEditable && (
+          <div className="d-flex justify-content-end align-items-end">
+            <label>New password</label>
+            <input
+              type="password"
+              placeholder="Enter new password"
+              onChange={(e) => setNewPassword(e.target.value)}
             />
           </div>
         )}
-      </div>
-      {isEditable && (
-        <div className="row mb-3">
-          <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
-            New Password
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="password"
-              //class="form-control text-center"
-              id="colFormLabel"
-              placeholder="enter new password"
-              onChange={(e) => setNewPassword(e.target.value)}
-              style={{ color: "black" }}
-            />
-          </div>
-        </div>
-      )}
-      {isEditable && (
-        <div className="row mb-3">
-          <label htmlFor="colFormLabel" className="col-sm-2 col-form-label">
-            Confirm Password
-          </label>
 
-          <div className="col-sm-10">
+        {isEditable && (
+          <div className="d-flex justify-content-end align-items-end">
+            <label>Confirm password</label>
             <input
               type="password"
-              //class="form-control text-center"
-              id="colFormLabel"
-              placeholder="confirm your password"
+              placeholder="Confirm your password"
               onChange={(e) => setCPassword(e.target.value)}
-              style={{ color: "black" }}
             />
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="popup-buttons d-flex justify-content-center">
-        <button onClick={handleEditing}>EDIT</button>
-        <button onClick={saveProfile}>SAVE</button>
+        <div className="popup-buttons d-flex justify-content-center">
+          <button onClick={handleEditing}>EDIT</button>
+          <button onClick={saveProfile}>SAVE</button>
+        </div>
       </div>
-    </div>
     )
   );
 }
