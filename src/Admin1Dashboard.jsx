@@ -144,10 +144,7 @@ function Admin1Dashboard() {
           </thead>
           <tbody>
             {coachData && coachData.map((coach) => {
-              const dateObject = new Date(coach.joining_date);
-              const day = dateObject.getUTCDate();
-              const month = dateObject.getUTCMonth() + 1;
-              const year = dateObject.getUTCFullYear();
+              const date=new Date(coach.joining_date).toLocaleDateString("en-GB")
               return (
                 <tr key={coach.user_id}>
                   <th scope="row">{coach.user_id}</th>
@@ -155,7 +152,7 @@ function Admin1Dashboard() {
                   <td>{coach.username}</td>
                   <td>{coach.email}</td>
                   <td>{coach.password}</td>
-                  <td>{day}/{month}/{year}</td>
+                  <td>{date}</td>
                   <td>
                     <img src={bin} alt="bin" onClick={() => handleCoachDelete(coach.user_id)} style={{ cursor: 'pointer' }}
                     />

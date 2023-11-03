@@ -41,6 +41,7 @@ function Coach3Dashboard() {
           axios
             .get(`http://localhost:5000/QA/get/${element.course_id}`)
             .then((response) => {
+              console.log(response.data);
               setQuiz((prev) => [...prev, response.data[0]]);
               response.data[0] &&
                 setQuestions((prev) => [
@@ -146,7 +147,7 @@ function Coach3Dashboard() {
       .then((response) => {
         console.log(newCorrectAnswer);
         var regex = /^(?:(?!;).)*[^;]$/;
-        // if (newQuestion.trim() != "" && newChoices.trim() != "" && regex.test(newCorrectAnswer.trim())) {
+         if (!regex.test(newCorrectAnswer.trim())) {
           const newQA = {
             quiz_id: response.data.insertId,
             questions: newQuestion,
@@ -173,7 +174,7 @@ function Coach3Dashboard() {
           setHour('');
           setSelectedCourse('');
           setBool((prev) => !prev);
-        // }
+         }
       })
       .catch((error) => {
         console.error(error);

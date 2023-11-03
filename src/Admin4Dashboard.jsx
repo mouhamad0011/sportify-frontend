@@ -135,17 +135,15 @@ function Admin4Dashboard() {
           </thead>
           <tbody>
             {classData && classData.map((classs) => {
-              const dateObject = new Date(classs.date);
-              const day = dateObject.getUTCDate();
-              const month = dateObject.getUTCMonth() + 1;
-              const year = dateObject.getUTCFullYear();
+              const dateObject = new Date(classs.date).toLocaleDateString("en-GB");
+              
 
               return (
                 <tr key={classs.class_id}>
                   <th scope="row">{classs.class_id}</th>
                   <td>{classs.course_name}</td>
                   <td>{classs.full_name}</td>
-                  <td>{day}/{month}/{year}</td>
+                  <td>{dateObject}</td>
                   <td>{classs.hour}</td>
                   <td>
                     <img src={bin} alt="bin" onClick={() => handleDeleteClass(classs.class_id)} style={{ cursor: 'pointer' }}

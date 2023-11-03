@@ -130,7 +130,6 @@ function Profile(props) {
   return (
     userData[0] && modal &&(
     <div className="popup d-flex flex-column">
-      
       {!isEditable && <p className="text-center">YOUR PROFILE</p>}
       {isEditable && <p className="text-center">Edit field(s) you want</p>}
 

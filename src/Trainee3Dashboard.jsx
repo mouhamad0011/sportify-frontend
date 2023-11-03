@@ -7,7 +7,7 @@ import logo from "./icons/logo.png";
 import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
 import Profile from "./Profile";
-import close from './icons/close.png';
+import close from "./icons/close.png";
 
 function Trainee3Dashboard() {
   const navigate = useNavigate();
@@ -51,6 +51,36 @@ function Trainee3Dashboard() {
     setmodal(!modal);
   };
   var currentDate = new Date();
+
+  function compareDates(date1, date2) {
+    const parts1 = date1.split('/');
+    const parts2 = date2.split('/');
+    
+    const day1 = parseInt(parts1[0], 10);
+    const month1 = parseInt(parts1[1], 10) - 1;
+    const year1 = parseInt(parts1[2], 10);
+    
+    const day2 = parseInt(parts2[0], 10);
+    const month2 = parseInt(parts2[1], 10) - 1;
+    const year2 = parseInt(parts2[2], 10);
+    
+    const dateObject1 = new Date(year1, month1, day1);
+    const dateObject2 = new Date(year2, month2, day2);
+    
+    if (dateObject1.getTime() === dateObject2.getTime() || dateObject1.getTime() >= dateObject2.getTime() ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  const date1 = "03/11/2023";
+  const date2 = "04/11/2023";
+  
+  const comparisonResult = compareDates(date1, date2);
+  console.log(comparisonResult);
+  
+
 
   return (
     <div className="dashboard">
@@ -143,7 +173,8 @@ function Trainee3Dashboard() {
           const first = new Date(test);
           initialTime.setMinutes(initialTime.getMinutes() + 30);
           {
-            if (formattedDate >= currentDate.toLocaleDateString("en-GB")) {
+            if (compareDates(formattedDate,currentDate.toLocaleDateString("en-GB"))) {
+              console.log(formattedDate);
               return (
                 <div key={courseIndex}>
                   <h2 className="classtableheader">{course.course_name}</h2>
@@ -208,21 +239,25 @@ function Trainee3Dashboard() {
                                 </tr>
                               );
                             })}
-                            <button
-                              className="d-button-submit"
-                              onClick={() => {
-                                alert(
-                                  "Your result is: " +
-                                    counter +
-                                    "/" +
-                                    questions.length
-                                );
-                                setCounter(0);
-                                handleSubmitQuiz();
-                              }}
-                            >
-                              Submit Quiz
-                            </button>
+                            {quizSubmitted ? (
+                              <p>Quiz submitted successfully!</p>
+                            ) : (
+                              <button
+                                className="d-button-submit"
+                                onClick={() => {
+                                  alert(
+                                    "Your result is: " +
+                                      counter +
+                                      "/" +
+                                      questions.length
+                                  );
+                                  setCounter(0);
+                                  handleSubmitQuiz();
+                                }}
+                              >
+                                Submit Quiz
+                              </button>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -236,10 +271,7 @@ function Trainee3Dashboard() {
                   <h3>
                     Oops, this quiz was taken{" "}
                     {Math.abs(
-                      Math.floor(
-                        (targetDate.getTime() - currentDate.getTime()) /
-                          (1000 * 60 * 60 * 24)
-                      )
+                       Math.ceil((datee-currentDate) / (1000 * 3600 * 24))
                     )}{" "}
                     days ago
                     <br />
