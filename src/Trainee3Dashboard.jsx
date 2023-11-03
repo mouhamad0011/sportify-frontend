@@ -150,7 +150,7 @@ function Trainee3Dashboard() {
                   <h3 className="classtablesubheader">
                     Quiz on {formattedDate} at {course.hour}
                   </h3>
-                  {quizSubmitted ? (
+                  {/* {quizSubmitted ? (
                     <p>You have already submitted the quiz.</p>
                   ) : (
                     <button
@@ -159,7 +159,7 @@ function Trainee3Dashboard() {
                     >
                       Take Quiz
                     </button>
-                  )}
+                  )} */}
                   {currentDate.toLocaleTimeString() <
                     initialTime.toLocaleTimeString() &&
                     currentDate.toLocaleTimeString() >

@@ -24,7 +24,8 @@
 }
 
 .header-icon:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .profile-logout {
@@ -49,18 +50,24 @@
 }
 
 .table img {
-  height: 35px;
+  height: 30px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.table img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .classtableheader {
   color: #C23640;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 700;
 }
 
 .classtablesubheader {
   color: #262D5A;
-  font-size: 15px;
+  font-size: 18px;
   font-style: italic;
 }
 
@@ -75,7 +82,13 @@
 
 .delete-quiz {
   height: 30px;
-  padding-left: 20px;
+  padding-left: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.delete-quiz:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 /* .popup {
@@ -211,11 +224,25 @@
   border: 2px solid #C23640;
 }
 
+.d-submit-quiz,
+.d-submitted-quiz {
+  margin: 15px 0;
+}
+
+.d-submitted-quiz {
+  font-style: italic;
+}
+
 .quiz-info {
   padding: 10px;
   background-color: white;
   border: 1px solid #262D5A;
+  border-radius: 10px;
   font-weight: bold;
+  margin: 0 7px 20px 0;
+}
+
+.quiz-info:hover{
   cursor: auto;
 }
 
@@ -225,7 +252,7 @@
 
 .quiz-label {
   color: #262D5A;
-  padding-left: 5px;
+  padding-left: 7px;
 }
 
 .add-submit {
@@ -235,6 +262,10 @@
 
 .quiz-table {
   padding: 15px 0px;
+}
+
+.newquiz {
+  margin: 15px 0px;
 }
 
 @media screen and (max-width: 768px) {
