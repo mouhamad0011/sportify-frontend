@@ -36,8 +36,8 @@ function Trainee3Dashboard() {
   const [selectedCourse, setSelectedCourse] = useState(false);
 
   const handleSubmitQuiz = () => {
-      setQuizSubmitted(true);
-      setSelectedCourse(false)
+    setQuizSubmitted(true);
+    setSelectedCourse(false)
   };
 
   const handleSelectCourse = () => {
@@ -50,8 +50,6 @@ function Trainee3Dashboard() {
   // const initialTime = new Date(currentDate);
   // initialTime.setMinutes(initialTime.getMinutes() + 30);
   // console.log(initialTime.toLocaleTimeString());
-
-
 
   // var currentTime = currentDate.toLocaleTimeString();
   // console.log(currentTime)
@@ -123,9 +121,9 @@ function Trainee3Dashboard() {
           const choices = course.choices
             .split(";")
             .map((choice) => choice.split(","));
-            const dateString = course.date;
-               const datee = new Date(dateString);
-               const formattedDate = datee.toLocaleDateString('en-GB'); 
+          const dateString = course.date;
+          const datee = new Date(dateString);
+          const formattedDate = datee.toLocaleDateString('en-GB');
           const correct_answers = course.correct_answers.split(";");
           const date = course.date.substring(0, 10).split("-");
           const targetDate = new Date(date[0], date[1] - 1, date[2]);
@@ -139,13 +137,13 @@ function Trainee3Dashboard() {
                 <div key={courseIndex}>
                   <h2 className="classtableheader">{course.course_name}</h2>
                   <h3 className="classtablesubheader">Quiz on {formattedDate} at {course.hour}</h3>
-                  {quizSubmitted ? (
+                  {/* {quizSubmitted ? (
                     <p>You have already submitted the quiz.</p>
                   ) : (
                     <button className="d-button" onClick={() => handleSelectCourse}>
                       Take Quiz
                     </button>
-                  )}
+                  )} */}
                   {
                     currentDate.toLocaleTimeString() < initialTime.toLocaleTimeString() && currentDate.toLocaleTimeString() > first.toLocaleTimeString() &&
                     <div className="scrollable-table">
@@ -160,7 +158,7 @@ function Trainee3Dashboard() {
                           {questions.map((question, questionIndex) => {
                             return (
                               <tr key={questionIndex}>
-                                <th scope="row">{question}</th>
+                                <th scope="row" style={{ fontWeight: "400" }}>{question}</th>
                                 <td>
                                   {choices[questionIndex].map(
                                     (choice, choiceIndex) => (
@@ -179,8 +177,9 @@ function Trainee3Dashboard() {
                                           }}
                                         />
                                         <label
+                                          className="quiz-label"
                                           htmlFor={`choice${choiceIndex}`}
-                                          style={{ color: "#262D5A" }}
+                                          style={{ color: "#262D5A", padding:"3px 0 3px 7px"}}
                                         >
                                           {choice}
                                         </label>
@@ -192,20 +191,23 @@ function Trainee3Dashboard() {
                               </tr>
                             );
                           })}
-                          <button
-                            className="d-button-submit"
-                            onClick={() => {
-                              alert(
-                                "Your result is: " +
-                                counter +
-                                "/" +
-                                questions.length
-                              );
-                              setCounter(0);
-                              handleSubmitQuiz();
-                            }}>
-                            Submit Quiz
-                          </button>
+                          {!quizSubmitted ?
+                            <button
+                              className="d-button-submit d-submit-quiz"
+                              onClick={() => {
+                                alert(
+                                  "Your result is: " +
+                                  counter +
+                                  "/" +
+                                  questions.length
+                                );
+                                setCounter(0);
+                                handleSubmitQuiz();
+                              }}>
+                              Submit Quiz
+                            </button>
+                            : <p className="d-submitted-quiz">Bravo! Quiz submitted successfully.</p>
+                          }
                         </tbody>
                       </table>
                     </div>

@@ -160,7 +160,7 @@ function Coach2Dashboard() {
                     names[classIndex] &&
                     names[classIndex].map((name, traineeIndex) => (
                       <tr key={traineeIndex}>
-                        <th scope="row">{name.full_name}</th>
+                        <td scope="row">{name.full_name}</td>
                         <td>
                           {name.present ? (
                             <img
