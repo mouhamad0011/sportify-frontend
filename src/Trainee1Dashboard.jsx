@@ -6,10 +6,11 @@ import "./bootstrap.min.css";
 import logo from "./icons/logo.png";
 import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
-import add from "./icons/add.png";
+import close from "./icons/close.png";
 import unchecked from "./icons/unchecked.png";
 import checked from "./icons/checked.png";
 import bin from "./icons/bin.png";
+import Profile from "./Profile";
 
 function Trainee1Dashboard() {
   const navigate = useNavigate();
@@ -20,55 +21,7 @@ function Trainee1Dashboard() {
   const [bool, setBool] = useState(true);
   const [classesData, setClassesData] = useState([]);
   const [allClasses, setAllClasses] = useState([]);
-  //const [tallClasses,setTAllClasses]=useState([]);
 
-  // // useEffect(()=>{
-  // //   allClasses.forEach(arr => {
-  // //     console.log(arr)
-  // //     // arr.length>0  &&
-  // //     arr.forEach(element=>{
-  // //       axios.get(`http://localhost:5000/enrollement/getEnrollementByClassIdAndTraineeId/${element}/${traineeId}`)
-  // //       .then((response)=>{
-  // //         console.log(response.data)
-  // //       })
-  // //       .catch((error)=>{
-  // //         console.error(error)
-  // //       })
-  // //     })
-  // //   });
-  // // },[allClasses])
-
-  // useEffect(() => {
-  //   axios.get(`http://localhost:5000/courses/getAllCoursesWithCoachName`)
-  //     .then((response) => {
-  //       setCourseData(response.data);
-  //       response.data.forEach(async(course)=>{
-  //         const response = await axios.get(`http://localhost:5000/classes/getAllClassesByCourseId/${course.course_id}`)
-  //             setAllClasses((prev)=>[...prev,response.data.map(element=>element.class_id)])
-  //         })
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-
-  // }, [bool])
-
-  // setTimeout(() => {
-  //   console.log(allClasses)
-  //   allClasses.forEach(arr => {
-  //         if(arr.length>0){
-  //         arr.forEach(element=>{
-  //           axios.get(`http://localhost:5000/enrollement/getEnrollementByClassIdAndTraineeId/${element}/${traineeId}`)
-  //           .then((response)=>{
-  //             console.log(response.data)
-  //           })
-  //           .catch((error)=>{
-  //             console.error(error)
-  //           })
-  //         })
-  //         }
-  //       });
-  // }, 5000);
 
   const addClassInEnrollement = (id) => {
     axios
@@ -134,17 +87,35 @@ function Trainee1Dashboard() {
         console.log(error);
       });
   }, [bool]);
-
+  const [modal, setmodal] = useState(false);
+  const toogleModal = () => {
+    setmodal(true);
+  };
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
         <p className="h3 fw-bold m-0">Welcome {traineeName}</p>
         <div className="profile-logout d-flex gap-3">
-          <img className="header-icon" src={profile} alt="profile" />
+        {!modal ? (
+            <img
+              className="header-icon"
+              src={profile}
+              alt="profile"
+              onClick={toogleModal}
+            />
+          ) : (
+            <img
+              onClick={toogleModal}
+              className="header-icon"
+              src={close}
+              alt="close"
+            />
+          )}
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
+      {modal && <Profile coachId={traineeId}/>}
 
       <br />
 
@@ -208,7 +179,7 @@ function Trainee1Dashboard() {
                 <td>{course.course_name}</td>
                 <td>{course.full_name}</td>
                 <td>{course.description}</td>
-                <td>{console.log(allClasses, index)}
+                <td>
                   {allClasses[index] && allClasses[index].length > 0 ? (
                     <img src={checked} />
                   ) : (

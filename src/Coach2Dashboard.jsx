@@ -8,11 +8,14 @@ import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
 import checked from "./icons/checked.png";
 import unchecked from "./icons/unchecked.png";
+import Profile from "./Profile";
+import close from './icons/close.png';
 
 function Coach2Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const coachName = new URLSearchParams(location.search).get("coachName");
+  const coachId = new URLSearchParams(location.search).get("coachId");
   const [bool, setBool] = useState(true);
   const [tests, setTest] = useState([]);
   const [names, setNames] = useState([]);
@@ -80,16 +83,37 @@ function Coach2Dashboard() {
         console.error(error);
       });
   }, [bool]);
+
+  const [modal, setmodal] = useState(false);
+  const toogleModal = () => {
+    setmodal(!modal);
+  };
+
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
         <p className="h3 fw-bold m-0">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
-          <img className="header-icon" src={profile} alt="profile" />
+        {!modal ? (
+            <img
+              className="header-icon"
+              src={profile}
+              alt="profile"
+              onClick={toogleModal}
+            />
+          ) : (
+            <img
+              onClick={toogleModal}
+              className="header-icon"
+              src={close}
+              alt="close"
+            />
+          )}
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
+      {modal && <Profile coachId={coachId}/>}
       <br />
 
       <div className="container top-dashboard">
@@ -101,7 +125,7 @@ function Coach2Dashboard() {
               aria-current="page"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourCourses?coachName=${coachName}`);
+                navigate(`/Coach/YourCourses?coachName=${coachName}&coachId=${coachId}`);
               }}
             >
               Your courses
@@ -112,7 +136,7 @@ function Coach2Dashboard() {
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourClasses?coachName=${coachName}`);
+                navigate(`/Coach/YourClasses?coachName=${coachName}&coachId=${coachId}`);
               }}
             >
               Your classes
@@ -123,7 +147,7 @@ function Coach2Dashboard() {
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/Quizzes?coachName=${coachName}`);
+                navigate(`/Coach/Quizzes?coachName=${coachName}&coachId=${coachId}`);
               }}
             >
               Quizzes

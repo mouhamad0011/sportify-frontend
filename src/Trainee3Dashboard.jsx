@@ -6,6 +6,8 @@ import "./bootstrap.min.css";
 import logo from "./icons/logo.png";
 import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
+import Profile from "./Profile";
+import close from './icons/close.png';
 
 function Trainee3Dashboard() {
   const navigate = useNavigate();
@@ -36,28 +38,19 @@ function Trainee3Dashboard() {
   const [selectedCourse, setSelectedCourse] = useState(false);
 
   const handleSubmitQuiz = () => {
-      setQuizSubmitted(true);
-      setSelectedCourse(false)
+    setQuizSubmitted(true);
+    setSelectedCourse(false);
   };
 
   const handleSelectCourse = () => {
     setSelectedCourse(true);
   };
 
-
+  const [modal, setmodal] = useState(false);
+  const toogleModal = () => {
+    setmodal(!modal);
+  };
   var currentDate = new Date();
-  console.log(currentDate.toLocaleTimeString())
-  // const initialTime = new Date(currentDate);
-  // initialTime.setMinutes(initialTime.getMinutes() + 30);
-  // console.log(initialTime.toLocaleTimeString());
-
-
-
-  // var currentTime = currentDate.toLocaleTimeString();
-  // console.log(currentTime)
-  //  var targetDate = new Date(2023, 10,3);
-
-  //  console.log(Math.floor((targetDate.getTime()-currentDate.getTime())/(1000 * 60 * 60 * 24)))
 
   return (
     <div className="dashboard">
@@ -65,10 +58,25 @@ function Trainee3Dashboard() {
         <img className="header-logo" src={logo} alt="logo" />
         <p className="h3 fw-bold m-0">Welcome {traineeName}</p>
         <div className="profile-logout d-flex gap-3">
-          <img className="header-icon" src={profile} alt="profile" />
+          {!modal ? (
+            <img
+              className="header-icon"
+              src={profile}
+              alt="profile"
+              onClick={toogleModal}
+            />
+          ) : (
+            <img
+              onClick={toogleModal}
+              className="header-icon"
+              src={close}
+              alt="close"
+            />
+          )}
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
+      {modal && <Profile coachId={traineeId} />}
       <br />
 
       <div className="container top-dashboard">
@@ -123,13 +131,14 @@ function Trainee3Dashboard() {
           const choices = course.choices
             .split(";")
             .map((choice) => choice.split(","));
-            const dateString = course.date;
-               const datee = new Date(dateString);
-               const formattedDate = datee.toLocaleDateString('en-GB'); 
+          const dateString = course.date;
+          const datee = new Date(dateString);
+          const formattedDate = datee.toLocaleDateString("en-GB");
           const correct_answers = course.correct_answers.split(";");
           const date = course.date.substring(0, 10).split("-");
           const targetDate = new Date(date[0], date[1] - 1, date[2]);
-          const test = date[0] + "-" + date[1] + "-" + date[2] + "T" + course.hour + ":00";
+          const test =
+            date[0] + "-" + date[1] + "-" + date[2] + "T" + course.hour + ":00";
           const initialTime = new Date(test);
           const first = new Date(test);
           initialTime.setMinutes(initialTime.getMinutes() + 30);
@@ -138,87 +147,104 @@ function Trainee3Dashboard() {
               return (
                 <div key={courseIndex}>
                   <h2 className="classtableheader">{course.course_name}</h2>
-                  <h3 className="classtablesubheader">Quiz on {formattedDate} at {course.hour}</h3>
+                  <h3 className="classtablesubheader">
+                    Quiz on {formattedDate} at {course.hour}
+                  </h3>
                   {quizSubmitted ? (
                     <p>You have already submitted the quiz.</p>
                   ) : (
-                    <button className="d-button" onClick={() => handleSelectCourse}>
+                    <button
+                      className="d-button"
+                      onClick={() => handleSelectCourse}
+                    >
                       Take Quiz
                     </button>
                   )}
-                  {
-                    currentDate.toLocaleTimeString() < initialTime.toLocaleTimeString() && currentDate.toLocaleTimeString() > first.toLocaleTimeString() &&
-                    <div className="scrollable-table">
-                      <table className="container table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">Questions</th>
-                            <th scope="col">Answers</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {questions.map((question, questionIndex) => {
-                            return (
-                              <tr key={questionIndex}>
-                                <th scope="row">{question}</th>
-                                <td>
-                                  {choices[questionIndex].map(
-                                    (choice, choiceIndex) => (
-                                      <div key={choiceIndex}>
-                                        <input
-                                          type="radio"
-                                          id={`choice${choiceIndex}`}
-                                          name={`answer${questionIndex}`}
-                                          value={choice}
-                                          onClick={() => {
-                                            if (
-                                              choice ==
-                                              correct_answers[questionIndex]
-                                            )
-                                              setCounter((prev) => prev + 1);
-                                          }}
-                                        />
-                                        <label
-                                          htmlFor={`choice${choiceIndex}`}
-                                          style={{ color: "#262D5A" }}
-                                        >
-                                          {choice}
-                                        </label>
-                                        <br />
-                                      </div>
-                                    )
-                                  )}
-                                </td>
-                              </tr>
-                            );
-                          })}
-                          <button
-                            className="d-button-submit"
-                            onClick={() => {
-                              alert(
-                                "Your result is: " +
-                                counter +
-                                "/" +
-                                questions.length
+                  {currentDate.toLocaleTimeString() <
+                    initialTime.toLocaleTimeString() &&
+                    currentDate.toLocaleTimeString() >
+                      first.toLocaleTimeString() && (
+                      <div className="scrollable-table">
+                        <table className="container table table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">Questions</th>
+                              <th scope="col">Answers</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {questions.map((question, questionIndex) => {
+                              return (
+                                <tr key={questionIndex}>
+                                  <th scope="row">{question}</th>
+                                  <td>
+                                    {choices[questionIndex].map(
+                                      (choice, choiceIndex) => (
+                                        <div key={choiceIndex}>
+                                          <input
+                                            type="radio"
+                                            id={`choice${choiceIndex}`}
+                                            name={`answer${questionIndex}`}
+                                            value={choice}
+                                            onClick={() => {
+                                              if (
+                                                choice ==
+                                                correct_answers[questionIndex]
+                                              )
+                                                setCounter((prev) => prev + 1);
+                                            }}
+                                          />
+                                          <label
+                                            htmlFor={`choice${choiceIndex}`}
+                                            style={{ color: "#262D5A" }}
+                                          >
+                                            {choice}
+                                          </label>
+                                          <br />
+                                        </div>
+                                      )
+                                    )}
+                                  </td>
+                                </tr>
                               );
-                              setCounter(0);
-                              handleSubmitQuiz();
-                            }}>
-                            Submit Quiz
-                          </button>
-                        </tbody>
-                      </table>
-                    </div>
-                  }
-
+                            })}
+                            <button
+                              className="d-button-submit"
+                              onClick={() => {
+                                alert(
+                                  "Your result is: " +
+                                    counter +
+                                    "/" +
+                                    questions.length
+                                );
+                                setCounter(0);
+                                handleSubmitQuiz();
+                              }}
+                            >
+                              Submit Quiz
+                            </button>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                 </div>
               );
             } else {
               return (
                 <div>
                   <h2>{course.course_name}</h2>
-                  <h3>Oops, this quiz was taken {Math.abs(Math.floor((targetDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)))} days ago<br />
-                    Kindly refer to coach {course.coach}.</h3>
+                  <h3>
+                    Oops, this quiz was taken{" "}
+                    {Math.abs(
+                      Math.floor(
+                        (targetDate.getTime() - currentDate.getTime()) /
+                          (1000 * 60 * 60 * 24)
+                      )
+                    )}{" "}
+                    days ago
+                    <br />
+                    Kindly refer to coach {course.coach}.
+                  </h3>
                 </div>
               );
             }

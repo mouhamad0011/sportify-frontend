@@ -14,6 +14,7 @@ import Trainee1 from './Trainee1Dashboard';
 import Trainee2 from './Trainee2Dashboard';
 import Trainee3 from './Trainee3Dashboard';
 import Homepage from './Homepage';
+import Profile from './Profile';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,7 +22,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Homepage/>} />
-      <Route path="/Login" element={<Login/>} />
+      <Route path="/Login" element={<Login />} />
       <Route path="/Admin/AllCoaches" element={<Admin1/>} />
       <Route path="/Admin/AllTrainees" element={<Admin2/>} />
       <Route path="/Admin/AllCourses" element={<Admin3/>} />

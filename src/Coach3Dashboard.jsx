@@ -7,11 +7,14 @@ import logo from "./icons/logo.png";
 import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
 import bin from './icons/bin.png';
+import Profile from "./Profile";
+import close from './icons/close.png';
 
 function Coach3Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const coachName = new URLSearchParams(location.search).get("coachName");
+  const coachId = new URLSearchParams(location.search).get("coachId");
   const [quiz, setQuiz] = useState([]);
   const [bool, setBool] = useState(true);
   const [questions, setQuestions] = useState([]);
@@ -67,10 +70,6 @@ function Coach3Dashboard() {
       });
 
   }, [bool]);
-
-
-
-
 
   const addQuiz = (courseIndex) => {
     setSelectedCourse(courseIndex);
@@ -180,10 +179,6 @@ function Coach3Dashboard() {
     setConfirmationVisible(false);
   };
 
-  // setTimeout(() => {
-  //   console.log(choices)
-  // }, 6000);
-
   const deleteQuiz = (id) => {
     axios.delete(`http://localhost:5000/quizzes/delete/${id}`)
       .then(() => {
@@ -194,6 +189,10 @@ function Coach3Dashboard() {
       })
 
   }
+  const [modal, setmodal] = useState(false);
+  const toogleModal = () => {
+    setmodal(!modal);
+  };
 
   const [editable,setEditable]=useState(false);
   const editDateHour=()=>{
@@ -228,10 +227,25 @@ const updateDateHour=(id)=>{
         <img className="header-logo" src={logo} alt="logo" />
         <p className="h3 fw-bold m-0">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
-          <img className="header-icon" src={profile} alt="profile" />
+        {!modal ? (
+            <img
+              className="header-icon"
+              src={profile}
+              alt="profile"
+              onClick={toogleModal}
+            />
+          ) : (
+            <img
+              onClick={toogleModal}
+              className="header-icon"
+              src={close}
+              alt="close"
+            />
+          )}
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
+      {modal && <Profile coachId={coachId}/>}
       <br />
 
       <div className="container top-dashboard">
@@ -243,7 +257,7 @@ const updateDateHour=(id)=>{
               aria-current="page"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourCourses?coachName=${coachName}`);
+                navigate(`/Coach/YourCourses?coachName=${coachName}&coachId=${coachId}`);
               }}
             >
               Your courses
@@ -254,7 +268,7 @@ const updateDateHour=(id)=>{
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourClasses?coachName=${coachName}`);
+                navigate(`/Coach/YourClasses?coachName=${coachName}&coachId=${coachId}`);
               }}
             >
               Your classes
@@ -265,7 +279,7 @@ const updateDateHour=(id)=>{
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/Quizzes?coachName=${coachName}`);
+                navigate(`/Coach/Quizzes?coachName=${coachName}&coachId=${coachId}`);
               }}
             >
               Quizzes
@@ -284,7 +298,6 @@ const updateDateHour=(id)=>{
             <div className="container" key={courseIndex}>
               <br />
               <p className="classtableheader">{course.course_name}</p>
-
               {
               quiz.length > 0 && quiz[courseIndex] ? (
                 <div>
