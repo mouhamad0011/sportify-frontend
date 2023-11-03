@@ -207,7 +207,7 @@ function Trainee3Dashboard() {
                             {questions.map((question, questionIndex) => {
                               return (
                                 <tr key={questionIndex}>
-                                  <th scope="row">{question}</th>
+                                  <th scope="row" style={{ fontWeight: "400" }}>{question}</th>
                                   <td>
                                     {choices[questionIndex].map(
                                       (choice, choiceIndex) => (
@@ -227,7 +227,7 @@ function Trainee3Dashboard() {
                                           />
                                           <label
                                             htmlFor={`choice${choiceIndex}`}
-                                            style={{ color: "#262D5A" }}
+                                            style={{ color: "#262D5A", margin:"0 0 7px 7px" }}
                                           >
                                             {choice}
                                           </label>
@@ -240,10 +240,10 @@ function Trainee3Dashboard() {
                               );
                             })}
                             {quizSubmitted ? (
-                              <p>Quiz submitted successfully!</p>
+                              <p className="mt-3">Quiz submitted successfully!</p>
                             ) : (
                               <button
-                                className="d-button-submit"
+                                className="d-button-submit mt-3"
                                 onClick={() => {
                                   alert(
                                     "Your result is: " +
@@ -267,8 +267,8 @@ function Trainee3Dashboard() {
             } else {
               return (
                 <div>
-                  <h2>{course.course_name}</h2>
-                  <h3>
+                  <h2 className="classtableheader">{course.course_name}</h2>
+                  <h3 className="classtablesubheader">
                     Oops, this quiz was taken{" "}
                     {Math.abs(
                        Math.ceil((datee-currentDate) / (1000 * 3600 * 24))

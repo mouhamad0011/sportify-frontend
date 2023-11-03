@@ -147,7 +147,7 @@ function Coach3Dashboard() {
       .then((response) => {
         console.log(newCorrectAnswer);
         var regex = /^(?:(?!;).)*[^;]$/;
-         if (!regex.test(newCorrectAnswer.trim())) {
+        if (!regex.test(newCorrectAnswer.trim())) {
           const newQA = {
             quiz_id: response.data.insertId,
             questions: newQuestion,
@@ -174,7 +174,7 @@ function Coach3Dashboard() {
           setHour('');
           setSelectedCourse('');
           setBool((prev) => !prev);
-         }
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -230,7 +230,7 @@ function Coach3Dashboard() {
         <img className="header-logo" src={logo} alt="logo" />
         <p className="h3 fw-bold m-0">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
-        {!modal ? (
+          {!modal ? (
             <img
               className="header-icon"
               src={profile}
@@ -248,7 +248,7 @@ function Coach3Dashboard() {
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
-      {modal && <Profile coachId={coachId}/>}
+      {modal && <Profile coachId={coachId} />}
       <br />
 
       <div className="container top-dashboard">
@@ -356,7 +356,7 @@ function Coach3Dashboard() {
                                         (choice, choiceIndex) => (
                                           <div key={choiceIndex}>
                                             <input type="radio" value={choice} />
-                                            <label className="quiz-label">{choice}</label>
+                                            <label className="quiz-label" style={{ margin: "0 0 7px 7px" }}>{choice}</label>
                                             <br />
                                           </div>
                                         )
@@ -382,6 +382,7 @@ function Coach3Dashboard() {
                         <br />
                         Set the date{" "}
                         <input
+                          style={{ paddingLeft: "5px" }}
                           type="date"
                           onChange={(e) => {
                             setDate(e.target.value);
@@ -392,6 +393,7 @@ function Coach3Dashboard() {
                         <br />
                         Set the hour{" "}
                         <input
+                          style={{ paddingLeft: "5px" }}
                           type="time"
                           onChange={(e) => {
                             setHour(e.target.value);
@@ -437,11 +439,11 @@ function Coach3Dashboard() {
                                         }
                                       />
                                       <input
+                                        style={{ margin: "0 0 7px 7px" }}
                                         className="quiz-label"
                                         type="text"
                                         placeholder="Type a choice 1"
                                         name={`choice1`}
-                                        //value={newQuestion.choices[0]}
                                         onChange={(event) =>
                                           handleNewQuestionChange(
                                             newQuestionIndex,
@@ -463,6 +465,7 @@ function Coach3Dashboard() {
                                         }
                                       />
                                       <input
+                                        style={{ margin: "0 0 7px 7px" }}
                                         type="text"
                                         className="quiz-label"
                                         placeholder="Type a choice 2"
@@ -489,6 +492,7 @@ function Coach3Dashboard() {
                                         }
                                       />
                                       <input
+                                        style={{ margin: "0 0 7px 7px" }}
                                         type="text"
                                         className="quiz-label"
                                         placeholder="Type a choice 3"
