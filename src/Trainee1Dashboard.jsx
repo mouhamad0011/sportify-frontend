@@ -89,7 +89,7 @@ function Trainee1Dashboard() {
   }, [bool]);
   const [modal, setmodal] = useState(false);
   const toogleModal = () => {
-    setmodal(true);
+    setmodal(!modal);
   };
   return (
     <div className="dashboard">
