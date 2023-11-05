@@ -86,7 +86,7 @@ function Trainee3Dashboard() {
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
-        <p className="h3 fw-bold m-0">Welcome {traineeName}</p>
+        <p className="h3 fw-bold m-0 welcome-name">Welcome {traineeName}</p>
         <div className="profile-logout d-flex gap-3">
           {!modal ? (
             <img
@@ -275,7 +275,7 @@ function Trainee3Dashboard() {
                     )}{" "}
                     days ago
                     <br />
-                    Kindly refer to coach {course.coach}.
+                    Kindly refer to coach <span className="welcome-name">{course.coach}</span>.
                   </h3>
                 </div>
               );

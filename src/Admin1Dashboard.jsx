@@ -100,7 +100,7 @@ function Admin1Dashboard() {
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
         <img className='header-logo' src={logo} alt='logo' />
-        <p className='h3 fw-bold m-0'>Welcome {adminName}</p>
+        <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
           <img className='header-icon' src={logout} alt='logout' />
@@ -148,7 +148,7 @@ function Admin1Dashboard() {
               return (
                 <tr key={coach.user_id}>
                   <th scope="row">{coach.user_id}</th>
-                  <td>{coach.full_name}</td>
+                  <td><span className='welcome-name'>{coach.full_name}</span></td>
                   <td>{coach.username}</td>
                   <td>{coach.email}</td>
                   <td>{coach.password}</td>

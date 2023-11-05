@@ -99,7 +99,7 @@ function Admin2Dashboard() {
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
         <img className='header-logo' src={logo} alt='logo' />
-        <p className='h3 fw-bold m-0'>Welcome {adminName}</p>
+        <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
           <img className='header-icon' src={logout} alt='logout' />
@@ -150,7 +150,7 @@ function Admin2Dashboard() {
               return (
                 <tr key={trainee.user_id}>
                   <th scope="row">{trainee.user_id}</th>
-                  <td>{trainee.full_name}</td>
+                  <td><span className='welcome-name'>{trainee.full_name}</span></td>
                   <td>{trainee.username}</td>
                   <td>{trainee.email}</td>
                   <td>{trainee.password}</td>

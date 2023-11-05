@@ -228,7 +228,7 @@ function Coach3Dashboard() {
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
-        <p className="h3 fw-bold m-0">Welcome {coachName}</p>
+        <p className="h3 fw-bold m-0 welcome-name">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
           {!modal ? (
             <img

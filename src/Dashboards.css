@@ -17,6 +17,10 @@
   height: 75px;
 }
 
+.welcome-name {
+  text-transform: capitalize;
+}
+
 .header-icon {
   height: 50px;
   background-color: #C23640;

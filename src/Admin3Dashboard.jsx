@@ -94,7 +94,7 @@ function Admin3Dashboard() {
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
         <img className='header-logo' src={logo} alt='logo' />
-        <p className='h3 fw-bold m-0'>Welcome {adminName}</p>
+        <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
           <img className='header-icon' src={logout} alt='logout' />
@@ -140,7 +140,7 @@ function Admin3Dashboard() {
                 <th scope="row">{course.course_id}</th>
                 <td>{course.course_name}</td>
                 <td>{course.description}</td>
-                <td>{course.full_name}</td>
+                <td><span className='welcome-name'>{course.full_name}</span></td>
                 <td>
                   <img
                     src={bin}

@@ -93,9 +93,9 @@ function Coach2Dashboard() {
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
-        <p className="h3 fw-bold m-0">Welcome {coachName}</p>
+        <p className="h3 fw-bold m-0 welcome-name">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
-        {!modal ? (
+          {!modal ? (
             <img
               className="header-icon"
               src={profile}
@@ -113,7 +113,7 @@ function Coach2Dashboard() {
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
-      {modal && <Profile coachId={coachId}/>}
+      {modal && <Profile coachId={coachId} />}
       <br />
 
       <div className="container top-dashboard">
@@ -158,9 +158,9 @@ function Coach2Dashboard() {
       <br />
 
       {tests.map((test, classIndex) => {
-       const dateString = test.date;
-       const date = new Date(dateString);
-       const formattedDate = date.toLocaleDateString('en-GB'); 
+        const dateString = test.date;
+        const date = new Date(dateString);
+        const formattedDate = date.toLocaleDateString('en-GB');
         return (
           <div className="container" key={classIndex}>
             <br />
@@ -184,7 +184,7 @@ function Coach2Dashboard() {
                     names[classIndex] &&
                     names[classIndex].map((name, traineeIndex) => (
                       <tr key={traineeIndex}>
-                        <td scope="row">{name.full_name}</td>
+                        <td scope="row"><span className="welcome-name">{name.full_name}</span></td>
                         <td>
                           {name.present ? (
                             <img

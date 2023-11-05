@@ -95,7 +95,7 @@ function Trainee1Dashboard() {
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
-        <p className="h3 fw-bold m-0">Welcome {traineeName}</p>
+        <p className="h3 fw-bold m-0 welcome-name">Welcome {traineeName}</p>
         <div className="profile-logout d-flex gap-3">
         {!modal ? (
             <img
@@ -177,7 +177,7 @@ function Trainee1Dashboard() {
               <tr key={index}>
                 <th scope="row">{course.course_id}</th>
                 <td>{course.course_name}</td>
-                <td>{course.full_name}</td>
+                <td><span className="welcome-name">{course.full_name}</span></td>
                 <td>{course.description}</td>
                 <td>
                   {allClasses[index] && allClasses[index].length > 0 ? (
