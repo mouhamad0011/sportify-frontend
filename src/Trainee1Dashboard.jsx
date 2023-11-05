@@ -21,7 +21,7 @@ function Trainee1Dashboard() {
   const [bool, setBool] = useState(true);
   const [classesData, setClassesData] = useState([]);
   const [allClasses, setAllClasses] = useState([]);
-
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   const addClassInEnrollement = (id) => {
     axios
@@ -60,6 +60,7 @@ function Trainee1Dashboard() {
       .catch((error) => {
         console.error(error);
       });
+    setConfirmationVisible(false);
   };
 
   useEffect(() => {
@@ -91,13 +92,22 @@ function Trainee1Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
+
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
+
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
         <img className="header-logo" src={logo} alt="logo" />
         <p className="h3 fw-bold m-0 welcome-name">Welcome {traineeName}</p>
         <div className="profile-logout d-flex gap-3">
-        {!modal ? (
+          {!modal ? (
             <img
               className="header-icon"
               src={profile}
@@ -115,7 +125,7 @@ function Trainee1Dashboard() {
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
-      {modal && <Profile coachId={traineeId}/>}
+      {modal && <Profile coachId={traineeId} />}
 
       <br />
 
@@ -200,10 +210,21 @@ function Trainee1Dashboard() {
                     src={bin}
                     alt="bin"
                     onClick={() => {
-                      deleteEnrollement(course.course_id);
+                      handleConfirm();
                       setBool((prev) => !prev);
                     }}
                   />
+                  {isConfirmationVisible && (
+                    <div className="popup-overlay">
+                      <div className="popup-content">
+                        <p>Are you sure?</p>
+                        <div className="popup-btn">
+                          <button className="d-button-submit" onClick={() => deleteEnrollement(course.course_id)}>OK</button>
+                          <button className="d-button" onClick={cancelAction}>Cancel</button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

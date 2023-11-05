@@ -10,7 +10,6 @@ import add from './icons/add.png';
 import checked from './icons/checked.png';
 import bin from './icons/bin.png';
 
-
 function Admin1Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,6 +21,7 @@ function Admin1Dashboard() {
   const [newCoachPassword, setNewCoachPassword] = useState('');
   const [newCoachDate, setNewCoachDate] = useState('');
   const [bool, setBool] = useState(true);
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/users/getAllCoaches`)
@@ -35,12 +35,10 @@ function Admin1Dashboard() {
       });
   }, [bool]);
 
-
   const handleAddCoach = async (e) => {
     e.preventDefault();
     const emailTest = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     const passwordTest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    // Ensure that the required fields are not empty
     if (
       newCoachName.trim() === '' ||
       newCoachUsername.trim() === '' ||
@@ -84,17 +82,25 @@ function Admin1Dashboard() {
     } catch (error) {
       console.log("Error while adding coach", error);
     }
-
   };
 
   const handleCoachDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/users/delete/${id}`);
       setBool(!bool);
+      setConfirmationVisible(false);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
 
   return (
     <div className="dashboard">
@@ -144,7 +150,7 @@ function Admin1Dashboard() {
           </thead>
           <tbody>
             {coachData && coachData.map((coach) => {
-              const date=new Date(coach.joining_date).toLocaleDateString("en-GB")
+              const date = new Date(coach.joining_date).toLocaleDateString("en-GB")
               return (
                 <tr key={coach.user_id}>
                   <th scope="row">{coach.user_id}</th>
@@ -154,8 +160,19 @@ function Admin1Dashboard() {
                   <td>{coach.password}</td>
                   <td>{date}</td>
                   <td>
-                    <img src={bin} alt="bin" onClick={() => handleCoachDelete(coach.user_id)} style={{ cursor: 'pointer' }}
+                    <img src={bin} alt="bin" onClick={() => handleConfirm()} style={{ cursor: 'pointer' }}
                     />
+                    {isConfirmationVisible && (
+                      <div className="popup-overlay">
+                        <div className="popup-content">
+                          <p>Are you sure?</p>
+                          <div className="popup-btn">
+                            <button className="d-button-submit" onClick={() => handleCoachDelete(coach.user_id)}>OK</button>
+                            <button className="d-button" onClick={cancelAction}>Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );

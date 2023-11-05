@@ -20,6 +20,7 @@ function Admin4Dashboard() {
   const [newClassDate, setNewClassDate] = useState('');
   const [newClassHour, setNewClassHour] = useState('');
   const [bool, setBool] = useState(true);
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   useEffect(() => {
     axios.get('http://localhost:5000/classes/getAllClassesWithDetails')
@@ -49,6 +50,7 @@ function Admin4Dashboard() {
         console.error(err);
       })
     setBool(!bool);
+    setConfirmationVisible(false);
   };
 
   const handleAddClass = async (e) => {
@@ -84,9 +86,15 @@ function Admin4Dashboard() {
     } catch (error) {
       console.log(error);
     }
-
-
   };
+
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
 
   return (
     <div className="dashboard">
@@ -146,8 +154,19 @@ function Admin4Dashboard() {
                   <td>{dateObject}</td>
                   <td>{classs.hour}</td>
                   <td>
-                    <img src={bin} alt="bin" onClick={() => handleDeleteClass(classs.class_id)} style={{ cursor: 'pointer' }}
+                    <img src={bin} alt="bin" onClick={() => handleConfirm()} style={{ cursor: 'pointer' }}
                     />
+                    {isConfirmationVisible && (
+                      <div className="popup-overlay">
+                        <div className="popup-content">
+                          <p>Are you sure?</p>
+                          <div className="popup-btn">
+                            <button className="d-button-submit" onClick={() => handleDeleteClass(classs.class_id)}>OK</button>
+                            <button className="d-button" onClick={cancelAction}>Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );

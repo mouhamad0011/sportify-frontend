@@ -21,6 +21,7 @@ function Admin2Dashboard() {
   const [newTraineePassword, setNewTraineePassword] = useState('');
   const [newTraineeDate, setNewTraineeDate] = useState('');
   const [bool, setBool] = useState(true);
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   useEffect(() => {
     axios.get('http://localhost:5000/users/getAllTrainees')
@@ -90,10 +91,19 @@ function Admin2Dashboard() {
     try {
       await axios.delete(`http://localhost:5000/users/delete/${id}`);
       setBool(!bool);
+      setConfirmationVisible(false);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
 
   return (
     <div className="dashboard">
@@ -156,8 +166,19 @@ function Admin2Dashboard() {
                   <td>{trainee.password}</td>
                   <td>{day}/{month}/{year}</td>
                   <td>
-                    <img src={bin} alt="bin" onClick={() => handleTraineeDelete(trainee.user_id)} style={{ cursor: 'pointer' }}
+                    <img src={bin} alt="bin" onClick={() => handleConfirm()} style={{ cursor: 'pointer' }}
                     />
+                    {isConfirmationVisible && (
+                      <div className="popup-overlay">
+                        <div className="popup-content">
+                          <p>Are you sure?</p>
+                          <div className="popup-btn">
+                            <button className="d-button-submit" onClick={() => handleTraineeDelete(trainee.user_id)}>OK</button>
+                            <button className="d-button" onClick={cancelAction}>Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );

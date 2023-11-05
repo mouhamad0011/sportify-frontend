@@ -17,6 +17,8 @@ function Trainee3Dashboard() {
   const [bool, setBool] = useState(true);
   const [quizData, setQuizData] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
+
   useEffect(() => {
     axios
       .get(
@@ -31,15 +33,13 @@ function Trainee3Dashboard() {
       });
   }, [bool]);
 
-  // const [correctAnswers, setCorrectAnswers] = useState(
-  //   Array(quizData[0].questions.length).fill(null)
-  // );
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(false);
 
   const handleSubmitQuiz = () => {
     setQuizSubmitted(true);
     setSelectedCourse(false);
+    setConfirmationVisible(false);
   };
 
   const handleSelectCourse = () => {
@@ -55,32 +55,38 @@ function Trainee3Dashboard() {
   function compareDates(date1, date2) {
     const parts1 = date1.split('/');
     const parts2 = date2.split('/');
-    
+
     const day1 = parseInt(parts1[0], 10);
     const month1 = parseInt(parts1[1], 10) - 1;
     const year1 = parseInt(parts1[2], 10);
-    
+
     const day2 = parseInt(parts2[0], 10);
     const month2 = parseInt(parts2[1], 10) - 1;
     const year2 = parseInt(parts2[2], 10);
-    
+
     const dateObject1 = new Date(year1, month1, day1);
     const dateObject2 = new Date(year2, month2, day2);
-    
-    if (dateObject1.getTime() === dateObject2.getTime() || dateObject1.getTime() >= dateObject2.getTime() ) {
+
+    if (dateObject1.getTime() === dateObject2.getTime() || dateObject1.getTime() >= dateObject2.getTime()) {
       return true;
     } else {
       return false;
     }
   }
-  
+
   const date1 = "03/11/2023";
   const date2 = "04/11/2023";
-  
+
   const comparisonResult = compareDates(date1, date2);
   console.log(comparisonResult);
-  
 
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
 
   return (
     <div className="dashboard">
@@ -173,7 +179,7 @@ function Trainee3Dashboard() {
           const first = new Date(test);
           initialTime.setMinutes(initialTime.getMinutes() + 30);
           {
-            if (compareDates(formattedDate,currentDate.toLocaleDateString("en-GB"))) {
+            if (compareDates(formattedDate, currentDate.toLocaleDateString("en-GB"))) {
               console.log(formattedDate);
               return (
                 <div key={courseIndex}>
@@ -194,7 +200,7 @@ function Trainee3Dashboard() {
                   {currentDate.toLocaleTimeString() <
                     initialTime.toLocaleTimeString() &&
                     currentDate.toLocaleTimeString() >
-                      first.toLocaleTimeString() && (
+                    first.toLocaleTimeString() && (
                       <div className="scrollable-table">
                         <table className="container table table-hover">
                           <thead>
@@ -227,7 +233,7 @@ function Trainee3Dashboard() {
                                           />
                                           <label
                                             htmlFor={`choice${choiceIndex}`}
-                                            style={{ color: "#262D5A", margin:"0 0 7px 7px" }}
+                                            style={{ color: "#262D5A", margin: "0 0 7px 7px" }}
                                           >
                                             {choice}
                                           </label>
@@ -244,19 +250,31 @@ function Trainee3Dashboard() {
                             ) : (
                               <button
                                 className="d-button-submit mt-3"
-                                onClick={() => {
-                                  alert(
-                                    "Your result is: " +
-                                      counter +
-                                      "/" +
-                                      questions.length
-                                  );
-                                  setCounter(0);
-                                  handleSubmitQuiz();
-                                }}
+                                onClick={() => handleConfirm()}
                               >
                                 Submit Quiz
                               </button>
+                            )}
+                            {isConfirmationVisible && (
+                              <div className="popup-overlay">
+                                <div className="popup-content">
+                                  <p>Are you sure?</p>
+                                  <div className="popup-btn">
+                                    <button className="d-button-submit"
+                                      onClick={() => {
+                                        setCounter(0);
+                                        handleSubmitQuiz();
+                                        alert(
+                                          "Your result is: " +
+                                          counter +
+                                          "/" +
+                                          questions.length
+                                        );
+                                      }}>OK</button>
+                                    <button className="d-button" onClick={cancelAction}>Cancel</button>
+                                  </div>
+                                </div>
+                              </div>
                             )}
                           </tbody>
                         </table>
@@ -271,7 +289,7 @@ function Trainee3Dashboard() {
                   <h3 className="classtablesubheader">
                     Oops, this quiz was taken{" "}
                     {Math.abs(
-                       Math.ceil((datee-currentDate) / (1000 * 3600 * 24))
+                      Math.ceil((datee - currentDate) / (1000 * 3600 * 24))
                     )}{" "}
                     days ago
                     <br />

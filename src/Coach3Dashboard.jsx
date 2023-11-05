@@ -190,8 +190,9 @@ function Coach3Dashboard() {
       .catch((error) => {
         console.log(error)
       })
-
+    setConfirmationVisible(false);
   }
+
   const [modal, setmodal] = useState(false);
   const toogleModal = () => {
     setmodal(!modal);
@@ -224,6 +225,15 @@ function Coach3Dashboard() {
         })
     }
   }
+
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
+
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
@@ -311,7 +321,18 @@ function Coach3Dashboard() {
                       <button onClick={editDateHour} className="d-button">Edit time</button>
                       : <button onClick={() => updateDateHour(quiz[courseIndex].quiz_id)} className="d-button">Update</button>
                     }
-                    <img src={bin} alt="bin" className="delete-quiz" onClick={() => { deleteQuiz(quiz[courseIndex].quiz_id) }} />
+                    <img src={bin} alt="bin" className="delete-quiz" onClick={() => handleConfirm()} />
+                    {isConfirmationVisible && (
+                      <div className="popup-overlay">
+                        <div className="popup-content">
+                          <p>Are you sure?</p>
+                          <div className="popup-btn">
+                            <button className="d-button-submit" onClick={() => deleteQuiz(quiz[courseIndex].quiz_id)}>OK</button>
+                            <button className="d-button" onClick={cancelAction}>Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {editable &&
                       <div>
                         Set the date{" "}

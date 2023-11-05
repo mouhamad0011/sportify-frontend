@@ -21,6 +21,7 @@ function Admin3Dashboard() {
   const [bool, setBool] = useState(true);
   const [coachNames, setCoachNames] = useState([]);
   const [coachName, setCoachName] = useState('');
+  const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
 
   useEffect(() => {
@@ -85,10 +86,19 @@ function Admin3Dashboard() {
     try {
       await axios.delete(`http://localhost:5000/courses/delete/${id}`);
       setBool(!bool);
+      setConfirmationVisible(false);
     } catch (error) {
       console.error('Error deleting Course:', error);
     }
   };
+
+  const handleConfirm = () => {
+    setConfirmationVisible(true);
+  }
+
+  function cancelAction() {
+    setConfirmationVisible(false);
+  }
 
   return (
     <div className="dashboard">
@@ -145,9 +155,20 @@ function Admin3Dashboard() {
                   <img
                     src={bin}
                     alt="bin"
-                    onClick={() => handleCourseDelete(course.course_id)}
+                    onClick={() => handleConfirm()}
                     style={{ cursor: 'pointer' }}
                   />
+                  {isConfirmationVisible && (
+                      <div className="popup-overlay">
+                        <div className="popup-content">
+                          <p>Are you sure?</p>
+                          <div className="popup-btn">
+                            <button className="d-button-submit" onClick={() => handleCourseDelete(course.course_id)}>OK</button>
+                            <button className="d-button" onClick={cancelAction}>Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                 </td>
               </tr>
             ))}
