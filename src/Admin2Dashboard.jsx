@@ -153,10 +153,7 @@ function Admin2Dashboard() {
           </thead>
           <tbody>
             {traineeData && traineeData.map((trainee) => {
-              const dateObject = new Date(trainee.joining_date);
-              const day = dateObject.getUTCDate();
-              const month = dateObject.getUTCMonth() + 1;
-              const year = dateObject.getUTCFullYear();
+              const date = new Date(trainee.joining_date).toLocaleDateString("en-GB")
               return (
                 <tr key={trainee.user_id}>
                   <th scope="row">{trainee.user_id}</th>
@@ -164,7 +161,7 @@ function Admin2Dashboard() {
                   <td>{trainee.username}</td>
                   <td>{trainee.email}</td>
                   <td>{trainee.password}</td>
-                  <td>{day}/{month}/{year}</td>
+                  <td>{date}</td>
                   <td>
                     <img src={bin} alt="bin" onClick={() => handleConfirm()} style={{ cursor: 'pointer' }}
                     />

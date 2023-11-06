@@ -45,7 +45,7 @@ function Trainee1Dashboard() {
         console.log(error);
       });
   };
-
+ 
   const deleteEnrollement = (id) => {
     axios
       .get(`http://localhost:5000/classes/getAllClassesByCourseId/${id}`)
@@ -203,28 +203,28 @@ function Trainee1Dashboard() {
                       }}
                     />
                   )}
-
                 </td>
                 <td>
                   <img
                     src={bin}
                     alt="bin"
                     onClick={() => {
-                      handleConfirm();
-                      setBool((prev) => !prev);
+                      //handleConfirm();
+                     deleteEnrollement(course.course_id);
+                     setBool(!bool);
                     }}
                   />
-                  {isConfirmationVisible && (
+                  {/* {isConfirmationVisible && (
                     <div className="popup-overlay">
                       <div className="popup-content">
                         <p>Are you sure?</p>
                         <div className="popup-btn">
-                          <button className="d-button-submit" onClick={() => deleteEnrollement(course.course_id)}>OK</button>
+                          <button className="d-button-submit" onClick={() =>{ deleteEnrollement(course.course_id);setBool(!bool) }}>OK</button>
                           <button className="d-button" onClick={cancelAction}>Cancel</button>
                         </div>
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </td>
               </tr>
             ))}
