@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Login() {
   const [role, setRole] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
+  const { dispatch } = useAuthContext();
   const handleFullname = (e) => {
     setFullname(e.target.value);
   };
@@ -71,7 +72,7 @@ function Login() {
       };
       try {
         const response = await axios.post(
-          `${process.env.API_URL}users/add`,
+          `${process.env.REACT_APP_API_URL}users/add`,
           newUser,
           {
             headers: {
@@ -96,11 +97,14 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `${process.env.API_URL}users/getOneUserByEmailPassword/${loginEmail}/${loginPassword}`
+       `https://sportify-backend-nx38.onrender.com/users/getOneUserByEmailPassword/${loginEmail}/${loginPassword}`
       );
       const userData = response.data;
       const role = response.data.user.role;
+      console.log(response.data)
       
+      localStorage.setItem('user', JSON.stringify(userData));
+          dispatch({ type: 'LOGIN', payload: userData });
 
       if (role.toLowerCase() == "admin") {
         navigate(`/Admin/AllCoaches?adminName=${userData.user.full_name}`);

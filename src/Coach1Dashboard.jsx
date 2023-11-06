@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import axios from "axios";
 import "./Dashboards.css";
 import "./bootstrap.min.css";
@@ -18,6 +19,7 @@ function Coach1Dashboard() {
   const coachId = new URLSearchParams(location.search).get("coachId");
   const [bool, setBool] = useState(true);
   const [courses, setCourses] = useState([]);
+  const { dispatch } = useAuthContext();
   // const [userData, setUserData] = useState([]);
   // const [fullName, setFullName] = useState("");
   // const [username, setUsername] = useState("");
@@ -44,7 +46,11 @@ function Coach1Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
-
+ const handleLogout=async ()=>{
+       localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      console.log("logout");
+ }
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
@@ -66,7 +72,7 @@ function Coach1Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
         </div>
       </div>
       {modal && <Profile coachId={coachId} />}
