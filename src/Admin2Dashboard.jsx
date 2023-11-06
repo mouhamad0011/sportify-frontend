@@ -160,7 +160,7 @@ function Admin2Dashboard() {
                   <td><span className='welcome-name'>{trainee.full_name}</span></td>
                   <td>{trainee.username}</td>
                   <td>{trainee.email}</td>
-                  <td>{trainee.password}</td>
+                  <td>********</td>
                   <td>{date}</td>
                   <td>
                     <img src={bin} alt="bin" onClick={() => handleConfirm()} style={{ cursor: 'pointer' }}

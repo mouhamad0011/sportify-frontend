@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Dashboards.css";
 import "./bootstrap.min.css";
 import close from "./icons/close.png";
+import bcrypt from 'bcryptjs';
 
 function Profile(props) {
   const [bool, setBool] = useState(true);
@@ -14,7 +15,7 @@ function Profile(props) {
   const [Cpassword, setCPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const { coachId } = props;
-  const bcrypt = require('bcrypt');
+  //const y = require('bcryptjs');
 
   useEffect(() => {
     axios
@@ -34,9 +35,9 @@ function Profile(props) {
   }
 
   const [isEditable, setIsEditable] = useState(false);
-  const handleEditing = () => {
+  const handleEditing = async () => {
     var x = prompt("Enter your old password");
-    // const match = bcrypt.compare(x, userData[0].password)
+    const match = await bcrypt.compare(x, userData[0].password)
     if (match) {
       setIsEditable(true);
     }
@@ -209,8 +210,11 @@ function Profile(props) {
         )}
 
         <div className="popup-buttons d-flex justify-content-center">
+          {!isEditable ?
           <button onClick={handleEditing}>EDIT</button>
+          :
           <button onClick={saveProfile}>SAVE</button>
+          }
         </div>
       </div>
     )
