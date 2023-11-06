@@ -23,7 +23,7 @@ function Admin4Dashboard() {
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/classes/getAllClassesWithDetails')
+    axios.get(`${process.env.API_URL}classes/getAllClassesWithDetails`)
       .then(response => {
         setClassData(response.data);
         console.log(response.data[0]);
@@ -31,7 +31,7 @@ function Admin4Dashboard() {
       .catch(error => {
         console.error('Error fetching classes:', error);
       });
-    axios.get('http://localhost:5000/courses/getAll')
+    axios.get(`${process.env.API_URL}courses/getAll`)
       .then(response => {
         const courses = response.data.map(course => course.course_name);
         setAllCourses(courses);
@@ -42,7 +42,7 @@ function Admin4Dashboard() {
   }, [bool]);
 
   const handleDeleteClass = async (classId) => {
-    await axios.delete(`http://localhost:5000/classes/delete/${classId}`)
+    await axios.delete(`${process.env.API_URL}classes/delete/${classId}`)
       .then(() => {
         console.log("deleted successfully");
       })
@@ -65,7 +65,7 @@ function Admin4Dashboard() {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:5000/courses/getCourseIdByCourseName/${courseName}`);
+      const response = await axios.get(`${process.env.API_URL}courses/getCourseIdByCourseName/${courseName}`);
       const courseId = response.data[0].course_id;
       console.log(courseId);
       const newClass = {
@@ -74,7 +74,7 @@ function Admin4Dashboard() {
         hour: newClassHour
       }
 
-      await axios.post('http://localhost:5000/classes/add', newClass, {
+      await axios.post(`${process.env.API_URL}classes/add`, newClass, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -99,7 +99,7 @@ function Admin4Dashboard() {
   return (
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
-        <img className='header-logo' src={logo} alt='logo' />
+        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
@@ -144,7 +144,6 @@ function Admin4Dashboard() {
           <tbody>
             {classData && classData.map((classs) => {
               const dateObject = new Date(classs.date).toLocaleDateString("en-GB");
-
 
               return (
                 <tr key={classs.class_id}>

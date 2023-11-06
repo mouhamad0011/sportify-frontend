@@ -33,13 +33,13 @@ function Coach3Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/courses/getAllCoursesBycoachName/${coachName}`
+        `${process.env.API_URL}courses/getAllCoursesBycoachName/${coachName}`
       )
       .then((response) => {
         setCourses(response.data);
         response.data.forEach((element) => {
           axios
-            .get(`http://localhost:5000/QA/get/${element.course_id}`)
+            .get(`${process.env.API_URL}QA/get/${element.course_id}`)
             .then((response) => {
               console.log(response.data);
               setQuiz((prev) => [...prev, response.data[0]]);
@@ -139,7 +139,7 @@ function Coach3Dashboard() {
       hour,
     };
     axios
-      .post(`http://localhost:5000/quizzes/add`, newQuiz, {
+      .post(`${process.env.API_URL}quizzes/add`, newQuiz, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -155,7 +155,7 @@ function Coach3Dashboard() {
             correct_answers: newCorrectAnswer,
           };
           axios
-            .post(`http://localhost:5000/QA/add`, newQA, {
+            .post(`${process.env.API_URL}QA/add`, newQA, {
               headers: {
                 "Content-Type": "application/json",
               },
@@ -183,7 +183,7 @@ function Coach3Dashboard() {
   };
 
   const deleteQuiz = (id) => {
-    axios.delete(`http://localhost:5000/quizzes/delete/${id}`)
+    axios.delete(`${process.env.API_URL}quizzes/delete/${id}`)
       .then(() => {
         setBool((prev) => !prev);
       })
@@ -208,7 +208,7 @@ function Coach3Dashboard() {
         date,
         hour
       }
-      axios.put(`http://localhost:5000/quizzes/update/${id}`, updated, {
+      axios.put(`${process.env.API_URL}quizzes/update/${id}`, updated, {
         headers: {
           "Content-Type": "application/json"
         }
@@ -237,7 +237,7 @@ function Coach3Dashboard() {
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
-        <img className="header-logo" src={logo} alt="logo" />
+        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className="h3 fw-bold m-0 welcome-name">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
           {!modal ? (

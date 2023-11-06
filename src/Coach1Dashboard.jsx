@@ -29,7 +29,7 @@ function Coach1Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/courses/getAllCoursesByCoachName/${coachName}`
+        `${process.env.API_URL}courses/getAllCoursesByCoachName/${coachName}`
       )
       .then((response) => {
         setCourses(response.data);
@@ -44,14 +44,14 @@ function Coach1Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
-  
+
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
-        <img className="header-logo" src={logo} alt="logo" />
+        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className="h3 fw-bold m-0 welcome-name">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
-        {!modal ? (
+          {!modal ? (
             <img
               className="header-icon"
               src={profile}
@@ -69,7 +69,7 @@ function Coach1Dashboard() {
           <img className="header-icon" src={logout} alt="logout" />
         </div>
       </div>
-      {modal && <Profile coachId={coachId}/>}
+      {modal && <Profile coachId={coachId} />}
       <br />
 
       <div className="container top-dashboard">

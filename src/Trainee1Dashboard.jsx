@@ -26,7 +26,7 @@ function Trainee1Dashboard() {
 
   const addClassInEnrollement = (id) => {
     axios
-      .get(`http://localhost:5000/classes/getAllClassesByCourseId/${id}`)
+      .get(`${process.env.API_URL}classes/getAllClassesByCourseId/${id}`)
       .then((response) => {
         response.data.forEach((element) => {
           const newEnrollement = {
@@ -34,7 +34,7 @@ function Trainee1Dashboard() {
             trainee_id: traineeId,
             present: 0,
           };
-          axios.post(`http://localhost:5000/enrollement/add`, newEnrollement, {
+          axios.post(`${process.env.API_URL}enrollement/add`, newEnrollement, {
             headers: {
               "Content-Type": "application/json",
             },
@@ -49,11 +49,11 @@ function Trainee1Dashboard() {
 
   const deleteEnrollement = (id) => {
     axios
-      .get(`http://localhost:5000/classes/getAllClassesByCourseId/${id}`)
+      .get(`${process.env.API_URL}classes/getAllClassesByCourseId/${id}`)
       .then((response) => {
         response.data.forEach((element) => {
           axios.delete(
-            `http://localhost:5000/enrollement/delete/${element.class_id}/${traineeId}`
+            `${process.env.API_URL}enrollement/delete/${element.class_id}/${traineeId}`
           );
         });
         setAllClasses([]);
@@ -67,12 +67,12 @@ function Trainee1Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/courses/getAllCoursesWithCoachName`)
+      .get(`${process.env.API_URL}courses/getAllCoursesWithCoachName`)
       .then((response) => {
         setCourseData(response.data);
         const requests = response.data.map((element) =>
           axios.get(
-            `http://localhost:5000/enrollement/getEnrollementForAllClasses/${traineeId}/${element.course_id}`
+            `${process.env.API_URL}enrollement/getEnrollementForAllClasses/${traineeId}/${element.course_id}`
           )
         );
         Promise.all(requests)

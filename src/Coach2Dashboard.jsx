@@ -24,7 +24,7 @@ function Coach2Dashboard() {
 
   const toggleCheck = (e, id) => {
     axios.put(
-      `http://localhost:5000/enrollement/update/${e.target.id}/${id}`
+      `${process.env.API_URL}enrollement/update/${e.target.id}/${id}`
     )
       .then(() => {
         setNames([]);
@@ -38,19 +38,19 @@ function Coach2Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/users/getUserId/${coachName}`)
+      .get(`${process.env.API_URL}users/getUserId/${coachName}`)
       .then((response) => {
         const data = response.data;
         axios
           .get(
-            `http://localhost:5000/classes/getClassCourseDateHour/${data[0].user_id}`
+            `${process.env.API_URL}classes/getClassCourseDateHour/${data[0].user_id}`
           )
           .then((response) => {
             const data = response.data;
             setTest(data);
             const requests = response.data.map((element) =>
               axios.get(
-                `http://localhost:5000/classes/getClassNamesPresence/${element.class_id}`
+                `${process.env.API_URL}classes/getClassNamesPresence/${element.class_id}`
               )
             );
             Promise.all(requests)
@@ -64,7 +64,7 @@ function Coach2Dashboard() {
                 console.log(error);
               });
             // response.data.forEach((element) => {
-            //     axios.get(`http://localhost:5000/classes/getClassNamesPresence/${element.class_id}`)
+            //     axios.get(`${process.env.API_URL}classes/getClassNamesPresence/${element.class_id}`)
             //         .then(response => {
             //             const data = response.data;
 
@@ -92,7 +92,7 @@ function Coach2Dashboard() {
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
-        <img className="header-logo" src={logo} alt="logo" />
+        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className="h3 fw-bold m-0 welcome-name">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
           {!modal ? (

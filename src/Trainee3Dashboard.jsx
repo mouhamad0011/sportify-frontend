@@ -22,7 +22,7 @@ function Trainee3Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/courses/getAllCoursesByTraineeId/${traineeId}`
+        `${process.env.API_URL}courses/getAllCoursesByTraineeId/${traineeId}`
       )
       .then((response) => {
         console.log(response.data);

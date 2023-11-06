@@ -26,7 +26,7 @@ function Trainee2Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/enrollement/getEnrollementByTraineeId/${traineeId}`
+        `${process.env.API_URL}enrollement/getEnrollementByTraineeId/${traineeId}`
       )
       .then((response) => {
         setClassData(response.data);
@@ -38,7 +38,7 @@ function Trainee2Dashboard() {
 
   const handleAttendance = (id) => {
     axios
-      .put(`http://localhost:5000/enrollement/update/${traineeName}/${id}`)
+      .put(`${process.env.API_URL}enrollement/update/${traineeName}/${id}`)
       .then((response) => {
         //console.log(response.data)
         setBool(!bool);

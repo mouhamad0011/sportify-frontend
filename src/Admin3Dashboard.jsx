@@ -25,7 +25,7 @@ function Admin3Dashboard() {
 
 
   useEffect(() => {
-    axios.get('http://localhost:5000/courses/getAllCoursesWithCoachName')
+    axios.get(`${process.env.API_URL}courses/getAllCoursesWithCoachName`)
       .then(response => {
         setCourseData(response.data);
       })
@@ -33,7 +33,7 @@ function Admin3Dashboard() {
         console.error('Error fetching courses:', error);
       });
 
-    axios.get('http://localhost:5000/users/getAllCoaches')
+    axios.get(`${process.env.API_URL}users/getAllCoaches`)
       .then(response => {
         const names = response.data.map(coach => coach.full_name);
         setCoachNames(names);
@@ -54,7 +54,7 @@ function Admin3Dashboard() {
     }
 
     try {
-      const response = await axios.get(`http://localhost:5000/users/getOneUserByName/${selectedCoach}`);
+      const response = await axios.get(`${process.env.API_URL}users/getOneUserByName/${selectedCoach}`);
       const userId = response.data[0].user_id;
       console.log('Fetched user ID:', userId);
 
@@ -66,7 +66,7 @@ function Admin3Dashboard() {
 
       console.log('Adding new course:', newCourse);
 
-      await axios.post('http://localhost:5000/courses/add', newCourse, {
+      await axios.post(`${process.env.API_URL}courses/add`, newCourse, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -84,7 +84,7 @@ function Admin3Dashboard() {
 
   const handleCourseDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/courses/delete/${id}`);
+      await axios.delete(`${process.env.API_URL}courses/delete/${id}`);
       setBool(!bool);
       setConfirmationVisible(false);
     } catch (error) {
@@ -103,7 +103,7 @@ function Admin3Dashboard() {
   return (
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
-        <img className='header-logo' src={logo} alt='logo' />
+        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
@@ -159,16 +159,16 @@ function Admin3Dashboard() {
                     style={{ cursor: 'pointer' }}
                   />
                   {isConfirmationVisible && (
-                      <div className="popup-overlay">
-                        <div className="popup-content">
-                          <p>Are you sure?</p>
-                          <div className="popup-btn">
-                            <button className="d-button-submit" onClick={() => handleCourseDelete(course.course_id)}>OK</button>
-                            <button className="d-button" onClick={cancelAction}>Cancel</button>
-                          </div>
+                    <div className="popup-overlay">
+                      <div className="popup-content">
+                        <p>Are you sure?</p>
+                        <div className="popup-btn">
+                          <button className="d-button-submit" onClick={() => handleCourseDelete(course.course_id)}>OK</button>
+                          <button className="d-button" onClick={cancelAction}>Cancel</button>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

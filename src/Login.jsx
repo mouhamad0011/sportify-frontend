@@ -13,7 +13,6 @@ function Login() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-
   const handleFullname = (e) => {
     setFullname(e.target.value);
   };
@@ -72,7 +71,7 @@ function Login() {
       };
       try {
         const response = await axios.post(
-          "http://localhost:5000/users/add",
+          `${process.env.API_URL}users/add`,
           newUser,
           {
             headers: {
@@ -97,7 +96,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `http://localhost:5000/users/getOneUserByEmailPassword/${loginEmail}/${loginPassword}`
+        `${process.env.API_URL}users/getOneUserByEmailPassword/${loginEmail}/${loginPassword}`
       );
       const userData = response.data;
       const role = response.data.user.role;

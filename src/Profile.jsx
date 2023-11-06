@@ -15,11 +15,10 @@ function Profile(props) {
   const [Cpassword, setCPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const { coachId } = props;
-  //const y = require('bcryptjs');
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/users/getOneUserById/${coachId}`)
+      .get(`${process.env.API_URL}users/getOneUserById/${coachId}`)
       .then((response) => {
         setUserData(response.data);
         console.log(response.data);
@@ -46,13 +45,13 @@ function Profile(props) {
   const saveProfile = () => {
     if (username.trim() !== "" && email.trim() !== "") {
       axios
-        .get(`http://localhost:5000/users/getUsersByUsername/${username}`)
+        .get(`${process.env.API_URL}users/getUsersByUsername/${username}`)
         .then((res) => {
           if (res.data.length > 0) {
             alert("This username is already taken.");
           } else {
             axios
-              .get(`http://localhost:5000/users/getUsersByEmail/${email}`)
+              .get(`${process.env.API_URL}users/getUsersByEmail/${email}`)
               .then((res) => {
                 if (res.data.length > 0) {
                   alert("An account with this email already exists.");
@@ -70,7 +69,7 @@ function Profile(props) {
         });
     } else if (username.trim() !== "") {
       axios
-        .get(`http://localhost:5000/users/getUsersByUsername/${username}`)
+        .get(`${process.env.API_URL}users/getUsersByUsername/${username}`)
         .then((res) => {
           if (res.data.length > 0) {
             alert("This username is already taken.");
@@ -85,7 +84,7 @@ function Profile(props) {
     }
     else if (email.trim() !== "") {
       axios
-        .get(`http://localhost:5000/users/getUsersByEmail/${email}`)
+        .get(`${process.env.API_URL}users/getUsersByEmail/${email}`)
         .then((res) => {
           if (res.data.length > 0) {
             alert("An account with this email already exists.");
@@ -111,7 +110,7 @@ function Profile(props) {
         password: newpassword.trim() || userData[0].password,
       };
       axios
-        .put(`http://localhost:5000/users/update/${coachId}`, updates, {
+        .put(`${process.env.API_URL}users/update/${coachId}`, updates, {
           headers: {
             "Content-Type": "application/json",
           },

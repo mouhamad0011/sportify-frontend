@@ -24,7 +24,7 @@ function Admin1Dashboard() {
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/users/getAllCoaches`)
+    axios.get(`${process.env.API_URL}users/getAllCoaches`)
       .then(response => {
         const data = [response.data]
         setCoachData(data[0]);
@@ -66,7 +66,7 @@ function Admin1Dashboard() {
       joining_date: newCoachDate
     };
     try {
-      const response = await axios.post('http://localhost:5000/users/add', newCoach, {
+      const response = await axios.post(`${process.env.API_URL}users/add`, newCoach, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -86,7 +86,7 @@ function Admin1Dashboard() {
 
   const handleCoachDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/users/delete/${id}`);
+      await axios.delete(`${process.env.API_URL}users/delete/${id}`);
       setBool(!bool);
       setConfirmationVisible(false);
     } catch (error) {
@@ -105,7 +105,7 @@ function Admin1Dashboard() {
   return (
     <div className="dashboard">
       <div className='header d-flex align-items-center justify-content-between p-3'>
-        <img className='header-logo' src={logo} alt='logo' />
+        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
           <img className='header-icon' src={profile} alt='profile' />
