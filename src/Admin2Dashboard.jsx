@@ -138,7 +138,7 @@ function Admin2Dashboard() {
 
       <br />
 
-      <div className='scrollable-table'>
+      <div className='scrollable-table container'>
         <table className="container table table-hover">
           <thead>
             <tr>

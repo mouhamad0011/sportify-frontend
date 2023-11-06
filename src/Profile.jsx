@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Dashboards.css";
 import "./bootstrap.min.css";
 import close from "./icons/close.png";
+
 function Profile(props) {
   const [bool, setBool] = useState(true);
   const [userData, setUserData] = useState([]);
@@ -13,6 +14,7 @@ function Profile(props) {
   const [Cpassword, setCPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const { coachId } = props;
+  const bcrypt = require('bcrypt');
 
   useEffect(() => {
     axios
@@ -25,17 +27,21 @@ function Profile(props) {
         console.error("Error fetching courses:", error);
       });
   }, [bool]);
+
   const [modal, setmodal] = useState(true);
   const toogleModal = () => {
     setmodal(false);
   }
+
   const [isEditable, setIsEditable] = useState(false);
   const handleEditing = () => {
     var x = prompt("Enter your old password");
-    if (x == userData[0].password) {
+    // const match = bcrypt.compare(x, userData[0].password)
+    if (match) {
       setIsEditable(true);
     }
   };
+
   const saveProfile = () => {
     if (username.trim() !== "" && email.trim() !== "") {
       axios

@@ -138,7 +138,7 @@ function Admin4Dashboard() {
               <th scope="col">Coach Name</th>
               <th scope="col">Date</th>
               <th scope="col">Hour</th>
-              <th scope="col">Drop</th>
+              <th scope="col">Add/Delete</th>
             </tr>
           </thead>
           <tbody>

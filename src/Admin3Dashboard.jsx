@@ -141,7 +141,7 @@ function Admin3Dashboard() {
               <th scope="col">Course Name</th>
               <th scope="col">Description</th>
               <th scope="col">Coach Name</th>
-              <th scope="col">Drop</th>
+              <th scope="col">Add/Delete</th>
             </tr>
           </thead>
           <tbody>
