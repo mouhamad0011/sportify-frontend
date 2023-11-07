@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate} from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import './homepage.css';
 import './bootstrap.min.css';
 import logo from './icons/logo.png';
@@ -9,7 +10,9 @@ import instagram from './icons/instagram.png';
 import linkedin from './icons/linkedin.png';
 import phone from './icons/phone.png';
 import mail from './icons/mail.png';
+
 import location from './icons/location.png';
+import dashboard from './icons/dashboard.png';
 import football from './images/football2.jpeg';
 import tennis from './images/tennis1.jpg';
 import basketball from './images/basketball1.jpg';
@@ -21,6 +24,7 @@ import stadium from './images/schoolacademy.jpg';
 import badminton from './images/badminton1.jpeg';
 import climbing from './images/climbing1.png';
 
+
 function Homepage() {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +32,22 @@ function Homepage() {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
+    const {user}=useAuthContext();
+    const { dispatch } = useAuthContext();
+    const handleLogout=async ()=>{
+         localStorage.removeItem('user');
+         await dispatch({ type: 'LOGOUT' });
+         navigate('/login');
+         console.log("logout");
+    }
+    const handleDashboard=()=>{
+        const role=user.user.role;
+        switch(role.toLowerCase()){
+            case 'admin':navigate(`/Admin/AllCoaches?adminName=${user.user.full_name}&adminId=${user.user.user_id}`);break;
+            case 'coach':navigate(`/Coach/YourCourses?coachName=${user.user.full_name}&coachId=${user.user.user_id}`);break;
+            case 'trainee':navigate(`/Trainee/AllCourses?traineeName=${user.user.full_name}&traineeId=${user.user.user_id}`);break;
+        }
+    }
     return (
         <div className='homepage'>
 
@@ -42,8 +61,14 @@ function Homepage() {
                 </ul>
 
                 <div className='h-responsive-menu d-flex'>
+                    {user ?
+                     <div className="profile-logout d-flex gap-3">
+         <img className="header-icon" src={dashboard} onClick={handleDashboard} />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
+        </div>
+                    :
                     <p className="h-login" onClick={()=>{navigate('/Login')}}>Log in</p>
-
+                    }
                     <button className={isMenuOpen ? 'h-burger-menu active' : 'h-burger-menu'} type="button" onClick={toggleMenu}>
                         <i className={`burger-menu-bars ${isMenuOpen ? 'active' : ''}`} aria-hidden="true"></i>
                     </button>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuthContext } from "./UseAuthContext";
 import axios from 'axios';
 import './Dashboards.css';
 import './bootstrap.min.css';
@@ -9,11 +10,14 @@ import logout from './icons/logout.png';
 import add from './icons/add.png';
 import checked from './icons/checked.png';
 import bin from './icons/bin.png';
+import close from "./icons/close.png";
+import Profile from "./Profile";
 
 function Admin4Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const adminName = new URLSearchParams(location.search).get('adminName');
+  const coachId = new URLSearchParams(location.search).get("adminId");
   const [classData, setClassData] = useState([]);
   const [AllCourses, setAllCourses] = useState([]);
   const [courseName, setCourseName] = useState('');
@@ -23,7 +27,7 @@ function Admin4Dashboard() {
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 
   useEffect(() => {
-    axios.get(`${process.env.API_URL}classes/getAllClassesWithDetails`)
+    axios.get(`${process.env.REACT_APP_API_URL}classes/getAllClassesWithDetails`)
       .then(response => {
         setClassData(response.data);
         console.log(response.data[0]);
@@ -31,7 +35,7 @@ function Admin4Dashboard() {
       .catch(error => {
         console.error('Error fetching classes:', error);
       });
-    axios.get(`${process.env.API_URL}courses/getAll`)
+    axios.get(`${process.env.REACT_APP_API_URL}courses/getAll`)
       .then(response => {
         const courses = response.data.map(course => course.course_name);
         setAllCourses(courses);
@@ -42,7 +46,7 @@ function Admin4Dashboard() {
   }, [bool]);
 
   const handleDeleteClass = async (classId) => {
-    await axios.delete(`${process.env.API_URL}classes/delete/${classId}`)
+    await axios.delete(`${process.env.REACT_APP_API_URL}classes/delete/${classId}`)
       .then(() => {
         console.log("deleted successfully");
       })
@@ -65,7 +69,7 @@ function Admin4Dashboard() {
       return;
     }
     try {
-      const response = await axios.get(`${process.env.API_URL}courses/getCourseIdByCourseName/${courseName}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}courses/getCourseIdByCourseName/${courseName}`);
       const courseId = response.data[0].course_id;
       console.log(courseId);
       const newClass = {
@@ -74,7 +78,7 @@ function Admin4Dashboard() {
         hour: newClassHour
       }
 
-      await axios.post(`${process.env.API_URL}classes/add`, newClass, {
+      await axios.post(`${process.env.REACT_APP_API_URL}classes/add`, newClass, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -95,6 +99,17 @@ function Admin4Dashboard() {
   function cancelAction() {
     setConfirmationVisible(false);
   }
+  const [modal, setmodal] = useState(false);
+  const toogleModal = () => {
+    setmodal(!modal);
+  };
+  const { dispatch } = useAuthContext();
+ const handleLogout=async ()=>{
+      localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
+      console.log("logout");
+ }
 
   return (
     <div className="dashboard">
@@ -102,10 +117,25 @@ function Admin4Dashboard() {
         <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
-          <img className='header-icon' src={profile} alt='profile' />
-          <img className='header-icon' src={logout} alt='logout' />
+        {!modal ? (
+            <img
+              className="header-icon"
+              src={profile}
+              alt="profile"
+              onClick={toogleModal}
+            />
+          ) : (
+            <img
+              onClick={toogleModal}
+              className="header-icon"
+              src={close}
+              alt="close"
+            />
+          )}
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
         </div>
       </div>
+      {modal && <Profile coachId={coachId} />}
 
       <br />
 
@@ -113,16 +143,16 @@ function Admin4Dashboard() {
         <p className='manage fw-bold font-italic fs-4'>MANAGE</p>
         <ul className="nav">
           <li className="nav-item">
-            <a className="nav-link" aria-current="page" href="#" onClick={() => { navigate(`/Admin/AllCoaches?adminName=${adminName}`); }}>All coaches</a>
+            <a className="nav-link" aria-current="page" href="#" onClick={() => { navigate(`/Admin/AllCoaches?adminName=${adminName}&adminId=${coachId}`); }}>All coaches</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllTrainees?adminName=${adminName}`); }}>All trainees</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllTrainees?adminName=${adminName}&adminId=${coachId}`); }}>All trainees</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllCourses?adminName=${adminName}`); }}>All courses</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllCourses?adminName=${adminName}&adminId=${coachId}`); }}>All courses</a>
           </li>
           <li className="nav-item nav-item-active">
-            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllClasses?adminName=${adminName}`); }}>All classes</a>
+            <a className="nav-link" href="#" onClick={() => { navigate(`/Admin/AllClasses?adminName=${adminName}&adminId=${coachId}`); }}>All classes</a>
           </li>
         </ul>
       </div>

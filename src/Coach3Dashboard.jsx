@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import axios from "axios";
 import "./Dashboards.css";
 import "./bootstrap.min.css";
@@ -33,13 +34,13 @@ function Coach3Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.API_URL}courses/getAllCoursesBycoachName/${coachName}`
+        `${process.env.REACT_APP_API_URL}courses/getAllCoursesBycoachName/${coachName}`
       )
       .then((response) => {
         setCourses(response.data);
         response.data.forEach((element) => {
           axios
-            .get(`${process.env.API_URL}QA/get/${element.course_id}`)
+            .get(`${process.env.REACT_APP_API_URL}QA/get/${element.course_id}`)
             .then((response) => {
               console.log(response.data);
               setQuiz((prev) => [...prev, response.data[0]]);
@@ -139,7 +140,7 @@ function Coach3Dashboard() {
       hour,
     };
     axios
-      .post(`${process.env.API_URL}quizzes/add`, newQuiz, {
+      .post(`${process.env.REACT_APP_API_URL}quizzes/add`, newQuiz, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -155,7 +156,7 @@ function Coach3Dashboard() {
             correct_answers: newCorrectAnswer,
           };
           axios
-            .post(`${process.env.API_URL}QA/add`, newQA, {
+            .post(`${process.env.REACT_APP_API_URL}QA/add`, newQA, {
               headers: {
                 "Content-Type": "application/json",
               },
@@ -183,7 +184,7 @@ function Coach3Dashboard() {
   };
 
   const deleteQuiz = (id) => {
-    axios.delete(`${process.env.API_URL}quizzes/delete/${id}`)
+    axios.delete(`${process.env.REACT_APP_API_URL}quizzes/delete/${id}`)
       .then(() => {
         setBool((prev) => !prev);
       })
@@ -208,7 +209,7 @@ function Coach3Dashboard() {
         date,
         hour
       }
-      axios.put(`${process.env.API_URL}quizzes/update/${id}`, updated, {
+      axios.put(`${process.env.REACT_APP_API_URL}quizzes/update/${id}`, updated, {
         headers: {
           "Content-Type": "application/json"
         }
@@ -234,6 +235,13 @@ function Coach3Dashboard() {
     setConfirmationVisible(false);
   }
 
+  const { dispatch } = useAuthContext();
+ const handleLogout=async ()=>{
+      localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
+      console.log("logout");
+ }
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
@@ -255,7 +263,7 @@ function Coach3Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
         </div>
       </div>
       {modal && <Profile coachId={coachId} />}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import axios from "axios";
 import "./Dashboards.css";
 import "./bootstrap.min.css";
@@ -24,7 +25,7 @@ function Coach2Dashboard() {
 
   const toggleCheck = (e, id) => {
     axios.put(
-      `${process.env.API_URL}enrollement/update/${e.target.id}/${id}`
+      `${process.env.REACT_APP_API_URL}enrollement/update/${e.target.id}/${id}`
     )
       .then(() => {
         setNames([]);
@@ -38,19 +39,19 @@ function Coach2Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.API_URL}users/getUserId/${coachName}`)
+      .get(`${process.env.REACT_APP_API_URL}users/getUserId/${coachName}`)
       .then((response) => {
         const data = response.data;
         axios
           .get(
-            `${process.env.API_URL}classes/getClassCourseDateHour/${data[0].user_id}`
+            `${process.env.REACT_APP_API_URL}classes/getClassCourseDateHour/${data[0].user_id}`
           )
           .then((response) => {
             const data = response.data;
             setTest(data);
             const requests = response.data.map((element) =>
               axios.get(
-                `${process.env.API_URL}classes/getClassNamesPresence/${element.class_id}`
+                `${process.env.REACT_APP_API_URL}classes/getClassNamesPresence/${element.class_id}`
               )
             );
             Promise.all(requests)
@@ -64,7 +65,7 @@ function Coach2Dashboard() {
                 console.log(error);
               });
             // response.data.forEach((element) => {
-            //     axios.get(`${process.env.API_URL}classes/getClassNamesPresence/${element.class_id}`)
+            //     axios.get(`${process.env.REACT_APP_API_URL}classes/getClassNamesPresence/${element.class_id}`)
             //         .then(response => {
             //             const data = response.data;
 
@@ -88,6 +89,13 @@ function Coach2Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
+  const { dispatch } = useAuthContext();
+ const handleLogout=async ()=>{
+      localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
+      console.log("logout");
+ }
 
   return (
     <div className="dashboard">
@@ -110,7 +118,7 @@ function Coach2Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
         </div>
       </div>
       {modal && <Profile coachId={coachId} />}

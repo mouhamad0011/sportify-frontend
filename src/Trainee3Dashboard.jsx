@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import axios from "axios";
 import "./App.css";
 import "./bootstrap.min.css";
@@ -22,7 +23,7 @@ function Trainee3Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.API_URL}courses/getAllCoursesByTraineeId/${traineeId}`
+        `${process.env.REACT_APP_API_URL}courses/getAllCoursesByTraineeId/${traineeId}`
       )
       .then((response) => {
         console.log(response.data);
@@ -50,6 +51,14 @@ function Trainee3Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
+
+  const { dispatch } = useAuthContext();
+ const handleLogout=async ()=>{
+      localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
+      console.log("logout");
+ }
   var currentDate = new Date();
 
   function compareDates(date1, date2) {
@@ -109,7 +118,7 @@ function Trainee3Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout}/>
         </div>
       </div>
       {modal && <Profile coachId={traineeId} />}

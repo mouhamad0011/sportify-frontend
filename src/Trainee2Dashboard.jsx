@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import "./App.css";
 import "./bootstrap.min.css";
 import axios from "axios";
@@ -26,7 +27,7 @@ function Trainee2Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.API_URL}enrollement/getEnrollementByTraineeId/${traineeId}`
+        `${process.env.REACT_APP_API_URL}enrollement/getEnrollementByTraineeId/${traineeId}`
       )
       .then((response) => {
         setClassData(response.data);
@@ -38,7 +39,7 @@ function Trainee2Dashboard() {
 
   const handleAttendance = (id) => {
     axios
-      .put(`${process.env.API_URL}enrollement/update/${traineeName}/${id}`)
+      .put(`${process.env.REACT_APP_API_URL}enrollement/update/${traineeName}/${id}`)
       .then((response) => {
         //console.log(response.data)
         setBool(!bool);
@@ -47,6 +48,13 @@ function Trainee2Dashboard() {
         console.log(error);
       });
   };
+  const { dispatch } = useAuthContext();
+ const handleLogout=async ()=>{
+      localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
+      console.log("logout");
+ }
 
   return (
     <div className="dashboard">
@@ -69,7 +77,7 @@ function Trainee2Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
         </div>
       </div>
       {modal && <Profile coachId={traineeId} />}

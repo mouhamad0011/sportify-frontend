@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuthContext } from "./UseAuthContext";
 import axios from "axios";
 import "./App.css";
 import "./bootstrap.min.css";
@@ -26,7 +27,7 @@ function Trainee1Dashboard() {
 
   const addClassInEnrollement = (id) => {
     axios
-      .get(`${process.env.API_URL}classes/getAllClassesByCourseId/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}classes/getAllClassesByCourseId/${id}`)
       .then((response) => {
         response.data.forEach((element) => {
           const newEnrollement = {
@@ -34,7 +35,7 @@ function Trainee1Dashboard() {
             trainee_id: traineeId,
             present: 0,
           };
-          axios.post(`${process.env.API_URL}enrollement/add`, newEnrollement, {
+          axios.post(`${process.env.REACT_APP_API_URL}enrollement/add`, newEnrollement, {
             headers: {
               "Content-Type": "application/json",
             },
@@ -49,11 +50,11 @@ function Trainee1Dashboard() {
 
   const deleteEnrollement = (id) => {
     axios
-      .get(`${process.env.API_URL}classes/getAllClassesByCourseId/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}classes/getAllClassesByCourseId/${id}`)
       .then((response) => {
         response.data.forEach((element) => {
           axios.delete(
-            `${process.env.API_URL}enrollement/delete/${element.class_id}/${traineeId}`
+            `${process.env.REACT_APP_API_URL}enrollement/delete/${element.class_id}/${traineeId}`
           );
         });
         setAllClasses([]);
@@ -67,12 +68,12 @@ function Trainee1Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.API_URL}courses/getAllCoursesWithCoachName`)
+      .get(`${process.env.REACT_APP_API_URL}courses/getAllCoursesWithCoachName`)
       .then((response) => {
         setCourseData(response.data);
         const requests = response.data.map((element) =>
           axios.get(
-            `${process.env.API_URL}enrollement/getEnrollementForAllClasses/${traineeId}/${element.course_id}`
+            `${process.env.REACT_APP_API_URL}enrollement/getEnrollementForAllClasses/${traineeId}/${element.course_id}`
           )
         );
         Promise.all(requests)
@@ -103,6 +104,13 @@ function Trainee1Dashboard() {
   function cancelAction() {
     setConfirmationVisible(false);
   }
+  const { dispatch } = useAuthContext();
+ const handleLogout=async ()=>{
+      localStorage.removeItem('user');
+      await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
+      console.log("logout");
+ }
 
   return (
     <div className="dashboard">
@@ -125,7 +133,7 @@ function Trainee1Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" />
+          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
         </div>
       </div>
       {modal && <Profile coachId={traineeId} />}

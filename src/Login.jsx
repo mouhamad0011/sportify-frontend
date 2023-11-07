@@ -97,7 +97,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.get(
-       `https://sportify-backend-nx38.onrender.com/users/getOneUserByEmailPassword/${loginEmail}/${loginPassword}`
+       `${process.env.REACT_APP_API_URL}users/getOneUserByEmailPassword/${loginEmail}/${loginPassword}`
       );
       const userData = response.data;
       const role = response.data.user.role;
@@ -107,7 +107,7 @@ function Login() {
           dispatch({ type: 'LOGIN', payload: userData });
 
       if (role.toLowerCase() == "admin") {
-        navigate(`/Admin/AllCoaches?adminName=${userData.user.full_name}`);
+        navigate(`/Admin/AllCoaches?adminName=${userData.user.full_name}&adminId=${userData.user.user_id}`);
       } else if (role.toLowerCase() == "coach") {
         navigate(
           `/Coach/YourCourses?coachName=${userData.user.full_name}&coachId=${userData.user.user_id}`

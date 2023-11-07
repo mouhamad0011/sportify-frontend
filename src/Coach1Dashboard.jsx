@@ -19,7 +19,7 @@ function Coach1Dashboard() {
   const coachId = new URLSearchParams(location.search).get("coachId");
   const [bool, setBool] = useState(true);
   const [courses, setCourses] = useState([]);
-  const { dispatch } = useAuthContext();
+  
   // const [userData, setUserData] = useState([]);
   // const [fullName, setFullName] = useState("");
   // const [username, setUsername] = useState("");
@@ -31,7 +31,7 @@ function Coach1Dashboard() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.API_URL}courses/getAllCoursesByCoachName/${coachName}`
+        `${process.env.REACT_APP_API_URL}courses/getAllCoursesByCoachName/${coachName}`
       )
       .then((response) => {
         setCourses(response.data);
@@ -46,9 +46,11 @@ function Coach1Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
+ const { dispatch } = useAuthContext();
  const handleLogout=async ()=>{
-       localStorage.removeItem('user');
+      localStorage.removeItem('user');
       await dispatch({ type: 'LOGOUT' });
+      navigate('/login');
       console.log("logout");
  }
   return (
