@@ -29,7 +29,7 @@ function Trainee3Dashboard() {
         `${process.env.REACT_APP_API_URL}courses/getAllCoursesByTraineeId/${traineeId}`
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setQuizData(response.data);
       })
       .catch((error) => {
@@ -89,12 +89,6 @@ function Trainee3Dashboard() {
     }
   }
 
-  // const date1 = "03/11/2023";
-  // const date2 = "04/11/2023";
-
-  // const comparisonResult = compareDates(date1, date2);
-  // console.log(comparisonResult);
-
   const handleConfirm = () => {
     setConfirmationVisible(true);
   };
@@ -102,6 +96,19 @@ function Trainee3Dashboard() {
   function cancelAction() {
     setConfirmationVisible(false);
   }
+
+  const [showPopup, setShowPopup] = useState(false);
+  useEffect(() => {
+    if (result) {
+      setShowPopup(true);
+      console.log("before", counter)
+      setTimeout(() => {
+        setShowPopup(false);
+        console.log("after", counter)
+        setCounter(0);
+      }, 3000);
+    }
+  }, [result]);
 
   return (
     <div className="dashboard">
@@ -198,6 +205,9 @@ function Trainee3Dashboard() {
           const initialTime = new Date(test);
           const first = new Date(test);
           initialTime.setMinutes(initialTime.getMinutes() + 30);
+
+          const totalQuestions = questions.length;
+          const averageScore = Math.ceil(totalQuestions / 2);
           {
             if (
               compareDates(
@@ -205,7 +215,7 @@ function Trainee3Dashboard() {
                 currentDate.toLocaleDateString("en-GB")
               )
             ) {
-              console.log(formattedDate);
+              // console.log(formattedDate);
               return (
                 <div key={courseIndex}>
                   <h2 className="classtableheader">{course.course_name}</h2>
@@ -295,7 +305,6 @@ function Trainee3Dashboard() {
                                     <button
                                       className="d-button-submit"
                                       onClick={() => {
-                                        // setCounter(0);
                                         handleSubmitQuiz();
                                         setResult(true);
                                       }}
@@ -316,37 +325,37 @@ function Trainee3Dashboard() {
                         </table>
                       </div>
                     )}
-                  {result && (
+
+                  {showPopup && (
                     <div className="popup-overlay">
                       <div className="center">
-                        {console.log(counter)}
 
-                        {counter == questions.length &&
-                          setTimeout(() => {
-                            <div className="check">
-                              <img src={welldone} className="color" /> &nbsp; &nbsp;
-                              <span>Nailed It! {counter}/{questions.length}</span>
-                            </div>
-                          }, -5000)
+                        {counter === questions.length && (
+                          <div className="check">
+                            <img src={welldone} className="color" /> &nbsp; &nbsp;
+                            <span className="span-result">You got {counter}/{questions.length}.
+                              <br />Amazing work, you nailed it! </span>
+                          </div>
+                        )}
 
+                        {counter >= averageScore && counter !== questions.length && (
+                          <div className="warning">
+                            <img src={passed} className="rotate" />
+                            &nbsp; &nbsp;
+                            <span className="span-result">You got {counter}/{questions.length}.
+                              <br />You passed the quiz!</span>
+                          </div>
+                        )}
 
-                        }
-                        {((questions.length % 2 == 0 && counter >= questions.length / 2) || (questions.length % 2 != 0 && counter >= questions.length / 2 + 1)) &&
-                          setTimeout(() => {
-                            <div className="warning">
-                              <img src={passed} className="rotate" />
-                              &nbsp; &nbsp;
-                              <span>You passed the quiz!</span>
-                            </div>
-                          }, -5000)
-                        }
-                        {((questions.length % 2 == 0 && counter < questions.length / 2) || (questions.length % 2 != 0 && counter < questions.length / 2 + 1)) &&
+                        {counter < averageScore && (
                           <div className="danger">
                             <img src={close} className="shine" />
                             &nbsp; &nbsp;
-                            <span>Wrong Anwer</span>
+                            <span className="span-result">You got {counter}/{questions.length}.
+                              <br />Oops... you'll do better next time!</span>
                           </div>
-                        }
+                        )}
+
                       </div>
                     </div>
                   )}
