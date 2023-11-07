@@ -19,7 +19,7 @@ function Coach1Dashboard() {
   const coachId = new URLSearchParams(location.search).get("coachId");
   const [bool, setBool] = useState(true);
   const [courses, setCourses] = useState([]);
-  
+
   // const [userData, setUserData] = useState([]);
   // const [fullName, setFullName] = useState("");
   // const [username, setUsername] = useState("");
@@ -46,13 +46,14 @@ function Coach1Dashboard() {
   const toogleModal = () => {
     setmodal(!modal);
   };
- const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
+  const { dispatch } = useAuthContext();
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    await dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+    console.log("logout");
+  }
+  
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">

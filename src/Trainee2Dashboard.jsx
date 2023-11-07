@@ -49,12 +49,12 @@ function Trainee2Dashboard() {
       });
   };
   const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    await dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+    console.log("logout");
+  }
 
   return (
     <div className="dashboard">

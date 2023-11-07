@@ -16,25 +16,25 @@ import Profile from './Profile';
 import { useAuthContext } from "./UseAuthContext";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App(){
-    const {user}=useAuthContext();
-return (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Homepage/>} />
-      <Route path="/Login" element={<Login/>} />
-      <Route path="/Admin/AllCoaches" element={(user && user.user.role.toLowerCase()==="admin")?<Admin1/> : <Login/>} />
-      <Route path="/Admin/AllTrainees" element={(user && user.user.role.toLowerCase()==="admin")?<Admin2/> : <Login/>} />
-      <Route path="/Admin/AllCourses" element={(user && user.user.role.toLowerCase()==="admin")?<Admin3/> : <Login/>} />
-      <Route path="/Admin/AllClasses" element={(user && user.user.role.toLowerCase()==="admin")?<Admin4/> : <Login/>} />
-      <Route path="/Coach/YourCourses" element={(user && user.user.role.toLowerCase()==="coach")?<Coach1/> :<Login/>} />
-      <Route path="/Coach/YourClasses" element={(user && user.user.role.toLowerCase()==="coach")?<Coach2/> :<Login/>} />
-      <Route path="/Coach/Quizzes" element={(user && user.user.role.toLowerCase()==="coach")?<Coach3/> :<Login/>} />
-      <Route path="/Trainee/AllCourses" element={(user && user.user.role.toLowerCase()==="trainee")?<Trainee1/> :<Login/>} />
-      <Route path="/Trainee/YourClasses" element={(user && user.user.role.toLowerCase()==="trainee")?<Trainee2/> :<Login/> } />
-      <Route path="/Trainee/Quizzes" element={(user && user.user.role.toLowerCase()==="trainee")?<Trainee3/> :<Login/>} />
-    </Routes>
-  </BrowserRouter>
-);
+function App() {
+  const { user } = useAuthContext();
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Admin/AllCoaches" element={(user && user.user.role.toLowerCase() === "admin") ? <Admin1 /> : <Login />} />
+        <Route path="/Admin/AllTrainees" element={(user && user.user.role.toLowerCase() === "admin") ? <Admin2 /> : <Login />} />
+        <Route path="/Admin/AllCourses" element={(user && user.user.role.toLowerCase() === "admin") ? <Admin3 /> : <Login />} />
+        <Route path="/Admin/AllClasses" element={(user && user.user.role.toLowerCase() === "admin") ? <Admin4 /> : <Login />} />
+        <Route path="/Coach/YourCourses" element={(user && user.user.role.toLowerCase() === "coach") ? <Coach1 /> : <Login />} />
+        <Route path="/Coach/YourClasses" element={(user && user.user.role.toLowerCase() === "coach") ? <Coach2 /> : <Login />} />
+        <Route path="/Coach/Quizzes" element={(user && user.user.role.toLowerCase() === "coach") ? <Coach3 /> : <Login />} />
+        <Route path="/Trainee/AllCourses" element={(user && user.user.role.toLowerCase() === "trainee") ? <Trainee1 /> : <Login />} />
+        <Route path="/Trainee/YourClasses" element={(user && user.user.role.toLowerCase() === "trainee") ? <Trainee2 /> : <Login />} />
+        <Route path="/Trainee/Quizzes" element={(user && user.user.role.toLowerCase() === "trainee") ? <Trainee3 /> : <Login />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 export default App;

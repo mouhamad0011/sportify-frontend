@@ -299,7 +299,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 
 .check {
@@ -311,10 +311,10 @@
   align-items: center;
   padding: 10px;
   background-color: #0ad406;
-  cursor:pointer;
-  box-shadow:  9px 9px 18px #262c3e,
+  cursor: pointer;
+  box-shadow: 9px 9px 18px #262c3e,
     -9px -9px 18px #30384e;
-  
+
   margin: 20px;
 }
 
@@ -343,10 +343,10 @@
   align-items: center;
   padding: 10px;
   background-color: rgb(247, 149, 72);
-  cursor:pointer;
-  box-shadow:  9px 9px 18px #262c3e,
+  cursor: pointer;
+  box-shadow: 9px 9px 18px #262c3e,
     -9px -9px 18px #30384e;
-  
+
   margin: 20px;
 }
 
@@ -359,6 +359,7 @@
 .rotate {
   animation: rotate 2s linear infinite;
 }
+
 .danger {
   border-radius: 5px;
   width: 220px;
@@ -368,8 +369,8 @@
   align-items: center;
   padding: 10px;
   background-color: rgb(255, 10, 1);
-  cursor:pointer;
-  box-shadow:  9px 9px 18px #262c3e,
+  cursor: pointer;
+  box-shadow: 9px 9px 18px #262c3e,
     -9px -9px 18px #30384e;
   margin: 20px;
 }
@@ -384,10 +385,12 @@
 .shine {
   animation: shine 2s linear infinite;
 }
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -395,23 +398,27 @@
 
 @keyframes color {
   50% {
-   color: #2B3246;
+    color: #2B3246;
   }
+
   100% {
     color: #0ad406;
   }
 }
 
 @keyframes rotate {
- 0% {
+  0% {
     transform: rotate(0deg);
   }
+
   20% {
     transform: rotate(90deg);
   }
+
   40% {
     transform: rotate(0deg);
   }
+
   80% {
     transform: rotate(-90deg);
   }
@@ -419,8 +426,9 @@
 
 @keyframes shine {
   0% {
-   color: #2B3246;
+    color: #2B3246;
   }
+
   50% {
     text-shadow:
       0 0 5px #fff,

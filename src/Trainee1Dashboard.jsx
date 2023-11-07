@@ -105,12 +105,12 @@ function Trainee1Dashboard() {
     setConfirmationVisible(false);
   }
   const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    await dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+    console.log("logout");
+  }
 
   return (
     <div className="dashboard">
@@ -230,7 +230,7 @@ function Trainee1Dashboard() {
                       <div className="popup-content">
                         <p>Are you sure?</p>
                         <div className="popup-btn">
-                          <button className="d-button-submit" onClick={() =>{ deleteEnrollement(course.course_id); setBool(!bool);}}>OK</button>
+                          <button className="d-button-submit" onClick={() => { deleteEnrollement(course.course_id); setBool(!bool); }}>OK</button>
                           <button className="d-button" onClick={cancelAction}>Cancel</button>
                         </div>
                       </div>

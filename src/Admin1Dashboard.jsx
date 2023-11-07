@@ -89,13 +89,13 @@ function Admin1Dashboard() {
   };
 
   const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
- const [modal, setmodal] = useState(false);
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    await dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+    console.log("logout");
+  }
+  const [modal, setmodal] = useState(false);
   const toogleModal = () => {
     setmodal(!modal);
   };
@@ -124,7 +124,7 @@ function Admin1Dashboard() {
         <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
-        {!modal ? (
+          {!modal ? (
             <img
               className="header-icon"
               src={profile}
@@ -143,7 +143,7 @@ function Admin1Dashboard() {
         </div>
       </div>
       {modal && <Profile coachId={coachId} />}
-       
+
 
       <br />
 

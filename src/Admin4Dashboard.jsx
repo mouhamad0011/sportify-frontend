@@ -104,12 +104,12 @@ function Admin4Dashboard() {
     setmodal(!modal);
   };
   const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    await dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+    console.log("logout");
+  }
 
   return (
     <div className="dashboard">
@@ -117,7 +117,7 @@ function Admin4Dashboard() {
         <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
         <p className='h3 fw-bold m-0 welcome-name'>Welcome {adminName}</p>
         <div className='profile-logout d-flex gap-3'>
-        {!modal ? (
+          {!modal ? (
             <img
               className="header-icon"
               src={profile}

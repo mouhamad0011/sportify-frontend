@@ -9,7 +9,6 @@
 .login-main {
 	width: 350px;
 	height: 580px;
-
 	overflow: hidden;
 	border-radius: 10px;
 	box-shadow: 5px 20px 50px #000;
@@ -25,7 +24,6 @@
 	height: 100%;
 }
 
-
 .label {
 	color: #C23640;
 	font-size: 2.3em;
@@ -37,9 +35,11 @@
 	transition: .5s ease-in-out;
 	height: 20px;
 }
+
 .input:hover {
 	content: "hello";
 }
+
 .input {
 	width: 60%;
 	background: #e0dede;
@@ -119,7 +119,3 @@
 #chk:checked~.signup label {
 	transform: scale(.6);
 }
-
-
-
-

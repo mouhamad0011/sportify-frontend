@@ -225,7 +225,7 @@ function Trainee3Dashboard() {
                   {currentDate.toLocaleTimeString() <
                     initialTime.toLocaleTimeString() &&
                     currentDate.toLocaleTimeString() >
-                      first.toLocaleTimeString() && (
+                    first.toLocaleTimeString() && (
                       <div className="scrollable-table">
                         <table className="container table table-hover">
                           <thead>
@@ -295,7 +295,7 @@ function Trainee3Dashboard() {
                                     <button
                                       className="d-button-submit"
                                       onClick={() => {
-                                       // setCounter(0);
+                                        // setCounter(0);
                                         handleSubmitQuiz();
                                         setResult(true);
                                       }}
@@ -316,40 +316,40 @@ function Trainee3Dashboard() {
                         </table>
                       </div>
                     )}
-                    {result && (
-            <div className="popup-overlay">
-              <div className="center">
-                {console.log(counter)}
-                
-                  {counter==questions.length  &&
-                    setTimeout(() => {
-                    <div className="check">
-                      <img src={welldone}  className="color"/> &nbsp; &nbsp;
-                      <span>Nailed It! {counter}/{questions.length}</span>
+                  {result && (
+                    <div className="popup-overlay">
+                      <div className="center">
+                        {console.log(counter)}
+
+                        {counter == questions.length &&
+                          setTimeout(() => {
+                            <div className="check">
+                              <img src={welldone} className="color" /> &nbsp; &nbsp;
+                              <span>Nailed It! {counter}/{questions.length}</span>
+                            </div>
+                          }, -5000)
+
+
+                        }
+                        {((questions.length % 2 == 0 && counter >= questions.length / 2) || (questions.length % 2 != 0 && counter >= questions.length / 2 + 1)) &&
+                          setTimeout(() => {
+                            <div className="warning">
+                              <img src={passed} className="rotate" />
+                              &nbsp; &nbsp;
+                              <span>You passed the quiz!</span>
+                            </div>
+                          }, -5000)
+                        }
+                        {((questions.length % 2 == 0 && counter < questions.length / 2) || (questions.length % 2 != 0 && counter < questions.length / 2 + 1)) &&
+                          <div className="danger">
+                            <img src={close} className="shine" />
+                            &nbsp; &nbsp;
+                            <span>Wrong Anwer</span>
+                          </div>
+                        }
+                      </div>
                     </div>
-                  }, -5000)
-                
-                
-              }
-            {( (questions.length%2==0 && counter>=questions.length/2)|| (questions.length%2!=0 && counter>=questions.length/2+1))&&
-                setTimeout(() => {
-               <div className="warning">
-                <img src={passed}  className="rotate"/>
-                  &nbsp; &nbsp;
-                  <span>You passed the quiz!</span>
-                </div>
-                 }, -5000)
-            }
-            { ( (questions.length%2==0 && counter<questions.length/2)|| (questions.length%2!=0 && counter<questions.length/2+1))&&
-                <div className="danger">
-                <img src={close}  className="shine"/>
-                  &nbsp; &nbsp;
-                  <span>Wrong Anwer</span>
-                </div>
-            }
-              </div>
-            </div>
-          )}
+                  )}
                 </div>
               );
             } else {
@@ -369,12 +369,12 @@ function Trainee3Dashboard() {
                 </div>
               );
             }
-            
+
           }
-          
+
         })}
       </div>
-      
+
     </div>
   );
 }

@@ -236,12 +236,13 @@ function Coach3Dashboard() {
   }
 
   const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    await dispatch({ type: 'LOGOUT' });
+    navigate('/login');
+    console.log("logout");
+  }
+
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">

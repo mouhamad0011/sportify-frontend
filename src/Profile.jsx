@@ -210,9 +210,9 @@ function Profile(props) {
 
         <div className="popup-buttons d-flex justify-content-center">
           {!isEditable ?
-          <button onClick={handleEditing}>EDIT</button>
-          :
-          <button onClick={saveProfile}>SAVE</button>
+            <button onClick={handleEditing}>EDIT</button>
+            :
+            <button onClick={saveProfile}>SAVE</button>
           }
         </div>
       </div>

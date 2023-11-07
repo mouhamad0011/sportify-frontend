@@ -99,12 +99,12 @@ function Login() {
         setUsername("");
         setEmail("");
         setPassword("");
-        setSpan("You have registered successfully!Login now");
+        setSpan("Registered successfully! You can now login.");
         setPasswordColor("");
         setEmailColor('');
         //window.location.reload(false);
       } catch (error) {
-        setSpan("Failed to register");
+        setSpan("Oops, something went wrong... Try to register again.");
         console.log("Error while registering", error);
       }
     }
