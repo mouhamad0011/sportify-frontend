@@ -9,6 +9,8 @@ import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
 import Profile from "./Profile";
 import close from "./icons/close.png";
+import passed from './images/passed.png';
+import welldone from './images/welldone.png';
 
 function Trainee3Dashboard() {
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ function Trainee3Dashboard() {
   const [quizData, setQuizData] = useState([]);
   const [counter, setCounter] = useState(0);
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
+  const [result, setResult] = useState(false);
 
   useEffect(() => {
     axios
@@ -53,17 +56,17 @@ function Trainee3Dashboard() {
   };
 
   const { dispatch } = useAuthContext();
- const handleLogout=async ()=>{
-      localStorage.removeItem('user');
-      await dispatch({ type: 'LOGOUT' });
-      navigate('/login');
-      console.log("logout");
- }
+  const handleLogout = async () => {
+    localStorage.removeItem("user");
+    await dispatch({ type: "LOGOUT" });
+    navigate("/login");
+    console.log("logout");
+  };
   var currentDate = new Date();
 
   function compareDates(date1, date2) {
-    const parts1 = date1.split('/');
-    const parts2 = date2.split('/');
+    const parts1 = date1.split("/");
+    const parts2 = date2.split("/");
 
     const day1 = parseInt(parts1[0], 10);
     const month1 = parseInt(parts1[1], 10) - 1;
@@ -76,22 +79,25 @@ function Trainee3Dashboard() {
     const dateObject1 = new Date(year1, month1, day1);
     const dateObject2 = new Date(year2, month2, day2);
 
-    if (dateObject1.getTime() === dateObject2.getTime() || dateObject1.getTime() >= dateObject2.getTime()) {
+    if (
+      dateObject1.getTime() === dateObject2.getTime() ||
+      dateObject1.getTime() >= dateObject2.getTime()
+    ) {
       return true;
     } else {
       return false;
     }
   }
 
-  const date1 = "03/11/2023";
-  const date2 = "04/11/2023";
+  // const date1 = "03/11/2023";
+  // const date2 = "04/11/2023";
 
-  const comparisonResult = compareDates(date1, date2);
-  console.log(comparisonResult);
+  // const comparisonResult = compareDates(date1, date2);
+  // console.log(comparisonResult);
 
   const handleConfirm = () => {
     setConfirmationVisible(true);
-  }
+  };
 
   function cancelAction() {
     setConfirmationVisible(false);
@@ -118,7 +124,12 @@ function Trainee3Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout}/>
+          <img
+            className="header-icon"
+            src={logout}
+            alt="logout"
+            onClick={handleLogout}
+          />
         </div>
       </div>
       {modal && <Profile coachId={traineeId} />}
@@ -188,7 +199,12 @@ function Trainee3Dashboard() {
           const first = new Date(test);
           initialTime.setMinutes(initialTime.getMinutes() + 30);
           {
-            if (compareDates(formattedDate, currentDate.toLocaleDateString("en-GB"))) {
+            if (
+              compareDates(
+                formattedDate,
+                currentDate.toLocaleDateString("en-GB")
+              )
+            ) {
               console.log(formattedDate);
               return (
                 <div key={courseIndex}>
@@ -209,7 +225,7 @@ function Trainee3Dashboard() {
                   {currentDate.toLocaleTimeString() <
                     initialTime.toLocaleTimeString() &&
                     currentDate.toLocaleTimeString() >
-                    first.toLocaleTimeString() && (
+                      first.toLocaleTimeString() && (
                       <div className="scrollable-table">
                         <table className="container table table-hover">
                           <thead>
@@ -222,7 +238,9 @@ function Trainee3Dashboard() {
                             {questions.map((question, questionIndex) => {
                               return (
                                 <tr key={questionIndex}>
-                                  <th scope="row" style={{ fontWeight: "400" }}>{question}</th>
+                                  <th scope="row" style={{ fontWeight: "400" }}>
+                                    {question}
+                                  </th>
                                   <td>
                                     {choices[questionIndex].map(
                                       (choice, choiceIndex) => (
@@ -242,7 +260,10 @@ function Trainee3Dashboard() {
                                           />
                                           <label
                                             htmlFor={`choice${choiceIndex}`}
-                                            style={{ color: "#262D5A", margin: "0 0 7px 7px" }}
+                                            style={{
+                                              color: "#262D5A",
+                                              margin: "0 0 7px 7px",
+                                            }}
                                           >
                                             {choice}
                                           </label>
@@ -255,7 +276,9 @@ function Trainee3Dashboard() {
                               );
                             })}
                             {quizSubmitted ? (
-                              <p className="mt-3">Quiz submitted successfully!</p>
+                              <p className="mt-3">
+                                Quiz submitted successfully!
+                              </p>
                             ) : (
                               <button
                                 className="d-button-submit mt-3"
@@ -269,18 +292,22 @@ function Trainee3Dashboard() {
                                 <div className="popup-content">
                                   <p>Are you sure?</p>
                                   <div className="popup-btn">
-                                    <button className="d-button-submit"
+                                    <button
+                                      className="d-button-submit"
                                       onClick={() => {
-                                        setCounter(0);
+                                       // setCounter(0);
                                         handleSubmitQuiz();
-                                        alert(
-                                          "Your result is: " +
-                                          counter +
-                                          "/" +
-                                          questions.length
-                                        );
-                                      }}>OK</button>
-                                    <button className="d-button" onClick={cancelAction}>Cancel</button>
+                                        setResult(true);
+                                      }}
+                                    >
+                                      OK
+                                    </button>
+                                    <button
+                                      className="d-button"
+                                      onClick={cancelAction}
+                                    >
+                                      Cancel
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -289,6 +316,40 @@ function Trainee3Dashboard() {
                         </table>
                       </div>
                     )}
+                    {result && (
+            <div className="popup-overlay">
+              <div className="center">
+                {console.log(counter)}
+                
+                  {counter==questions.length  &&
+                    setTimeout(() => {
+                    <div className="check">
+                      <img src={welldone}  className="color"/> &nbsp; &nbsp;
+                      <span>Nailed It! {counter}/{questions.length}</span>
+                    </div>
+                  }, -5000)
+                
+                
+              }
+            {( (questions.length%2==0 && counter>=questions.length/2)|| (questions.length%2!=0 && counter>=questions.length/2+1))&&
+                setTimeout(() => {
+               <div className="warning">
+                <img src={passed}  className="rotate"/>
+                  &nbsp; &nbsp;
+                  <span>You passed the quiz!</span>
+                </div>
+                 }, -5000)
+            }
+            { ( (questions.length%2==0 && counter<questions.length/2)|| (questions.length%2!=0 && counter<questions.length/2+1))&&
+                <div className="danger">
+                <img src={close}  className="shine"/>
+                  &nbsp; &nbsp;
+                  <span>Wrong Anwer</span>
+                </div>
+            }
+              </div>
+            </div>
+          )}
                 </div>
               );
             } else {
@@ -302,14 +363,18 @@ function Trainee3Dashboard() {
                     )}{" "}
                     days ago
                     <br />
-                    Kindly refer to coach <span className="welcome-name">{course.coach}</span>.
+                    Kindly refer to coach{" "}
+                    <span className="welcome-name">{course.coach}</span>.
                   </h3>
                 </div>
               );
             }
+            
           }
+          
         })}
       </div>
+      
     </div>
   );
 }
