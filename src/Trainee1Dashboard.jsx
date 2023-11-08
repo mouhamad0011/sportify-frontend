@@ -42,11 +42,15 @@ function Trainee1Dashboard() {
           });
         });
         setAllClasses([]);
+        setBool(!bool)
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+ 
+  
 
   const deleteEnrollement = (id) => {
     axios

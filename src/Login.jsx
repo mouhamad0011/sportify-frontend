@@ -54,25 +54,31 @@ function Login() {
 
   const handleRegistration = async (e) => {
     e.preventDefault();
+    let errorMessage = '';
     if (
       role.trim() == "" ||
       fullname.trim() == "" ||
       username.trim() == "" 
     ) {
-      return;
+      errorMessage = 'Please fill in all required fields.';
+      //return;
     } 
     else if(password.trim()==""){
       setPasswordColor("#C23640");
-      alert(
-        "Password should be minimum 8 characters and contain 1 lowercase, 1 uppercase, 1 digit and 1 special character."
-      );
-      return;
+      errorMessage=
+        "Password should be minimum 8 characters and contain 1 lowercase,1 uppercase,1 digit and 1 special character."
+      ;
+      //return;
     }
     else if(email.trim()==""){
       setEmailColor("#C23640");
-      alert("Invalid email address");
-      return;
+      errorMessage="Invalid email address";
+     // return;
     }
+    if (errorMessage !== '') {
+     // alert(errorMessage)
+      setSpan(errorMessage);
+    } 
     else {
       const newUser = {
         role: role,
@@ -151,7 +157,7 @@ function Login() {
             </label>
             
             <div className="d-flex justify-content-center">
-            <span style={{color:"white",textAlign:"center",fontStyle:"italic"}}>{span}</span>
+            <span style={{color:"white",textAlign:"center",fontStyle:"italic",fontSize:"14px"}}>{span}</span>
             </div>
             <input
               className="input"

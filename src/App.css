@@ -83,7 +83,7 @@
 	height: 460px;
 	background: #eee;
 	border-radius: 60% / 10%;
-	transform: translateY(-180px);
+	transform: translateY(-170px);
 	transition: .8s ease-in-out;
 }
 
@@ -109,7 +109,7 @@
 }
 
 #chk:checked~.login {
-	transform: translateY(-570px);
+	transform: translateY(-550px);
 }
 
 #chk:checked~.login label {

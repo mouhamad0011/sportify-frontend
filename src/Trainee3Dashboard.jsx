@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuthContext } from "./UseAuthContext";
 import axios from "axios";
 import "./App.css";
@@ -9,8 +9,8 @@ import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
 import Profile from "./Profile";
 import close from "./icons/close.png";
-import passed from './images/passed.png';
-import welldone from './images/welldone.png';
+import passed from "./images/passed.png";
+import welldone from "./images/welldone.png";
 
 function Trainee3Dashboard() {
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ function Trainee3Dashboard() {
   const [counter, setCounter] = useState(0);
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
   const [result, setResult] = useState(false);
+  
 
   useEffect(() => {
     axios
@@ -29,7 +30,7 @@ function Trainee3Dashboard() {
         `${process.env.REACT_APP_API_URL}courses/getAllCoursesByTraineeId/${traineeId}`
       )
       .then((response) => {
-        // console.log(response.data);
+         console.log(response.data);
         setQuizData(response.data);
       })
       .catch((error) => {
@@ -101,12 +102,12 @@ function Trainee3Dashboard() {
   useEffect(() => {
     if (result) {
       setShowPopup(true);
-      console.log("before", counter)
+      console.log("before", counter);
       setTimeout(() => {
         setShowPopup(false);
-        console.log("after", counter)
+        console.log("after", counter);
         setCounter(0);
-      }, 3000);
+      }, 5000);
     }
   }, [result]);
 
@@ -235,7 +236,7 @@ function Trainee3Dashboard() {
                   {currentDate.toLocaleTimeString() <
                     initialTime.toLocaleTimeString() &&
                     currentDate.toLocaleTimeString() >
-                    first.toLocaleTimeString() && (
+                      first.toLocaleTimeString() && (
                       <div className="scrollable-table">
                         <table className="container table table-hover">
                           <thead>
@@ -329,33 +330,42 @@ function Trainee3Dashboard() {
                   {showPopup && (
                     <div className="popup-overlay">
                       <div className="center">
-
                         {counter === questions.length && (
                           <div className="check">
-                            <img src={welldone} className="color" /> &nbsp; &nbsp;
-                            <span className="span-result">You got {counter}/{questions.length}.
-                              <br />Amazing work, you nailed it! </span>
+                            <img src={welldone} className="color" /> &nbsp;
+                            &nbsp;
+                            <span className="span-result">
+                              You got {counter}/{questions.length}.
+                              <br />
+                              Amazing work, you nailed it!{" "}
+                            </span>
                           </div>
                         )}
 
-                        {counter >= averageScore && counter !== questions.length && (
-                          <div className="warning">
-                            <img src={passed} className="rotate" />
-                            &nbsp; &nbsp;
-                            <span className="span-result">You got {counter}/{questions.length}.
-                              <br />You passed the quiz!</span>
-                          </div>
-                        )}
+                        {counter >= averageScore &&
+                          counter !== questions.length && (
+                            <div className="warning">
+                              <img src={passed} className="rotate" />
+                              &nbsp; &nbsp;
+                              <span className="span-result">
+                                You got {counter}/{questions.length}.
+                                <br />
+                                You passed the quiz!
+                              </span>
+                            </div>
+                          )}
 
                         {counter < averageScore && (
                           <div className="danger">
                             <img src={close} className="shine" />
                             &nbsp; &nbsp;
-                            <span className="span-result">You got {counter}/{questions.length}.
-                              <br />Oops... you'll do better next time!</span>
+                            <span className="span-result">
+                              You got {counter}/{questions.length}.
+                              <br />
+                              Oops... you'll do better next time!
+                            </span>
                           </div>
                         )}
-
                       </div>
                     </div>
                   )}
@@ -370,20 +380,21 @@ function Trainee3Dashboard() {
                     {Math.abs(
                       Math.ceil((datee - currentDate) / (1000 * 3600 * 24))
                     )}{" "}
-                    days ago
+                    day(s) ago
                     <br />
                     Kindly refer to coach{" "}
-                    <span className="welcome-name">{course.coach}</span>.
+                    <span
+                      className="welcome-name"
+                    >
+                    <a href={`mailto:${course.email}`}>{course.coach}</a> 
+                    </span>
                   </h3>
                 </div>
               );
             }
-
           }
-
         })}
       </div>
-
     </div>
   );
 }
