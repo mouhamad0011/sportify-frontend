@@ -223,16 +223,7 @@ function Trainee3Dashboard() {
                   <h3 className="classtablesubheader">
                     Quiz on {formattedDate} at {course.hour}
                   </h3>
-                  {/* {quizSubmitted ? (
-                    <p>You have already submitted the quiz.</p>
-                  ) : (
-                    <button
-                      className="d-button"
-                      onClick={() => handleSelectCourse}
-                    >
-                      Take Quiz
-                    </button>
-                  )} */}
+                  
                   {currentDate.toLocaleTimeString() <
                     initialTime.toLocaleTimeString() &&
                     currentDate.toLocaleTimeString() >
