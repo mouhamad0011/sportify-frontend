@@ -7,9 +7,9 @@ import "./bootstrap.min.css";
 import logo from "./icons/logo.png";
 import profile from "./icons/profile.png";
 import logout from "./icons/logout.png";
-import bin from './icons/bin.png';
+import bin from "./icons/bin.png";
 import Profile from "./Profile";
-import close from './icons/close.png';
+import close from "./icons/close.png";
 
 function Coach3Dashboard() {
   const navigate = useNavigate();
@@ -36,42 +36,69 @@ function Coach3Dashboard() {
       .get(
         `${process.env.REACT_APP_API_URL}courses/getAllCoursesBycoachName/${coachName}`
       )
-      .then((response) => {
+      .then(async (response) => {
         setCourses(response.data);
-        response.data.forEach((element) => {
-          axios
-            .get(`${process.env.REACT_APP_API_URL}QA/get/${element.course_id}`)
-            .then((response) => {
-              console.log(response.data);
-              setQuiz((prev) => [...prev, response.data[0]]);
-              response.data[0] &&
-                setQuestions((prev) => [
-                  ...prev,
-                  response.data[0].questions.split(";"),
-                ]);
-              response.data[0] &&
-                setChoices((prev) => [
-                  ...prev,
-                  response.data[0].choices
-                    .split(";")
-                    .map((choice) => choice.split(",")),
-                ]);
-              response.data[0] &&
-                setAnswers((prev) => [
-                  ...prev,
-                  response.data[0].correct_answers.split(";"),
-                ]);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        });
+        const requests = response.data.map((element) =>
+          axios.get(
+            `${process.env.REACT_APP_API_URL}QA/get/${element.course_id}`
+          )
+        );
+
+        try {
+          const responses = await Promise.all(requests);
+          responses.forEach((apiResponse) => {
+            const data = apiResponse.data;
+            console.log(data);
+
+            if (data[0]) {
+              setQuiz((prev) => [...prev, data[0]]);
+              setQuestions((prev) => [...prev, data[0].questions.split(";")]);
+              setChoices((prev) => [
+                ...prev,
+                data[0].choices.split(";").map((choice) => choice.split(",")),
+              ]);
+              setAnswers((prev) => [
+                ...prev,
+                data[0].correct_answers.split(";"),
+              ]);
+            }
+          });
+        } catch (error) {
+          console.error(error);
+        }
       })
       .catch((error) => {
         console.error(error);
       });
-
   }, [bool]);
+  // response.data.forEach((element) => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_URL}QA/get/${element.course_id}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setQuiz((prev) => [...prev, response.data[0]]);
+  //       response.data[0] &&
+  //         setQuestions((prev) => [
+  //           ...prev,
+  //           response.data[0].questions.split(";"),
+  //         ]);
+  //       response.data[0] &&
+  //         setChoices((prev) => [
+  //           ...prev,
+  //           response.data[0].choices
+  //             .split(";")
+  //             .map((choice) => choice.split(",")),
+  //         ]);
+  //       response.data[0] &&
+  //         setAnswers((prev) => [
+  //           ...prev,
+  //           response.data[0].correct_answers.split(";"),
+  //         ]);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // });
 
   const addQuiz = (courseIndex) => {
     setSelectedCourse(courseIndex);
@@ -120,7 +147,8 @@ function Coach3Dashboard() {
       );
       setNewChoices(
         (prev) =>
-          `${prev}${question.choice1},${question.choice2},${question.choice3}${isLastQuestion ? "" : ";"
+          `${prev}${question.choice1},${question.choice2},${question.choice3}${
+            isLastQuestion ? "" : ";"
           }`
       );
       setNewCorrectAnswer(
@@ -168,12 +196,12 @@ function Coach3Dashboard() {
               console.error(error);
             });
           setNewQuestions([]);
-          setNewQuestion('');
-          setNewChoices('');
-          setNewCorrectAnswer('');
-          setDate('');
-          setHour('');
-          setSelectedCourse('');
+          setNewQuestion("");
+          setNewChoices("");
+          setNewCorrectAnswer("");
+          setDate("");
+          setHour("");
+          setSelectedCourse("");
           setBool((prev) => !prev);
         }
       })
@@ -184,15 +212,16 @@ function Coach3Dashboard() {
   };
 
   const deleteQuiz = (id) => {
-    axios.delete(`${process.env.REACT_APP_API_URL}quizzes/delete/${id}`)
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}quizzes/delete/${id}`)
       .then(() => {
         setBool((prev) => !prev);
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
     setConfirmationVisible(false);
-  }
+  };
 
   const [modal, setmodal] = useState(false);
   const toogleModal = () => {
@@ -202,34 +231,35 @@ function Coach3Dashboard() {
   const [editable, setEditable] = useState(false);
   const editDateHour = () => {
     setEditable(true);
-  }
+  };
   const updateDateHour = (id) => {
     if (date != "" && hour != "") {
       const updated = {
         date,
-        hour
-      }
-      axios.put(`${process.env.REACT_APP_API_URL}quizzes/update/${id}`, updated, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
+        hour,
+      };
+      axios
+        .put(`${process.env.REACT_APP_API_URL}quizzes/update/${id}`, updated, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => {
-          console.log(res.data)
-          setDate('');
-          setHour('');
+          console.log(res.data);
+          setDate("");
+          setHour("");
           setEditable(false);
           setBool(!bool);
         })
         .catch((error) => {
-          console.error(error)
-        })
+          console.error(error);
+        });
     }
-  }
+  };
 
   const handleConfirm = () => {
     setConfirmationVisible(true);
-  }
+  };
 
   function cancelAction() {
     setConfirmationVisible(false);
@@ -237,16 +267,18 @@ function Coach3Dashboard() {
 
   const { dispatch } = useAuthContext();
   const handleLogout = async () => {
-    localStorage.removeItem('user');
-    await dispatch({ type: 'LOGOUT' });
-    navigate('/login');
+    localStorage.removeItem("user");
+    await dispatch({ type: "LOGOUT" });
+    navigate("/login");
     console.log("logout");
-  }
+  };
 
   return (
     <div className="dashboard">
       <div className="header d-flex align-items-center justify-content-between p-3">
-        <a href="/"><img className="header-logo" src={logo} alt="logo" /></a>
+        <a href="/">
+          <img className="header-logo" src={logo} alt="logo" />
+        </a>
         <p className="h3 fw-bold m-0 welcome-name">Welcome {coachName}</p>
         <div className="profile-logout d-flex gap-3">
           {!modal ? (
@@ -264,7 +296,12 @@ function Coach3Dashboard() {
               alt="close"
             />
           )}
-          <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
+          <img
+            className="header-icon"
+            src={logout}
+            alt="logout"
+            onClick={handleLogout}
+          />
         </div>
       </div>
       {modal && <Profile coachId={coachId} />}
@@ -279,7 +316,9 @@ function Coach3Dashboard() {
               aria-current="page"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourCourses?coachName=${coachName}&coachId=${coachId}`);
+                navigate(
+                  `/Coach/YourCourses?coachName=${coachName}&coachId=${coachId}`
+                );
               }}
             >
               Your courses
@@ -290,7 +329,9 @@ function Coach3Dashboard() {
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/YourClasses?coachName=${coachName}&coachId=${coachId}`);
+                navigate(
+                  `/Coach/YourClasses?coachName=${coachName}&coachId=${coachId}`
+                );
               }}
             >
               Your classes
@@ -301,7 +342,9 @@ function Coach3Dashboard() {
               className="nav-link"
               href="#"
               onClick={() => {
-                navigate(`/Coach/Quizzes?coachName=${coachName}&coachId=${coachId}`);
+                navigate(
+                  `/Coach/Quizzes?coachName=${coachName}&coachId=${coachId}`
+                );
               }}
             >
               Quizzes
@@ -315,130 +358,158 @@ function Coach3Dashboard() {
         courses.map((course, courseIndex) => {
           const dateString = quiz[courseIndex] && quiz[courseIndex].date;
           const date = new Date(dateString);
-          const formattedDate = date.toLocaleDateString('en-GB');
+          const formattedDate = date.toLocaleDateString("en-GB");
           return (
             <div className="container" key={courseIndex}>
               <br />
               <p className="classtableheader">{course.course_name}</p>
-              {
-                quiz.length > 0 && quiz[courseIndex] ? (
-                  <div>
-                    <button className="quiz-info">
-                      Quiz on {formattedDate} at {quiz[courseIndex].hour}
+              {quiz.length > 0 && quiz[courseIndex] ? (
+                <div>
+                  <button className="quiz-info">
+                    Quiz on {formattedDate} at {quiz[courseIndex].hour}
+                  </button>
+                  {!editable ? (
+                    <button onClick={editDateHour} className="d-button">
+                      Edit time
                     </button>
-                    {!editable ?
-                      <button onClick={editDateHour} className="d-button">Edit time</button>
-                      : <button onClick={() => updateDateHour(quiz[courseIndex].quiz_id)} className="d-button">Update</button>
-                    }
-                    <img src={bin} alt="bin" className="delete-quiz" onClick={() => handleConfirm()} />
-                    {isConfirmationVisible && (
-                      <div className="popup-overlay">
-                        <div className="popup-content">
-                          <p>Are you sure?</p>
-                          <div className="popup-btn">
-                            <button className="d-button-submit" onClick={() => deleteQuiz(quiz[courseIndex].quiz_id)}>OK</button>
-                            <button className="d-button" onClick={cancelAction}>Cancel</button>
-                          </div>
+                  ) : (
+                    <button
+                      onClick={() => updateDateHour(quiz[courseIndex].quiz_id)}
+                      className="d-button"
+                    >
+                      Update
+                    </button>
+                  )}
+                  <img
+                    src={bin}
+                    alt="bin"
+                    className="delete-quiz"
+                    onClick={() => handleConfirm()}
+                  />
+                  {isConfirmationVisible && (
+                    <div className="popup-overlay">
+                      <div className="popup-content">
+                        <p>Are you sure?</p>
+                        <div className="popup-btn">
+                          <button
+                            className="d-button-submit"
+                            onClick={() =>
+                              deleteQuiz(quiz[courseIndex].quiz_id)
+                            }
+                          >
+                            OK
+                          </button>
+                          <button className="d-button" onClick={cancelAction}>
+                            Cancel
+                          </button>
                         </div>
                       </div>
-                    )}
-                    {editable &&
-                      <div>
-                        Set the date{" "}
-                        <input
-                          type="date"
-                          onChange={(e) => {
-                            setDate(e.target.value);
-                            console.log(e.target.value)
-                          }}
-                        />
-                        <br />
-                        <br />
-                        Set the hour{" "}
-                        <input
-                          type="time"
-                          onChange={(e) => {
-                            setHour(e.target.value);
-                          }}
-                        />
-                      </div>
-                    }
-                    <div className='scrollable-table quiz-table'>
-                      <table className="container table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">Questions</th>
-                            <th scope="col">Choices</th>
-                            <th scope="col">Correct answer</th>
-
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {questions.length > 0 &&
-                            questions[courseIndex] &&
-                            questions[courseIndex].map(
-                              (question, questionIndex) => (
-                                <tr key={questionIndex}>
-                                  <td>{question}</td>
-                                  <td>
-                                    {choices.length > 0 && choices[courseIndex] &&
-                                      choices[courseIndex][questionIndex].map(
-                                        (choice, choiceIndex) => (
-                                          <div key={choiceIndex}>
-                                            <input type="radio" value={choice} />
-                                            <label className="quiz-label" style={{ margin: "0 0 7px 7px" }}>{choice}</label>
-                                            <br />
-                                          </div>
-                                        )
-                                      )}
-                                  </td>
-                                  <td>
-                                    {answers[courseIndex][questionIndex]}
-                                  </td>
-
-                                </tr>
-                              )
-                            )}
-                        </tbody>
-                      </table>
                     </div>
-                    {" "}
-                  </div>
-                ) : (
-                  <div>
-                    <button onClick={() => addQuiz(courseIndex)} className="d-button">ADD QUIZ</button>
-                    {selectedCourse === courseIndex && (
-                      <div>
-                        <br />
-                        Set the date{" "}
-                        <input
-                          style={{ paddingLeft: "5px" }}
-                          type="date"
-                          onChange={(e) => {
-                            setDate(e.target.value);
-                            console.log(e.target.value)
-                          }}
-                        />
-                        <br />
-                        <br />
-                        Set the hour{" "}
-                        <input
-                          style={{ paddingLeft: "5px" }}
-                          type="time"
-                          onChange={(e) => {
-                            setHour(e.target.value);
-                          }}
-                        />
-                        <div className='scrollable-table'>
-                          <table className="newquiz container table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Questions</th>
-                                <th scope="col">Answers</th>
+                  )}
+                  {editable && (
+                    <div>
+                      Set the date{" "}
+                      <input
+                        type="date"
+                        onChange={(e) => {
+                          setDate(e.target.value);
+                          console.log(e.target.value);
+                        }}
+                      />
+                      <br />
+                      <br />
+                      Set the hour{" "}
+                      <input
+                        type="time"
+                        onChange={(e) => {
+                          setHour(e.target.value);
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div className="scrollable-table quiz-table">
+                    <table className="container table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Questions</th>
+                          <th scope="col">Choices</th>
+                          <th scope="col">Correct answer</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {questions.length > 0 &&
+                          questions[courseIndex] &&
+                          questions[courseIndex].map(
+                            (question, questionIndex) => (
+                              <tr key={questionIndex}>
+                                <td>{question}</td>
+                                <td>
+                                  {choices.length > 0 &&
+                                    choices[courseIndex] &&
+                                    choices[courseIndex][questionIndex].map(
+                                      (choice, choiceIndex) => (
+                                        <div key={choiceIndex}>
+                                          <input type="radio" value={choice} />
+                                          <label
+                                            className="quiz-label"
+                                            style={{ margin: "0 0 7px 7px" }}
+                                          >
+                                            {choice}
+                                          </label>
+                                          <br />
+                                        </div>
+                                      )
+                                    )}
+                                </td>
+                                <td>{answers[courseIndex][questionIndex]}</td>
                               </tr>
-                            </thead>
-                            <tbody>
-                              {newQuestions.map((newQuestion, newQuestionIndex) => (
+                            )
+                          )}
+                      </tbody>
+                    </table>
+                  </div>{" "}
+                </div>
+              ) : (
+                <div>
+                  <button
+                    onClick={() => addQuiz(courseIndex)}
+                    className="d-button"
+                  >
+                    ADD QUIZ
+                  </button>
+                  {selectedCourse === courseIndex && (
+                    <div>
+                      <br />
+                      Set the date{" "}
+                      <input
+                        style={{ paddingLeft: "5px" }}
+                        type="date"
+                        onChange={(e) => {
+                          setDate(e.target.value);
+                          console.log(e.target.value);
+                        }}
+                      />
+                      <br />
+                      <br />
+                      Set the hour{" "}
+                      <input
+                        style={{ paddingLeft: "5px" }}
+                        type="time"
+                        onChange={(e) => {
+                          setHour(e.target.value);
+                        }}
+                      />
+                      <div className="scrollable-table">
+                        <table className="newquiz container table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Questions</th>
+                              <th scope="col">Answers</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {newQuestions.map(
+                              (newQuestion, newQuestionIndex) => (
                                 <tr key={newQuestionIndex}>
                                   <td>
                                     <input
@@ -538,32 +609,53 @@ function Coach3Dashboard() {
                                     </div>
                                   </td>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className="add-submit">
-                          <button className="d-button" onClick={() => addQuestion(courseIndex)}>
-                            Add a question
-                          </button>
-                          <br />
-                          <button className="d-button-submit" onClick={addQuizzes}>Submit quiz</button>
-                        </div>
-                        {isConfirmationVisible && (
-                          <div className="popup-overlay">
-                            <div className="popup-content">
-                              <p>Are you sure?</p>
-                              <div className="popup-btn">
-                                <button className="d-button-submit" onClick={() => { submitQuiz(course.course_id); }}>OK</button>
-                                <button className="d-button" onClick={cancelAction}>Cancel</button>
-                              </div>
+                              )
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="add-submit">
+                        <button
+                          className="d-button"
+                          onClick={() => addQuestion(courseIndex)}
+                        >
+                          Add a question
+                        </button>
+                        <br />
+                        <button
+                          className="d-button-submit"
+                          onClick={addQuizzes}
+                        >
+                          Submit quiz
+                        </button>
+                      </div>
+                      {isConfirmationVisible && (
+                        <div className="popup-overlay">
+                          <div className="popup-content">
+                            <p>Are you sure?</p>
+                            <div className="popup-btn">
+                              <button
+                                className="d-button-submit"
+                                onClick={() => {
+                                  submitQuiz(course.course_id);
+                                }}
+                              >
+                                OK
+                              </button>
+                              <button
+                                className="d-button"
+                                onClick={cancelAction}
+                              >
+                                Cancel
+                              </button>
                             </div>
                           </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
               <br />
             </div>
           );
