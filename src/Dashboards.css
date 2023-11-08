@@ -38,7 +38,7 @@
   column-gap: 10px;
 }
 
-/* NAVBAR */
+
 
 .manage {
   color: #C23640;
@@ -52,7 +52,7 @@
   text-decoration: underline;
 }
 
-/* TABLE */
+
 
 .scrollable-table {
   overflow-x: auto;
@@ -122,7 +122,7 @@
   font-style: italic;
 }
 
-/* ADD AND TAKE QUIZ */
+ 
 
 .delete-quiz {
   height: 30px;
@@ -175,7 +175,7 @@
   margin: 15px 0px;
 }
 
-/* ADD QUIZ POP UP */
+
 
 .popup-overlay {
   position: fixed;
@@ -202,7 +202,7 @@
   column-gap: 5px;
 }
 
-/* PROFILE POP UP */
+
 
 .popup {
   background-color: #262D5A;
@@ -262,7 +262,7 @@
   color: #C23640;
 }
 
-/* QUIZ RESULT */
+
 
 .center {
   position: absolute;

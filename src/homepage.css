@@ -5,7 +5,7 @@
     color: #262D5A;
 }
 
-/* HEADER */
+
 
 .h-header {
     background-color: #262D5A;
@@ -57,7 +57,7 @@
     color: #C23640
 }
 
-/* Burger menu */
+
 
 .h-responsive-menu {
     column-gap: 20px;
@@ -134,7 +134,7 @@
     text-decoration: underline;
 }
 
-/* HERO */
+
 
 .h-announce {
     background-color: #C23640;
@@ -175,7 +175,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* QUOTE */
+
 
 .h-quote {
     background-color: #262D5A;
@@ -211,7 +211,7 @@
     }
 }
 
-/* ABOUT */
+
 
 .h-welcome {
     padding: 35px 0px;
@@ -231,7 +231,7 @@
     margin-bottom: 0px;
 }
 
-/* GALLERY */
+
 
 #gallery {
     padding: 0;
@@ -318,7 +318,7 @@
     max-height: 355px;
 }
 
-/* FOOTER */
+
 
 .h-footer {
     background-color: #262D5A;
