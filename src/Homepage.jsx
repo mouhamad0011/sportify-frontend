@@ -67,7 +67,7 @@ function Homepage() {
                             <img className="header-icon" src={logout} alt="logout" onClick={handleLogout} />
                         </div>
                         :
-                        <p className="h-login" onClick={() => { navigate('/Login') }}>Log in</p>
+                        <p className="h-login" onClick={() => { navigate('/Login') }}>Register/Log in</p>
                     }
                     <button className={isMenuOpen ? 'h-burger-menu active' : 'h-burger-menu'} type="button" onClick={toggleMenu}>
                         <i className={`burger-menu-bars ${isMenuOpen ? 'active' : ''}`} aria-hidden="true"></i>
@@ -227,7 +227,7 @@ function Homepage() {
                             </form>
                         </div>
 
-                        <div className="col-md-6 col-sm-6">
+                        <div className="col-md-6 col-sm-6 responsive-footer1">
                             <div className='h-footer-right d-flex justify-content-center '>
                                 <div className="contact-info d-flex">
                                     <img src={phone} alt="phone" />
